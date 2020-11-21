@@ -16,6 +16,7 @@ namespace Client
         private Client client;
         private bool connected = false;
         private bool disconnected = true;
+        private bool nicknameEntered = false;
 
         public ClientForm( Client client )
         {
@@ -107,14 +108,20 @@ namespace Client
             client.clientName = ClientNameField.Text;
 
             if ( ClientNameField.Text != "" )
+            { 
                 UpdateChatWindow( "You updated your nickname. Hello " + client.clientName, Color.Green, "left", Color.White );
+                nicknameEntered = true;
+            }
             else
-                UpdateChatWindow( "Please enter an appropriate nickname!", Color.Green, "left", Color.White );
+            {
+                UpdateChatWindow( "Please enter an appropriate nickname!", Color.Red, "left", Color.White );
+                nicknameEntered = false;
+            }
         }
 
         private void ConnectButton_Click( object sender, EventArgs e )
         {
-            if ( disconnected )
+            if ( disconnected && nicknameEntered )
             {
                 connected = true;
                 disconnected = false;
@@ -132,6 +139,9 @@ namespace Client
                 ConnectButton.Text = "Connect";
                 UpdateChatWindow( "You have disconnected from the server!", Color.Red, "left", Color.White );
             }
+
+            if ( disconnected && !nicknameEntered )
+                UpdateChatWindow( "Please enter a nickname to connect before trying to connect to the server!", Color.Red, "left", Color.White );
         }
     }
 }
