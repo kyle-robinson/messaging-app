@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Client
@@ -37,7 +32,6 @@ namespace Client
                 MessageWindowRich.SelectionStart = MessageWindowRich.TextLength;
                 MessageWindowRich.SelectionLength = 0;
 
-
                 MessageWindowRich.SelectionColor = color;
                 if ( alignment == "left".ToLower() )
                     MessageWindowRich.SelectionAlignment = HorizontalAlignment.Left;
@@ -53,50 +47,12 @@ namespace Client
             }
         }
 
-        void GetCurrentLine()
-        {
-            int firstcharindex = MessageWindowRich.GetFirstCharIndexOfCurrentLine();
-            int currentline = MessageWindowRich.GetLineFromCharIndex( firstcharindex );
-            string currentlinetext = MessageWindowRich.Lines[currentline];
-            MessageWindowRich.Select( firstcharindex, currentlinetext.Length );
-        }
-
-        public void SetAlignment( string alignment )
-        {
-            GetCurrentLine();
-            if ( alignment == "left".ToLower() )
-            {
-                MessageWindowRich.SelectionAlignment = HorizontalAlignment.Left;
-                SetStyle( "red" );
-            }
-            if ( alignment == "right".ToLower() )
-            { 
-                MessageWindowRich.SelectionAlignment = HorizontalAlignment.Right;
-                SetStyle( "blue" );
-            }
-            if ( alignment == "default" )
-            {
-                MessageWindowRich.SelectionAlignment = HorizontalAlignment.Left;
-                SetStyle( "white" );
-            }
-        }
-
-        public void SetStyle( string styleType )
-        {
-            if ( styleType == "red".ToLower() )
-                MessageWindowRich.SelectionBackColor = Color.Violet;
-            if ( styleType == "blue".ToLower() )
-                MessageWindowRich.SelectionBackColor = Color.PowderBlue;
-            if ( styleType == "white".ToLower() )
-                MessageWindowRich.SelectionBackColor = Color.White;
-        }
-
         private void SubmitButton_Click( object sender, EventArgs e )
         {
             string message = InputField.Text;
             if ( message != "" )
             {
-                client.SendMessage( new ChatMessagePacket( message ) );
+                client.TcpSendMessage( new ChatMessagePacket( message ) );
                 UpdateChatWindow( "Me: " + InputField.Text, Color.Black, "right", Color.PowderBlue );
                 InputField.Clear();
             }
@@ -104,12 +60,12 @@ namespace Client
 
         private void NicknameButton_Click( object sender, EventArgs e )
         {
-            client.SendMessage( new NicknamePacket( ClientNameField.Text ) );
+            client.TcpSendMessage( new NicknamePacket( ClientNameField.Text ) );
             client.clientName = ClientNameField.Text;
 
             if ( ClientNameField.Text != "" )
             { 
-                UpdateChatWindow( "You updated your nickname. Hello " + client.clientName, Color.Green, "left", Color.White );
+                UpdateChatWindow( "You updated your nickname. Hello " + client.clientName + "!", Color.Green, "left", Color.White );
                 nicknameEntered = true;
             }
             else

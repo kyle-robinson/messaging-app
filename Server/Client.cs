@@ -29,7 +29,7 @@ namespace Server
             formatter = new BinaryFormatter();
         }
         
-        public Packet Read()
+        public Packet TcpRead()
         {
             lock( readLock )
             {
@@ -44,7 +44,7 @@ namespace Server
             }
         }
 
-        public void Send( Packet message )
+        public void TcpSend( Packet message )
         {
             lock( writeLock )
             {

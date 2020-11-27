@@ -42,7 +42,7 @@ namespace Server
             try
             {
                 Packet packet;
-                while ( ( packet = client.Read() ) != null )
+                while ( ( packet = client.TcpRead() ) != null )
                 {
                     if ( packet != null )
                     {
@@ -57,7 +57,7 @@ namespace Server
                                 foreach ( Client c in clients )
                                 {
                                     if ( c != client )
-                                        c.Send( outServerPacket );
+                                        c.TcpSend( outServerPacket );
                                 }
                                 break;
                             case PacketType.CHAT_MESSAGE:
@@ -66,7 +66,7 @@ namespace Server
                                 foreach ( Client c in clients )
                                 {
                                     if ( c != client )
-                                        c.Send( outChatPacket );
+                                        c.TcpSend( outChatPacket );
                                 }
                                 break;
                             case PacketType.PRIVATE_MESSAGE:
@@ -75,9 +75,9 @@ namespace Server
                                 NicknamePacket namePacket = (NicknamePacket)packet;
                                 client.name = namePacket.name;
                                 if ( client.name != "" )
-                                    client.Send( new NicknamePacket( client.name ) );
+                                    client.TcpSend( new NicknamePacket( client.name ) );
                                 else
-                                    client.Send( new NicknamePacket( null ) );
+                                    client.TcpSend( new NicknamePacket( null ) );
                                 break;
                         }
                     }

@@ -47,7 +47,7 @@ namespace Client
             {
                 clientForm = new ClientForm( this );
 
-                Thread thread = new Thread( () => { ProcessServerResponse(); } );
+                Thread thread = new Thread( () => { TcpProcessServerResponse(); } );
                 thread.Start();
 
                 clientForm.ShowDialog();
@@ -62,7 +62,7 @@ namespace Client
             }
         }
 
-        private void ProcessServerResponse()
+        private void TcpProcessServerResponse()
         {
             try
             {
@@ -84,7 +84,7 @@ namespace Client
                         case PacketType.CHAT_MESSAGE:
                             ChatMessagePacket chatPacket = (ChatMessagePacket)packet;
                             string chatMessage = chatPacket.message;
-                            clientForm.UpdateChatWindow( clientName + ":" + chatMessage, Color.Black, "left", Color.PaleVioletRed );
+                            clientForm.UpdateChatWindow( chatMessage, Color.Black, "left", Color.PaleVioletRed );
                             break;
                         case PacketType.PRIVATE_MESSAGE:
                             break;
@@ -101,7 +101,7 @@ namespace Client
             }
         }
 
-        public void SendMessage( Packet message )
+        public void TcpSendMessage( Packet message )
         {
             MemoryStream memoryStream = new MemoryStream();
             formatter.Serialize( memoryStream, message );
