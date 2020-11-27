@@ -92,6 +92,10 @@ namespace Client
                             NicknamePacket namePacket = (NicknamePacket)packet;
                             clientName = namePacket.name;
                             break;
+                        case PacketType.CLIENT_LIST:
+                            ClientListPacket clientListPacket = (ClientListPacket)packet;
+                            clientForm.UpdateClientList( clientListPacket.name, Color.Black, Color.White, clientListPacket.removeText );
+                            break;
                     }
                 }
             }

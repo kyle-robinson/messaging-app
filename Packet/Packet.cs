@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public enum PacketType
 {
@@ -10,7 +6,8 @@ public enum PacketType
     SERVER_MESSAGE,
     CHAT_MESSAGE,
     PRIVATE_MESSAGE,
-    NICKNAME
+    NICKNAME,
+    CLIENT_LIST
 }
 
 [Serializable]
@@ -58,5 +55,18 @@ public class NicknamePacket : Packet
     {
         this.name = name;
         packetType = PacketType.NICKNAME;
+    }
+}
+
+[Serializable]
+public class ClientListPacket : Packet
+{
+    public string name;
+    public bool removeText;
+    public ClientListPacket( string name, bool removeText )
+    {
+        this.name = name;
+        this.removeText = removeText;
+        packetType = PacketType.CLIENT_LIST;
     }
 }

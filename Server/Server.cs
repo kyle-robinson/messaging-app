@@ -55,19 +55,15 @@ namespace Server
                                 ServerMessagePacket inServerPacket = (ServerMessagePacket)packet;
                                 ServerMessagePacket outServerPacket = new ServerMessagePacket( inServerPacket.message );
                                 foreach ( Client c in clients )
-                                {
                                     if ( c != client )
                                         c.TcpSend( outServerPacket );
-                                }
                                 break;
                             case PacketType.CHAT_MESSAGE:
                                 ChatMessagePacket inChatPacket = (ChatMessagePacket)packet;
                                 ChatMessagePacket outChatPacket = new ChatMessagePacket( client.name + ": " + inChatPacket.message );
                                 foreach ( Client c in clients )
-                                {
                                     if ( c != client )
                                         c.TcpSend( outChatPacket );
-                                }
                                 break;
                             case PacketType.PRIVATE_MESSAGE:
                                 break;
@@ -78,6 +74,17 @@ namespace Server
                                     client.TcpSend( new NicknamePacket( client.name ) );
                                 else
                                     client.TcpSend( new NicknamePacket( null ) );
+                                break;
+                            case PacketType.CLIENT_LIST:
+                                ClientListPacket clientListPacket = (ClientListPacket)packet;
+                                client.name = clientListPacket.name;
+                                foreach ( Client c in clients )
+                                {
+                                    if ( !clientListPacket.removeText )
+                                        c.TcpSend( new ClientListPacket( client.name, false ) );
+                                    else if ( clientListPacket.removeText )
+                                        c.TcpSend( new ClientListPacket( client.name, true ) );
+                                }
                                 break;
                         }
                     }

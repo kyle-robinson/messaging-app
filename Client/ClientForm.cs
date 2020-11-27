@@ -45,24 +45,44 @@ namespace Client
             }
         }
 
-        public void UpdateClientList( string message, Color foreColor, Color backColor )
+        public void UpdateClientList( string message, Color foreColor, Color backColor, bool removeText )
         {
             if ( ClientList.InvokeRequired )
             {
-                Invoke( new Action( () => { UpdateClientList( message, foreColor, backColor); } ) );
+                Invoke( new Action( () => { UpdateClientList( message, foreColor, backColor, removeText ); } ) );
             }
             else
             {
-                ClientList.SelectionStart = ClientList.TextLength;
-                ClientList.SelectionLength = 0;
+                if ( removeText )
+                {
+                    try
+                    {
+                        int currentLine = ClientList.Find( message );
+                        ClientList.SelectionStart = ClientList.GetFirstCharIndexFromLine( currentLine );
+                        ClientList.SelectionLength = ClientList.Lines[currentLine].Length + 1;
+                        ClientList.SelectedText = String.Empty;
+                    }
+                    catch ( Exception e )
+                    {
+                        // catch errors removing client name and use different method
+                        Console.WriteLine( e.Message );
+                        int currentLine = ClientList.Find( message );
+                        ClientList.SelectedText = String.Empty;
+                    }
+                }
+                else
+                {
+                    ClientList.SelectionStart = ClientList.TextLength;
+                    ClientList.SelectionLength = 0;
 
-                ClientList.SelectionColor = foreColor;
-                ClientList.SelectionBackColor = backColor;
-                ClientList.AppendText( message + "\n" );
-                ClientList.SelectionColor = ClientList.ForeColor;
+                    ClientList.SelectionColor = foreColor;
+                    ClientList.SelectionBackColor = backColor;
+                    ClientList.AppendText( message + "\n" );
+                    ClientList.SelectionColor = ClientList.ForeColor;
 
-                ClientList.SelectionStart = ClientList.Text.Length;
-                ClientList.ScrollToCaret();
+                    ClientList.SelectionStart = ClientList.Text.Length;
+                    ClientList.ScrollToCaret();
+                }
             }
         }
 
@@ -105,7 +125,7 @@ namespace Client
                 SubmitButton.Enabled = true;
                 ConnectButton.Text = "Disconnect";
                 UpdateChatWindow( "You have connected to the server!", "left", Color.Blue, Color.White );
-                UpdateClientList( ClientNameField.Text, ForeColor, BackColor );
+                client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
             }
             else if ( connected )
             {
@@ -115,11 +135,7 @@ namespace Client
                 SubmitButton.Enabled = false;
                 ConnectButton.Text = "Connect";
                 UpdateChatWindow( "You have disconnected from the server!", "left", Color.Red, Color.White );
-
-                int currentLine = ClientList.Find( ClientNameField.Text );
-                ClientList.SelectionStart = ClientList.GetFirstCharIndexFromLine( currentLine );
-                ClientList.SelectionLength = ClientList.Lines[currentLine].Length+1;
-                ClientList.SelectedText = String.Empty;
+                client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
             }
 
             if ( disconnected && !nicknameEntered )
