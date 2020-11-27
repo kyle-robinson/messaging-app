@@ -45,6 +45,19 @@ namespace Client
             }
         }
 
+        private void DeleteLine( int a_line )
+        {
+            int start_index = ClientList.GetFirstCharIndexFromLine( a_line );
+            int count = ClientList.Lines[a_line].Length;
+
+            // eat new line chars
+            if ( a_line < ClientList.Lines.Length - 1 )
+                count += ClientList.GetFirstCharIndexFromLine( a_line + 1 ) -
+                    ( ( start_index + count - 1 ) + 1 );
+
+            ClientList.Text = ClientList.Text.Remove( start_index, count );
+        }
+
         public void UpdateClientList( string message, Color foreColor, Color backColor, bool removeText )
         {
             if ( ClientList.InvokeRequired )
@@ -57,10 +70,7 @@ namespace Client
                 {
                     try
                     {
-                        int currentLine = ClientList.Find( message );
-                        ClientList.SelectionStart = ClientList.GetFirstCharIndexFromLine( currentLine );
-                        ClientList.SelectionLength = ClientList.Lines[currentLine].Length + 1;
-                        ClientList.SelectedText = String.Empty;
+                        DeleteLine( ClientList.Find( message ) );
                     }
                     catch ( Exception e )
                     {
