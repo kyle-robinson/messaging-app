@@ -34,6 +34,7 @@
             this.ConnectButton = new System.Windows.Forms.Button();
             this.MessageWindowRich = new System.Windows.Forms.RichTextBox();
             this.NicknameButton = new System.Windows.Forms.Button();
+            this.ClientList = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // SubmitButton
@@ -75,7 +76,7 @@
             // 
             this.MessageWindowRich.Location = new System.Drawing.Point(12, 38);
             this.MessageWindowRich.Name = "MessageWindowRich";
-            this.MessageWindowRich.Size = new System.Drawing.Size(529, 354);
+            this.MessageWindowRich.Size = new System.Drawing.Size(321, 354);
             this.MessageWindowRich.TabIndex = 5;
             this.MessageWindowRich.Text = "";
             // 
@@ -89,11 +90,20 @@
             this.NicknameButton.UseVisualStyleBackColor = true;
             this.NicknameButton.Click += new System.EventHandler(this.NicknameButton_Click);
             // 
+            // ClientList
+            // 
+            this.ClientList.Location = new System.Drawing.Point(339, 38);
+            this.ClientList.Name = "ClientList";
+            this.ClientList.Size = new System.Drawing.Size(204, 354);
+            this.ClientList.TabIndex = 7;
+            this.ClientList.Text = "";
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(553, 450);
+            this.Controls.Add(this.ClientList);
             this.Controls.Add(this.NicknameButton);
             this.Controls.Add(this.MessageWindowRich);
             this.Controls.Add(this.ConnectButton);
@@ -115,5 +125,6 @@
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.RichTextBox MessageWindowRich;
         private System.Windows.Forms.Button NicknameButton;
+        private System.Windows.Forms.RichTextBox ClientList;
     }
 }

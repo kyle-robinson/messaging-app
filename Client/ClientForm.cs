@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -19,20 +17,21 @@ namespace Client
             this.client = client;
             InputField.ReadOnly = true;
             SubmitButton.Enabled = false;
+            ConnectButton.Enabled = false;
         }
 
-        public void UpdateChatWindow( string message, Color color, string alignment, Color backColor )
+        public void UpdateChatWindow( string message, string alignment, Color foreColor, Color backColor )
         {
             if ( MessageWindowRich.InvokeRequired )
             {
-                Invoke( new Action( () => { UpdateChatWindow( message, color, alignment, backColor ); } ) );
+                Invoke( new Action( () => { UpdateChatWindow( message, alignment, foreColor, backColor); } ) );
             }
             else
             {
                 MessageWindowRich.SelectionStart = MessageWindowRich.TextLength;
                 MessageWindowRich.SelectionLength = 0;
 
-                MessageWindowRich.SelectionColor = color;
+                MessageWindowRich.SelectionColor = foreColor;
                 if ( alignment == "left".ToLower() )
                     MessageWindowRich.SelectionAlignment = HorizontalAlignment.Left;
                 if ( alignment == "right".ToLower() )
@@ -43,7 +42,27 @@ namespace Client
 
                 MessageWindowRich.SelectionStart = MessageWindowRich.Text.Length;
                 MessageWindowRich.ScrollToCaret();
+            }
+        }
 
+        public void UpdateClientList( string message, Color foreColor, Color backColor )
+        {
+            if ( ClientList.InvokeRequired )
+            {
+                Invoke( new Action( () => { UpdateClientList( message, foreColor, backColor); } ) );
+            }
+            else
+            {
+                ClientList.SelectionStart = ClientList.TextLength;
+                ClientList.SelectionLength = 0;
+
+                ClientList.SelectionColor = foreColor;
+                ClientList.SelectionBackColor = backColor;
+                ClientList.AppendText( message + "\n" );
+                ClientList.SelectionColor = ClientList.ForeColor;
+
+                ClientList.SelectionStart = ClientList.Text.Length;
+                ClientList.ScrollToCaret();
             }
         }
 
@@ -53,7 +72,7 @@ namespace Client
             if ( message != "" )
             {
                 client.TcpSendMessage( new ChatMessagePacket( message ) );
-                UpdateChatWindow( "Me: " + InputField.Text, Color.Black, "right", Color.PowderBlue );
+                UpdateChatWindow( "Me: " + InputField.Text, "right", Color.Black, Color.PowderBlue );
                 InputField.Clear();
             }
         }
@@ -65,12 +84,13 @@ namespace Client
 
             if ( ClientNameField.Text != "" )
             { 
-                UpdateChatWindow( "You updated your nickname. Hello " + client.clientName + "!", Color.Green, "left", Color.White );
+                UpdateChatWindow( "You updated your nickname. Hello " + client.clientName + "!", "left", Color.Green, Color.White );
+                ConnectButton.Enabled = true;
                 nicknameEntered = true;
             }
             else
             {
-                UpdateChatWindow( "Please enter an appropriate nickname!", Color.Red, "left", Color.White );
+                UpdateChatWindow( "Please enter an appropriate nickname!", "left", Color.Red, Color.White );
                 nicknameEntered = false;
             }
         }
@@ -84,7 +104,8 @@ namespace Client
                 InputField.ReadOnly = false;
                 SubmitButton.Enabled = true;
                 ConnectButton.Text = "Disconnect";
-                UpdateChatWindow( "You have connected to the server!", Color.Blue, "left", Color.White );
+                UpdateChatWindow( "You have connected to the server!", "left", Color.Blue, Color.White );
+                UpdateClientList( ClientNameField.Text, ForeColor, BackColor );
             }
             else if ( connected )
             {
@@ -93,11 +114,16 @@ namespace Client
                 InputField.ReadOnly = true;
                 SubmitButton.Enabled = false;
                 ConnectButton.Text = "Connect";
-                UpdateChatWindow( "You have disconnected from the server!", Color.Red, "left", Color.White );
+                UpdateChatWindow( "You have disconnected from the server!", "left", Color.Red, Color.White );
+
+                int currentLine = ClientList.Find( ClientNameField.Text );
+                ClientList.SelectionStart = ClientList.GetFirstCharIndexFromLine( currentLine );
+                ClientList.SelectionLength = ClientList.Lines[currentLine].Length+1;
+                ClientList.SelectedText = String.Empty;
             }
 
             if ( disconnected && !nicknameEntered )
-                UpdateChatWindow( "Please enter a nickname to connect before trying to connect to the server!", Color.Red, "left", Color.White );
+                UpdateChatWindow( "Please enter a nickname to connect before trying to connect to the server!", "left", Color.Red, Color.White );
         }
     }
 }

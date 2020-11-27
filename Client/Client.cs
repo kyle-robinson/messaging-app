@@ -79,12 +79,12 @@ namespace Client
                         case PacketType.SERVER_MESSAGE:
                             ServerMessagePacket serverPacket = (ServerMessagePacket)packet;
                             string serverMessage = serverPacket.message;
-                            clientForm.UpdateChatWindow( serverMessage, Color.Purple, "left", Color.White );
+                            clientForm.UpdateChatWindow( serverMessage, "left", Color.Purple, Color.White );
                             break;
                         case PacketType.CHAT_MESSAGE:
                             ChatMessagePacket chatPacket = (ChatMessagePacket)packet;
                             string chatMessage = chatPacket.message;
-                            clientForm.UpdateChatWindow( chatMessage, Color.Black, "left", Color.PaleVioletRed );
+                            clientForm.UpdateChatWindow( chatMessage, "left", Color.Black, Color.PaleVioletRed );
                             break;
                         case PacketType.PRIVATE_MESSAGE:
                             break;
