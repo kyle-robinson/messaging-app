@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 
 public enum PacketType
 {
@@ -7,7 +8,8 @@ public enum PacketType
     CHAT_MESSAGE,
     PRIVATE_MESSAGE,
     NICKNAME,
-    CLIENT_LIST
+    CLIENT_LIST,
+    LOGIN
 }
 
 [Serializable]
@@ -68,5 +70,16 @@ public class ClientListPacket : Packet
         this.name = name;
         this.removeText = removeText;
         packetType = PacketType.CLIENT_LIST;
+    }
+}
+
+[Serializable]
+public class LoginPacket : Packet
+{
+    public IPEndPoint EndPoint;
+    public LoginPacket( IPEndPoint EndPoint )
+    {
+        this.EndPoint = EndPoint;
+        packetType = PacketType.LOGIN;
     }
 }

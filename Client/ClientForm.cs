@@ -102,6 +102,7 @@ namespace Client
             if ( message != "" )
             {
                 client.TcpSendMessage( new ChatMessagePacket( message ) );
+                //client.UdpSendMessage( new ChatMessagePacket( message ) );
                 UpdateChatWindow( "Me: " + InputField.Text, "right", Color.Black, Color.PowderBlue );
                 InputField.Clear();
             }

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net;
 using System.Text;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -7,6 +8,7 @@ namespace Server
 {
     class Client
     {
+        public IPEndPoint endPoint;
         private Socket socket;
         private NetworkStream stream;
         private BinaryReader reader;
