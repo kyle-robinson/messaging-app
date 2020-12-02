@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.SubmitButton = new System.Windows.Forms.Button();
             this.InputField = new System.Windows.Forms.TextBox();
             this.ClientNameField = new System.Windows.Forms.TextBox();
@@ -35,9 +36,15 @@
             this.MessageWindowRich = new System.Windows.Forms.RichTextBox();
             this.NicknameButton = new System.Windows.Forms.Button();
             this.ClientListBox = new System.Windows.Forms.ListBox();
+            this.ClientListBoxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.AddFriend = new System.Windows.Forms.ToolStripMenuItem();
             this.FriendsListBox = new System.Windows.Forms.ListBox();
+            this.FriendsListBoxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.RemoveFriend = new System.Windows.Forms.ToolStripMenuItem();
             this.friendsLabel = new System.Windows.Forms.Label();
             this.clientListLabel = new System.Windows.Forms.Label();
+            this.ClientListBoxMenu.SuspendLayout();
+            this.FriendsListBoxMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // SubmitButton
@@ -95,19 +102,49 @@
             // 
             // ClientListBox
             // 
+            this.ClientListBox.ContextMenuStrip = this.ClientListBoxMenu;
             this.ClientListBox.FormattingEnabled = true;
             this.ClientListBox.Location = new System.Drawing.Point(340, 245);
             this.ClientListBox.Name = "ClientListBox";
             this.ClientListBox.Size = new System.Drawing.Size(203, 147);
             this.ClientListBox.TabIndex = 8;
             // 
+            // ClientListBoxMenu
+            // 
+            this.ClientListBoxMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddFriend});
+            this.ClientListBoxMenu.Name = "contextMenuStrip1";
+            this.ClientListBoxMenu.Size = new System.Drawing.Size(133, 26);
+            // 
+            // AddFriend
+            // 
+            this.AddFriend.Name = "AddFriend";
+            this.AddFriend.Size = new System.Drawing.Size(132, 22);
+            this.AddFriend.Text = "Add Friend";
+            this.AddFriend.Click += new System.EventHandler(this.AddFriend_Click);
+            // 
             // FriendsListBox
             // 
+            this.FriendsListBox.ContextMenuStrip = this.FriendsListBoxMenu;
             this.FriendsListBox.FormattingEnabled = true;
             this.FriendsListBox.Location = new System.Drawing.Point(339, 55);
             this.FriendsListBox.Name = "FriendsListBox";
             this.FriendsListBox.Size = new System.Drawing.Size(204, 147);
             this.FriendsListBox.TabIndex = 9;
+            // 
+            // FriendsListBoxMenu
+            // 
+            this.FriendsListBoxMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RemoveFriend});
+            this.FriendsListBoxMenu.Name = "FriendsListBoxMenu";
+            this.FriendsListBoxMenu.Size = new System.Drawing.Size(181, 48);
+            // 
+            // RemoveFriend
+            // 
+            this.RemoveFriend.Name = "RemoveFriend";
+            this.RemoveFriend.Size = new System.Drawing.Size(180, 22);
+            this.RemoveFriend.Text = "Remove Friend";
+            this.RemoveFriend.Click += new System.EventHandler(this.RemoveFriend_Click);
             // 
             // friendsLabel
             // 
@@ -144,6 +181,8 @@
             this.Controls.Add(this.SubmitButton);
             this.Name = "ClientForm";
             this.Text = "ClientForm";
+            this.ClientListBoxMenu.ResumeLayout(false);
+            this.FriendsListBoxMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -161,5 +200,9 @@
         private System.Windows.Forms.ListBox FriendsListBox;
         private System.Windows.Forms.Label friendsLabel;
         private System.Windows.Forms.Label clientListLabel;
+        private System.Windows.Forms.ContextMenuStrip ClientListBoxMenu;
+        private System.Windows.Forms.ToolStripMenuItem AddFriend;
+        private System.Windows.Forms.ContextMenuStrip FriendsListBoxMenu;
+        private System.Windows.Forms.ToolStripMenuItem RemoveFriend;
     }
 }

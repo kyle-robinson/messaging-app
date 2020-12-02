@@ -108,7 +108,7 @@ namespace Client
                             break;
                         case PacketType.CLIENT_LIST:
                             ClientListPacket clientListPacket = (ClientListPacket)packet;
-                            clientForm.UpdateClientList( clientListPacket.name, Color.Black, Color.White, clientListPacket.removeText );
+                            clientForm.UpdateClientList( clientListPacket.name, clientListPacket.removeText );
                             break;
                     }
                 }

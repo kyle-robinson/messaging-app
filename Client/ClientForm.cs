@@ -18,7 +18,6 @@ namespace Client
             InputField.ReadOnly = true;
             SubmitButton.Enabled = false;
             ConnectButton.Enabled = false;
-            ClientListBox.Items.Clear();
         }
 
         public void UpdateChatWindow( string message, string alignment, Color foreColor, Color backColor )
@@ -46,11 +45,11 @@ namespace Client
             }
         }
 
-        public void UpdateClientList( string message, Color foreColor, Color backColor, bool removeText )
+        public void UpdateClientList( string message, bool removeText )
         {
             if ( ClientListBox.InvokeRequired )
             {
-                Invoke( new Action( () => { UpdateClientList( message, foreColor, backColor, removeText ); } ) );
+                Invoke( new Action( () => { UpdateClientList( message, removeText ); } ) );
             }
             else
             {
@@ -64,12 +63,52 @@ namespace Client
                     }
                     catch ( Exception e )
                     {
+                        Console.WriteLine( "ERROR:: " + e.Message );
                         ClientListBox.Items.RemoveAt( ClientListBox.Items.Count - 1 );
                     }
                 }
                 else
                 {
                     ClientListBox.Items.Add( message );
+                }
+            }
+        }
+
+        private void UpdateFriendList( string message, bool removeFriend )
+        {
+            if ( ClientListBox.InvokeRequired )
+            {
+                Invoke( new Action( () => { UpdateFriendList( message, removeFriend ); } ) );
+            }
+            else
+            {
+                try
+                {
+                    if ( !removeFriend )
+                    {
+                        bool friendExists = false;
+                        for ( int i = FriendsListBox.Items.Count - 1; i >= 0; --i )
+                        {
+                            if ( FriendsListBox.Items[i].ToString() == message )
+                            {
+                                friendExists = true;
+                            }
+                        }
+                        if ( !friendExists )
+                        {
+                            FriendsListBox.Items.Add( message );
+                        }
+                    }
+                    else
+                    {
+                        for ( int i = FriendsListBox.Items.Count - 1; i >= 0; --i )
+                            if ( FriendsListBox.Items[i].ToString().Contains( message ) )
+                                FriendsListBox.Items.RemoveAt( i );
+                    }
+                }
+                catch ( Exception e )
+                {
+                    Console.WriteLine( "ERROR:: " + e.Message );
                 }
             }
         }
@@ -129,6 +168,38 @@ namespace Client
 
             if ( disconnected && !nicknameEntered )
                 UpdateChatWindow( "Please enter a nickname to connect before trying to connect to the server!", "left", Color.Red, Color.White );
+        }
+
+        private void AddFriend_Click( object sender, EventArgs e )
+        {
+            try
+            {
+                if ( ClientListBox.Items.Count > 0 )
+                {
+                    if ( ClientListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
+                        UpdateFriendList( ClientListBox.SelectedItem.ToString(), false );
+                }
+            }
+            catch ( NullReferenceException exception )
+            {
+                Console.WriteLine( "ERROR:: ", exception.Message );
+            }
+        }
+
+        private void RemoveFriend_Click( object sender, EventArgs e )
+        {
+            try
+            {
+                if ( FriendsListBox.Items.Count > 0 )
+                {
+                    if ( FriendsListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
+                        UpdateFriendList( FriendsListBox.SelectedItem.ToString(), true );
+                }
+            }
+            catch ( NullReferenceException exception )
+            {
+                Console.WriteLine( "ERROR:: ", exception.Message );
+            }
         }
     }
 }
