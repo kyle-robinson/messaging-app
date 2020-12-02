@@ -206,14 +206,17 @@ namespace Client
 
         private void PrivateMessageMenu_Click( object sender, EventArgs e )
         {
-            privateMessage = true;
-            UpdateChatWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + "...", "left", Color.LightYellow, Color.White );
+            if ( ClientListBox.Items.Count > 0 )
+            {
+                privateMessage = true;
+                UpdateChatWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + "...", "left", Color.Orange, Color.White );
+            }
         }
 
         private void GlobalMessage_Click( object sender, EventArgs e )
         {
             privateMessage = false;
-            UpdateChatWindow( "You are now messaging everyone on the server...", "left", Color.LightYellow, Color.White );
+            UpdateChatWindow( "You are now messaging everyone on the server...", "left", Color.Orange, Color.White );
         }
     }
 }
