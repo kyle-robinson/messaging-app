@@ -90,16 +90,11 @@ namespace Client
                     {
                         bool friendExists = false;
                         for ( int i = FriendsListBox.Items.Count - 1; i >= 0; --i )
-                        {
                             if ( FriendsListBox.Items[i].ToString() == message )
-                            {
                                 friendExists = true;
-                            }
-                        }
+
                         if ( !friendExists )
-                        {
                             FriendsListBox.Items.Add( message );
-                        }
                     }
                     else
                     {
@@ -177,10 +172,8 @@ namespace Client
             try
             {
                 if ( ClientListBox.Items.Count > 0 )
-                {
                     if ( ClientListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
                         UpdateFriendList( ClientListBox.SelectedItem.ToString(), false );
-                }
             }
             catch ( NullReferenceException exception )
             {
@@ -193,10 +186,8 @@ namespace Client
             try
             {
                 if ( FriendsListBox.Items.Count > 0 )
-                {
                     if ( FriendsListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
                         UpdateFriendList( FriendsListBox.SelectedItem.ToString(), true );
-                }
             }
             catch ( NullReferenceException exception )
             {
