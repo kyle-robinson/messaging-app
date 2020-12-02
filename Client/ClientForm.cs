@@ -18,6 +18,8 @@ namespace Client
             InputField.ReadOnly = true;
             SubmitButton.Enabled = false;
             ConnectButton.Enabled = false;
+            MessageWindowRich.Enabled = false;
+            MessageWindowRich.SelectionProtected = true;
         }
 
         public void UpdateChatWindow( string message, string alignment, Color foreColor, Color backColor )
