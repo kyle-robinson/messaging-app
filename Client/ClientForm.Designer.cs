@@ -34,7 +34,10 @@
             this.ConnectButton = new System.Windows.Forms.Button();
             this.MessageWindowRich = new System.Windows.Forms.RichTextBox();
             this.NicknameButton = new System.Windows.Forms.Button();
-            this.ClientList = new System.Windows.Forms.RichTextBox();
+            this.ClientListBox = new System.Windows.Forms.ListBox();
+            this.FriendsListBox = new System.Windows.Forms.ListBox();
+            this.friendsLabel = new System.Windows.Forms.Label();
+            this.clientListLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // SubmitButton
@@ -90,20 +93,49 @@
             this.NicknameButton.UseVisualStyleBackColor = true;
             this.NicknameButton.Click += new System.EventHandler(this.NicknameButton_Click);
             // 
-            // ClientList
+            // ClientListBox
             // 
-            this.ClientList.Location = new System.Drawing.Point(339, 38);
-            this.ClientList.Name = "ClientList";
-            this.ClientList.Size = new System.Drawing.Size(204, 354);
-            this.ClientList.TabIndex = 7;
-            this.ClientList.Text = "";
+            this.ClientListBox.FormattingEnabled = true;
+            this.ClientListBox.Location = new System.Drawing.Point(340, 245);
+            this.ClientListBox.Name = "ClientListBox";
+            this.ClientListBox.Size = new System.Drawing.Size(203, 147);
+            this.ClientListBox.TabIndex = 8;
+            // 
+            // FriendsListBox
+            // 
+            this.FriendsListBox.FormattingEnabled = true;
+            this.FriendsListBox.Location = new System.Drawing.Point(339, 55);
+            this.FriendsListBox.Name = "FriendsListBox";
+            this.FriendsListBox.Size = new System.Drawing.Size(204, 147);
+            this.FriendsListBox.TabIndex = 9;
+            // 
+            // friendsLabel
+            // 
+            this.friendsLabel.AutoSize = true;
+            this.friendsLabel.Location = new System.Drawing.Point(340, 39);
+            this.friendsLabel.Name = "friendsLabel";
+            this.friendsLabel.Size = new System.Drawing.Size(60, 13);
+            this.friendsLabel.TabIndex = 10;
+            this.friendsLabel.Text = "Friends List";
+            // 
+            // clientListLabel
+            // 
+            this.clientListLabel.AutoSize = true;
+            this.clientListLabel.Location = new System.Drawing.Point(340, 229);
+            this.clientListLabel.Name = "clientListLabel";
+            this.clientListLabel.Size = new System.Drawing.Size(52, 13);
+            this.clientListLabel.TabIndex = 11;
+            this.clientListLabel.Text = "Client List";
             // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(553, 450);
-            this.Controls.Add(this.ClientList);
+            this.Controls.Add(this.clientListLabel);
+            this.Controls.Add(this.friendsLabel);
+            this.Controls.Add(this.FriendsListBox);
+            this.Controls.Add(this.ClientListBox);
             this.Controls.Add(this.NicknameButton);
             this.Controls.Add(this.MessageWindowRich);
             this.Controls.Add(this.ConnectButton);
@@ -125,6 +157,9 @@
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.RichTextBox MessageWindowRich;
         private System.Windows.Forms.Button NicknameButton;
-        private System.Windows.Forms.RichTextBox ClientList;
+        private System.Windows.Forms.ListBox ClientListBox;
+        private System.Windows.Forms.ListBox FriendsListBox;
+        private System.Windows.Forms.Label friendsLabel;
+        private System.Windows.Forms.Label clientListLabel;
     }
 }

@@ -18,6 +18,7 @@ namespace Client
             InputField.ReadOnly = true;
             SubmitButton.Enabled = false;
             ConnectButton.Enabled = false;
+            ClientListBox.Items.Clear();
         }
 
         public void UpdateChatWindow( string message, string alignment, Color foreColor, Color backColor )
@@ -45,22 +46,9 @@ namespace Client
             }
         }
 
-        private void DeleteLine( int a_line )
-        {
-            int start_index = ClientList.GetFirstCharIndexFromLine( a_line );
-            int count = ClientList.Lines[a_line].Length;
-
-            // eat new line chars
-            if ( a_line < ClientList.Lines.Length - 1 )
-                count += ClientList.GetFirstCharIndexFromLine( a_line + 1 ) -
-                    ( ( start_index + count - 1 ) + 1 );
-
-            ClientList.Text = ClientList.Text.Remove( start_index, count );
-        }
-
         public void UpdateClientList( string message, Color foreColor, Color backColor, bool removeText )
         {
-            if ( ClientList.InvokeRequired )
+            if ( ClientListBox.InvokeRequired )
             {
                 Invoke( new Action( () => { UpdateClientList( message, foreColor, backColor, removeText ); } ) );
             }
@@ -70,28 +58,18 @@ namespace Client
                 {
                     try
                     {
-                        DeleteLine( ClientList.Find( message ) );
+                        for ( int i = ClientListBox.Items.Count - 1; i >= 0; --i )
+                            if ( ClientListBox.Items[i].ToString().Contains( message ) )
+                                ClientListBox.Items.RemoveAt( i );
                     }
                     catch ( Exception e )
                     {
-                        // catch errors removing client name and use different method
-                        Console.WriteLine( e.Message );
-                        int currentLine = ClientList.Find( message );
-                        ClientList.SelectedText = String.Empty;
+                        ClientListBox.Items.RemoveAt( ClientListBox.Items.Count - 1 );
                     }
                 }
                 else
                 {
-                    ClientList.SelectionStart = ClientList.TextLength;
-                    ClientList.SelectionLength = 0;
-
-                    ClientList.SelectionColor = foreColor;
-                    ClientList.SelectionBackColor = backColor;
-                    ClientList.AppendText( message + "\n" );
-                    ClientList.SelectionColor = ClientList.ForeColor;
-
-                    ClientList.SelectionStart = ClientList.Text.Length;
-                    ClientList.ScrollToCaret();
+                    ClientListBox.Items.Add( message );
                 }
             }
         }
