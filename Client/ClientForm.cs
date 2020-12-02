@@ -9,6 +9,7 @@ namespace Client
         private Client client;
         private bool connected = false;
         private bool disconnected = true;
+        private bool privateMessage = false;
         private bool nicknameEntered = false;
 
         public ClientForm( Client client )
@@ -115,9 +116,17 @@ namespace Client
             string message = InputField.Text;
             if ( message != "" )
             {
-                client.TcpSendMessage( new ChatMessagePacket( message ) );
+                if ( !privateMessage )
+                {
+                    client.TcpSendMessage( new ChatMessagePacket( message ) );
+                    UpdateChatWindow( "[You]: " + InputField.Text, "right", Color.Black, Color.PowderBlue );
+                }
+                else
+                {
+                    client.TcpSendMessage( new PrivateMessagePacket( "[Whisper] " + ClientNameField.Text + ": " + message, ClientListBox.SelectedItem.ToString() ) );
+                    UpdateChatWindow( "[Whisper] " + ClientListBox.SelectedItem.ToString() + ": " + InputField.Text, "right", Color.Black, Color.LightYellow );
+                }
                 //client.UdpSendMessage( new ChatMessagePacket( message ) );
-                UpdateChatWindow( "Me: " + InputField.Text, "right", Color.Black, Color.PowderBlue );
                 InputField.Clear();
             }
         }
@@ -193,6 +202,18 @@ namespace Client
             {
                 Console.WriteLine( "ERROR:: ", exception.Message );
             }
+        }
+
+        private void PrivateMessageMenu_Click( object sender, EventArgs e )
+        {
+            privateMessage = true;
+            UpdateChatWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + "...", "left", Color.LightYellow, Color.White );
+        }
+
+        private void GlobalMessage_Click( object sender, EventArgs e )
+        {
+            privateMessage = false;
+            UpdateChatWindow( "You are now messaging everyone on the server...", "left", Color.LightYellow, Color.White );
         }
     }
 }

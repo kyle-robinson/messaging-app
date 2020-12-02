@@ -50,6 +50,19 @@ public class ChatMessagePacket : Packet
 }
 
 [Serializable]
+public class PrivateMessagePacket : Packet
+{
+    public string message;
+    public string name;
+    public PrivateMessagePacket( string message, string name )
+    {
+        this.message = message;
+        this.name = name;
+        packetType = PacketType.PRIVATE_MESSAGE;
+    }
+}
+
+[Serializable]
 public class NicknamePacket : Packet
 {
     public string name;

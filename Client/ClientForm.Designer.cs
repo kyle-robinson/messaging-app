@@ -44,6 +44,8 @@
             this.friendsLabel = new System.Windows.Forms.Label();
             this.clientListLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.PrivateMessageMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.GlobalMessage = new System.Windows.Forms.ToolStripMenuItem();
             this.ClientListBoxMenu.SuspendLayout();
             this.FriendsListBoxMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -53,7 +55,7 @@
             // 
             this.SubmitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(157)))), ((int)(((byte)(51)))));
             this.SubmitButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.SubmitButton.Location = new System.Drawing.Point(234, 441);
+            this.SubmitButton.Location = new System.Drawing.Point(234, 410);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(99, 40);
             this.SubmitButton.TabIndex = 12;
@@ -64,18 +66,18 @@
             // InputField
             // 
             this.InputField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.InputField.Location = new System.Drawing.Point(12, 441);
+            this.InputField.Location = new System.Drawing.Point(12, 410);
             this.InputField.Multiline = true;
             this.InputField.Name = "InputField";
-            this.InputField.Size = new System.Drawing.Size(212, 40);
+            this.InputField.Size = new System.Drawing.Size(216, 40);
             this.InputField.TabIndex = 1;
             // 
             // ClientNameField
             // 
-            this.ClientNameField.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.ClientNameField.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.ClientNameField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientNameField.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ClientNameField.Location = new System.Drawing.Point(107, 16);
+            this.ClientNameField.Location = new System.Drawing.Point(50, 16);
             this.ClientNameField.Name = "ClientNameField";
             this.ClientNameField.Size = new System.Drawing.Size(178, 13);
             this.ClientNameField.TabIndex = 3;
@@ -84,9 +86,9 @@
             // 
             this.ConnectButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(157)))), ((int)(((byte)(51)))));
             this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ConnectButton.Location = new System.Drawing.Point(107, 42);
+            this.ConnectButton.Location = new System.Drawing.Point(339, 12);
             this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(283, 20);
+            this.ConnectButton.Size = new System.Drawing.Size(99, 20);
             this.ConnectButton.TabIndex = 4;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = false;
@@ -95,7 +97,7 @@
             // MessageWindowRich
             // 
             this.MessageWindowRich.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.MessageWindowRich.Location = new System.Drawing.Point(12, 81);
+            this.MessageWindowRich.Location = new System.Drawing.Point(12, 50);
             this.MessageWindowRich.Name = "MessageWindowRich";
             this.MessageWindowRich.Size = new System.Drawing.Size(321, 354);
             this.MessageWindowRich.TabIndex = 5;
@@ -106,7 +108,7 @@
             this.NicknameButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(157)))), ((int)(((byte)(51)))));
             this.NicknameButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.NicknameButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.NicknameButton.Location = new System.Drawing.Point(291, 12);
+            this.NicknameButton.Location = new System.Drawing.Point(234, 12);
             this.NicknameButton.Name = "NicknameButton";
             this.NicknameButton.Size = new System.Drawing.Size(99, 20);
             this.NicknameButton.TabIndex = 6;
@@ -119,7 +121,7 @@
             this.ClientListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientListBox.ContextMenuStrip = this.ClientListBoxMenu;
             this.ClientListBox.FormattingEnabled = true;
-            this.ClientListBox.Location = new System.Drawing.Point(339, 308);
+            this.ClientListBox.Location = new System.Drawing.Point(339, 277);
             this.ClientListBox.Name = "ClientListBox";
             this.ClientListBox.Size = new System.Drawing.Size(141, 173);
             this.ClientListBox.TabIndex = 8;
@@ -143,7 +145,7 @@
             this.FriendsListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.FriendsListBox.ContextMenuStrip = this.FriendsListBoxMenu;
             this.FriendsListBox.FormattingEnabled = true;
-            this.FriendsListBox.Location = new System.Drawing.Point(339, 103);
+            this.FriendsListBox.Location = new System.Drawing.Point(339, 72);
             this.FriendsListBox.Name = "FriendsListBox";
             this.FriendsListBox.Size = new System.Drawing.Size(142, 173);
             this.FriendsListBox.TabIndex = 9;
@@ -151,14 +153,16 @@
             // FriendsListBoxMenu
             // 
             this.FriendsListBoxMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.GlobalMessage,
+            this.PrivateMessageMenu,
             this.RemoveFriend});
             this.FriendsListBoxMenu.Name = "FriendsListBoxMenu";
-            this.FriendsListBoxMenu.Size = new System.Drawing.Size(154, 26);
+            this.FriendsListBoxMenu.Size = new System.Drawing.Size(160, 70);
             // 
             // RemoveFriend
             // 
             this.RemoveFriend.Name = "RemoveFriend";
-            this.RemoveFriend.Size = new System.Drawing.Size(153, 22);
+            this.RemoveFriend.Size = new System.Drawing.Size(180, 22);
             this.RemoveFriend.Text = "Remove Friend";
             this.RemoveFriend.Click += new System.EventHandler(this.RemoveFriend_Click);
             // 
@@ -167,7 +171,7 @@
             this.friendsLabel.AutoSize = true;
             this.friendsLabel.BackColor = System.Drawing.Color.Black;
             this.friendsLabel.ForeColor = System.Drawing.Color.White;
-            this.friendsLabel.Location = new System.Drawing.Point(340, 81);
+            this.friendsLabel.Location = new System.Drawing.Point(340, 50);
             this.friendsLabel.Name = "friendsLabel";
             this.friendsLabel.Size = new System.Drawing.Size(60, 13);
             this.friendsLabel.TabIndex = 10;
@@ -178,7 +182,7 @@
             this.clientListLabel.AutoSize = true;
             this.clientListLabel.BackColor = System.Drawing.Color.Black;
             this.clientListLabel.ForeColor = System.Drawing.Color.White;
-            this.clientListLabel.Location = new System.Drawing.Point(340, 286);
+            this.clientListLabel.Location = new System.Drawing.Point(340, 255);
             this.clientListLabel.Name = "clientListLabel";
             this.clientListLabel.Size = new System.Drawing.Size(52, 13);
             this.clientListLabel.TabIndex = 11;
@@ -193,15 +197,29 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(491, 75);
+            this.panel1.Size = new System.Drawing.Size(489, 41);
             this.panel1.TabIndex = 0;
+            // 
+            // PrivateMessageMenu
+            // 
+            this.PrivateMessageMenu.Name = "PrivateMessageMenu";
+            this.PrivateMessageMenu.Size = new System.Drawing.Size(180, 22);
+            this.PrivateMessageMenu.Text = "Private Message";
+            this.PrivateMessageMenu.Click += new System.EventHandler(this.PrivateMessageMenu_Click);
+            // 
+            // GlobalMessage
+            // 
+            this.GlobalMessage.Name = "GlobalMessage";
+            this.GlobalMessage.Size = new System.Drawing.Size(180, 22);
+            this.GlobalMessage.Text = "Global Message";
+            this.GlobalMessage.Click += new System.EventHandler(this.GlobalMessage_Click);
             // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(491, 491);
+            this.ClientSize = new System.Drawing.Size(489, 459);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.clientListLabel);
             this.Controls.Add(this.friendsLabel);
@@ -238,5 +256,7 @@
         private System.Windows.Forms.ContextMenuStrip FriendsListBoxMenu;
         private System.Windows.Forms.ToolStripMenuItem RemoveFriend;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem PrivateMessageMenu;
+        private System.Windows.Forms.ToolStripMenuItem GlobalMessage;
     }
 }

@@ -92,15 +92,15 @@ namespace Client
                             break;
                         case PacketType.SERVER_MESSAGE:
                             ServerMessagePacket serverPacket = (ServerMessagePacket)packet;
-                            string serverMessage = serverPacket.message;
-                            clientForm.UpdateChatWindow( serverMessage, "left", Color.Purple, Color.White );
+                            clientForm.UpdateChatWindow( serverPacket.message, "left", Color.Purple, Color.White );
                             break;
                         case PacketType.CHAT_MESSAGE:
                             ChatMessagePacket chatPacket = (ChatMessagePacket)packet;
-                            string chatMessage = chatPacket.message;
-                            clientForm.UpdateChatWindow( chatMessage, "left", Color.Black, Color.PaleVioletRed );
+                            clientForm.UpdateChatWindow( chatPacket.message, "left", Color.Black, Color.PaleVioletRed );
                             break;
                         case PacketType.PRIVATE_MESSAGE:
+                            PrivateMessagePacket privatePacket = (PrivateMessagePacket)packet;
+                            clientForm.UpdateChatWindow( privatePacket.message, "left", Color.Black, Color.LightYellow );
                             break;
                         case PacketType.NICKNAME:
                             NicknamePacket namePacket = (NicknamePacket)packet;

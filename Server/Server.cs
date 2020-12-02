@@ -82,6 +82,11 @@ namespace Server
                                         c.Value.TcpSend( outChatPacket );
                                 break;
                             case PacketType.PRIVATE_MESSAGE:
+                                PrivateMessagePacket inPrivatePacket = (PrivateMessagePacket)packet;
+                                PrivateMessagePacket outPrivatePacket = new PrivateMessagePacket( inPrivatePacket.message, inPrivatePacket.name );
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    if ( c.Value.name == outPrivatePacket.name )
+                                        c.Value.TcpSend( outPrivatePacket );
                                 break;
                             case PacketType.NICKNAME:
                                 NicknamePacket namePacket = (NicknamePacket)packet;
