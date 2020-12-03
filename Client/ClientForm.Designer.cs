@@ -53,6 +53,7 @@
             this.TitleLabel = new System.Windows.Forms.Label();
             this.FriendsLabelUnderline = new System.Windows.Forms.Panel();
             this.ClientLabelUnderline = new System.Windows.Forms.Panel();
+            this.CommandWindow = new System.Windows.Forms.RichTextBox();
             this.ClientListBoxMenu.SuspendLayout();
             this.FriendsListBoxMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -62,6 +63,7 @@
             // SubmitButton
             // 
             this.SubmitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
+            this.SubmitButton.Enabled = false;
             this.SubmitButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.SubmitButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SubmitButton.ForeColor = System.Drawing.Color.White;
@@ -76,10 +78,12 @@
             // InputField
             // 
             this.InputField.BackColor = System.Drawing.Color.White;
+            this.InputField.Enabled = false;
             this.InputField.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InputField.Location = new System.Drawing.Point(12, 495);
             this.InputField.Multiline = true;
             this.InputField.Name = "InputField";
+            this.InputField.ReadOnly = true;
             this.InputField.Size = new System.Drawing.Size(216, 40);
             this.InputField.TabIndex = 1;
             // 
@@ -97,6 +101,7 @@
             // ConnectButton
             // 
             this.ConnectButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
+            this.ConnectButton.Enabled = false;
             this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ConnectButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ConnectButton.ForeColor = System.Drawing.Color.White;
@@ -112,11 +117,11 @@
             // 
             this.MessageWindowRich.BackColor = System.Drawing.Color.White;
             this.MessageWindowRich.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MessageWindowRich.Enabled = false;
-            this.MessageWindowRich.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MessageWindowRich.Location = new System.Drawing.Point(12, 135);
+            this.MessageWindowRich.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MessageWindowRich.Location = new System.Drawing.Point(12, 251);
             this.MessageWindowRich.Name = "MessageWindowRich";
-            this.MessageWindowRich.Size = new System.Drawing.Size(321, 354);
+            this.MessageWindowRich.ReadOnly = true;
+            this.MessageWindowRich.Size = new System.Drawing.Size(321, 238);
             this.MessageWindowRich.TabIndex = 5;
             this.MessageWindowRich.Text = "";
             // 
@@ -247,7 +252,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(492, 129);
+            this.panel1.Size = new System.Drawing.Size(492, 121);
             this.panel1.TabIndex = 0;
             // 
             // UsernameUnderline
@@ -297,12 +302,23 @@
             this.ClientLabelUnderline.Size = new System.Drawing.Size(53, 3);
             this.ClientLabelUnderline.TabIndex = 14;
             // 
+            // CommandWindow
+            // 
+            this.CommandWindow.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CommandWindow.Location = new System.Drawing.Point(13, 136);
+            this.CommandWindow.Name = "CommandWindow";
+            this.CommandWindow.ReadOnly = true;
+            this.CommandWindow.Size = new System.Drawing.Size(317, 109);
+            this.CommandWindow.TabIndex = 15;
+            this.CommandWindow.Text = "";
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(492, 549);
+            this.Controls.Add(this.CommandWindow);
             this.Controls.Add(this.ClientLabelUnderline);
             this.Controls.Add(this.FriendsLabelUnderline);
             this.Controls.Add(this.panel1);
@@ -351,5 +367,6 @@
         private System.Windows.Forms.PictureBox StaffsLogo;
         private System.Windows.Forms.Panel FriendsLabelUnderline;
         private System.Windows.Forms.Panel ClientLabelUnderline;
+        private System.Windows.Forms.RichTextBox CommandWindow;
     }
 }

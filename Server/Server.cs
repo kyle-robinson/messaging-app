@@ -122,7 +122,6 @@ namespace Server
             finally
             {
                 client.Close();
-                clients[index].Close();
                 clients.TryRemove( index, out client );
             }
         }

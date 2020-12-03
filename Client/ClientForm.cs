@@ -18,11 +18,32 @@ namespace Client
         {
             InitializeComponent();
             this.client = client;
-            InputField.ReadOnly = true;
-            SubmitButton.Enabled = false;
-            ConnectButton.Enabled = false;
             mutedClients = new List<string>();
-            MessageWindowRich.SelectionProtected = true;
+
+            ContextMenu blankContextMenu = new ContextMenu();
+            MessageWindowRich.ContextMenu = blankContextMenu;
+            CommandWindow.ContextMenu = blankContextMenu;
+        }
+
+        public void UpdateCommandWindow( string message, Color foreColor, Color backColor )
+        {
+            if ( CommandWindow.InvokeRequired )
+            {
+                Invoke( new Action( () => { UpdateCommandWindow( message, foreColor, backColor ); } ) );
+            }
+            else
+            {
+                CommandWindow.SelectionStart = CommandWindow.TextLength;
+                CommandWindow.SelectionLength = 0;
+
+                CommandWindow.SelectionColor = foreColor;
+                CommandWindow.SelectionBackColor = backColor;
+                CommandWindow.AppendText( message + "\n" );
+                CommandWindow.SelectionColor = CommandWindow.ForeColor;
+
+                CommandWindow.SelectionStart = CommandWindow.Text.Length;
+                CommandWindow.ScrollToCaret();
+            }
         }
 
         public void UpdateChatWindow( string message, string alignment, Color foreColor, Color backColor )
@@ -129,7 +150,7 @@ namespace Client
                 if ( !privateMessage )
                 {
                     client.TcpSendMessage( new ChatMessagePacket( message ) );
-                    UpdateChatWindow( "[You]: " + InputField.Text, "right", Color.Black, Color.PowderBlue );
+                    UpdateChatWindow( InputField.Text, "right", Color.Black, Color.PowderBlue );
                 }
                 else
                 {
@@ -148,13 +169,13 @@ namespace Client
 
             if ( ClientNameField.Text != "" )
             { 
-                UpdateChatWindow( "You updated your nickname. Hello " + client.clientName + "!", "left", Color.Green, Color.White );
+                UpdateCommandWindow( "You updated your nickname. Hello " + client.clientName + "!", Color.Green, Color.White );
                 ConnectButton.Enabled = true;
                 nicknameEntered = true;
             }
             else
             {
-                UpdateChatWindow( "Please enter an appropriate nickname!", "left", Color.Red, Color.White );
+                UpdateCommandWindow( "Please enter an appropriate nickname!", Color.Red, Color.White );
                 nicknameEntered = false;
             }
         }
@@ -166,9 +187,10 @@ namespace Client
                 connected = true;
                 disconnected = false;
                 InputField.ReadOnly = false;
+                InputField.Enabled = true;
                 SubmitButton.Enabled = true;
                 ConnectButton.Text = "Disconnect";
-                UpdateChatWindow( "You have connected to the server!", "left", Color.Blue, Color.White );
+                UpdateCommandWindow( "You have connected to the server!", Color.Blue, Color.White );
                 client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
             }
             else if ( connected )
@@ -176,14 +198,15 @@ namespace Client
                 connected = false;
                 disconnected = true;
                 InputField.ReadOnly = true;
+                InputField.Enabled = false;
                 SubmitButton.Enabled = false;
                 ConnectButton.Text = "Connect";
-                UpdateChatWindow( "You have disconnected from the server!", "left", Color.Red, Color.White );
+                UpdateCommandWindow( "You have disconnected from the server!", Color.Red, Color.White );
                 client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
             }
 
             if ( disconnected && !nicknameEntered )
-                UpdateChatWindow( "Please enter a nickname to connect before trying to connect to the server!", "left", Color.Red, Color.White );
+                UpdateCommandWindow( "Please enter a nickname to connect before trying to connect to the server!", Color.Red, Color.White );
         }
 
         private void AddFriend_Click( object sender, EventArgs e )
@@ -219,14 +242,14 @@ namespace Client
             if ( ClientListBox.Items.Count > 0 )
             {
                 privateMessage = true;
-                UpdateChatWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + "...", "left", Color.Orange, Color.White );
+                UpdateCommandWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + "...", Color.Orange, Color.White );
             }
         }
 
         private void GlobalMessage_Click( object sender, EventArgs e )
         {
             privateMessage = false;
-            UpdateChatWindow( "You are now messaging everyone on the server...", "left", Color.Orange, Color.White );
+            UpdateCommandWindow( "You are now messaging everyone on the server...", Color.Orange, Color.White );
         }
 
         private void LocalMute_Click( object sender, EventArgs e )
@@ -241,11 +264,11 @@ namespace Client
             if ( alreadyMuted  )
             {
                 mutedClients.Remove( clientToMute );
-                UpdateChatWindow( "You have unmuted " + clientToMute, "left", Color.Blue, Color.White );
+                UpdateCommandWindow( "You have unmuted " + clientToMute, Color.Blue, Color.White );
             }
-            else
+            else if ( !alreadyMuted && clientToMute != ClientNameField.Text )
             {
-                UpdateChatWindow( "You have muted all incoming messages from " + clientToMute, "left", Color.Red, Color.White );
+                UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute, Color.Red, Color.White );
                 mutedClients.Add( clientToMute );
             }    
         }
