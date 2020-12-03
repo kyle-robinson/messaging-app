@@ -60,7 +60,7 @@
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(99, 40);
             this.SubmitButton.TabIndex = 12;
-            this.SubmitButton.Text = "Submit";
+            this.SubmitButton.Text = "Send Message";
             this.SubmitButton.UseVisualStyleBackColor = false;
             this.SubmitButton.Click += new System.EventHandler(this.SubmitButton_Click);
             // 
@@ -133,7 +133,7 @@
             this.AddFriend,
             this.LocalMute});
             this.ClientListBoxMenu.Name = "contextMenuStrip1";
-            this.ClientListBoxMenu.Size = new System.Drawing.Size(181, 70);
+            this.ClientListBoxMenu.Size = new System.Drawing.Size(134, 48);
             // 
             // AddFriend
             // 

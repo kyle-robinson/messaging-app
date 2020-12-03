@@ -30,7 +30,7 @@ namespace Client
         {
             if ( MessageWindowRich.InvokeRequired )
             {
-                Invoke( new Action( () => { UpdateChatWindow( message, alignment, foreColor, backColor); } ) );
+                Invoke( new Action( () => { UpdateChatWindow( message, alignment, foreColor, backColor ); } ) );
             }
             else
             {
@@ -233,14 +233,22 @@ namespace Client
         private void LocalMute_Click( object sender, EventArgs e )
         {
             bool alreadyMuted = false;
+            string clientToMute = ClientListBox.SelectedItem.ToString();
+
             foreach ( string s in mutedClients )
-                if( s.ToString() == ClientListBox.SelectedItem.ToString() )
+                if( s.ToString() == clientToMute && s.ToString() != ClientNameField.Text )
                     alreadyMuted = true;
 
-            if ( alreadyMuted )
-                mutedClients.Remove( ClientListBox.SelectedItem.ToString() );
+            if ( alreadyMuted  )
+            {
+                mutedClients.Remove( clientToMute );
+                UpdateChatWindow( "You have unmuted " + clientToMute, "left", Color.Blue, Color.White );
+            }
             else
-                mutedClients.Add( ClientListBox.SelectedItem.ToString() );
+            {
+                UpdateChatWindow( "You have muted all incoming messages from " + clientToMute, "left", Color.Red, Color.White );
+                mutedClients.Add( clientToMute );
+            }    
         }
     }
 }

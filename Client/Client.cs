@@ -58,14 +58,7 @@ namespace Client
                 udpThread.Start();
                 Login();
 
-                try
-                {
-                    clientForm.ShowDialog();
-                }
-                catch ( Exception exception )
-                {
-                    Console.WriteLine( exception.Message );
-                }
+                clientForm.ShowDialog();
             }
             catch( Exception exception )
             {
