@@ -75,12 +75,10 @@
             // 
             // ClientNameField
             // 
-            this.ClientNameField.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.ClientNameField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.ClientNameField.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ClientNameField.Location = new System.Drawing.Point(50, 16);
+            this.ClientNameField.Location = new System.Drawing.Point(12, 12);
             this.ClientNameField.Name = "ClientNameField";
-            this.ClientNameField.Size = new System.Drawing.Size(178, 13);
+            this.ClientNameField.Size = new System.Drawing.Size(216, 20);
             this.ClientNameField.TabIndex = 3;
             // 
             // ConnectButton
@@ -89,7 +87,7 @@
             this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ConnectButton.Location = new System.Drawing.Point(339, 12);
             this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(99, 20);
+            this.ConnectButton.Size = new System.Drawing.Size(142, 20);
             this.ConnectButton.TabIndex = 4;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = false;
@@ -138,14 +136,14 @@
             // AddFriend
             // 
             this.AddFriend.Name = "AddFriend";
-            this.AddFriend.Size = new System.Drawing.Size(180, 22);
+            this.AddFriend.Size = new System.Drawing.Size(133, 22);
             this.AddFriend.Text = "Add Friend";
             this.AddFriend.Click += new System.EventHandler(this.AddFriend_Click);
             // 
             // LocalMute
             // 
             this.LocalMute.Name = "LocalMute";
-            this.LocalMute.Size = new System.Drawing.Size(180, 22);
+            this.LocalMute.Size = new System.Drawing.Size(133, 22);
             this.LocalMute.Text = "Local Mute";
             this.LocalMute.Click += new System.EventHandler(this.LocalMute_Click);
             // 
@@ -220,7 +218,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(489, 41);
+            this.panel1.Size = new System.Drawing.Size(490, 41);
             this.panel1.TabIndex = 0;
             // 
             // ClientForm
@@ -228,7 +226,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(489, 459);
+            this.ClientSize = new System.Drawing.Size(490, 460);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.clientListLabel);
             this.Controls.Add(this.friendsLabel);
