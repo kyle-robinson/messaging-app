@@ -70,7 +70,7 @@
             this.SubmitButton.Location = new System.Drawing.Point(234, 495);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(99, 40);
-            this.SubmitButton.TabIndex = 12;
+            this.SubmitButton.TabIndex = 8;
             this.SubmitButton.Text = "Send Message";
             this.SubmitButton.UseVisualStyleBackColor = false;
             this.SubmitButton.Click += new System.EventHandler(this.SubmitButton_Click);
@@ -85,7 +85,7 @@
             this.InputField.Name = "InputField";
             this.InputField.ReadOnly = true;
             this.InputField.Size = new System.Drawing.Size(216, 40);
-            this.InputField.TabIndex = 1;
+            this.InputField.TabIndex = 7;
             // 
             // ClientNameField
             // 
@@ -95,7 +95,7 @@
             this.ClientNameField.Location = new System.Drawing.Point(107, 43);
             this.ClientNameField.Name = "ClientNameField";
             this.ClientNameField.Size = new System.Drawing.Size(226, 14);
-            this.ClientNameField.TabIndex = 3;
+            this.ClientNameField.TabIndex = 2;
             this.ClientNameField.Text = "Enter username...";
             // 
             // ConnectButton
@@ -122,7 +122,7 @@
             this.MessageWindowRich.Name = "MessageWindowRich";
             this.MessageWindowRich.ReadOnly = true;
             this.MessageWindowRich.Size = new System.Drawing.Size(321, 238);
-            this.MessageWindowRich.TabIndex = 5;
+            this.MessageWindowRich.TabIndex = 6;
             this.MessageWindowRich.Text = "";
             // 
             // NicknameButton
@@ -135,7 +135,7 @@
             this.NicknameButton.Location = new System.Drawing.Point(344, 39);
             this.NicknameButton.Name = "NicknameButton";
             this.NicknameButton.Size = new System.Drawing.Size(137, 27);
-            this.NicknameButton.TabIndex = 6;
+            this.NicknameButton.TabIndex = 3;
             this.NicknameButton.Text = "Set Username";
             this.NicknameButton.UseVisualStyleBackColor = false;
             this.NicknameButton.Click += new System.EventHandler(this.NicknameButton_Click);
@@ -150,7 +150,7 @@
             this.ClientListBox.Location = new System.Drawing.Point(339, 362);
             this.ClientListBox.Name = "ClientListBox";
             this.ClientListBox.Size = new System.Drawing.Size(141, 169);
-            this.ClientListBox.TabIndex = 8;
+            this.ClientListBox.TabIndex = 12;
             // 
             // ClientListBoxMenu
             // 
@@ -184,7 +184,7 @@
             this.FriendsListBox.Location = new System.Drawing.Point(339, 157);
             this.FriendsListBox.Name = "FriendsListBox";
             this.FriendsListBox.Size = new System.Drawing.Size(142, 169);
-            this.FriendsListBox.TabIndex = 9;
+            this.FriendsListBox.TabIndex = 10;
             // 
             // FriendsListBoxMenu
             // 
@@ -225,7 +225,7 @@
             this.friendsLabel.Location = new System.Drawing.Point(336, 135);
             this.friendsLabel.Name = "friendsLabel";
             this.friendsLabel.Size = new System.Drawing.Size(65, 15);
-            this.friendsLabel.TabIndex = 10;
+            this.friendsLabel.TabIndex = 9;
             this.friendsLabel.Text = "Friends List";
             // 
             // clientListLabel
@@ -253,7 +253,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(492, 121);
-            this.panel1.TabIndex = 0;
+            this.panel1.TabIndex = 16;
             // 
             // UsernameUnderline
             // 
@@ -261,7 +261,7 @@
             this.UsernameUnderline.Location = new System.Drawing.Point(107, 63);
             this.UsernameUnderline.Name = "UsernameUnderline";
             this.UsernameUnderline.Size = new System.Drawing.Size(225, 3);
-            this.UsernameUnderline.TabIndex = 14;
+            this.UsernameUnderline.TabIndex = 15;
             // 
             // StaffsLogo
             // 
@@ -283,7 +283,7 @@
             this.TitleLabel.Location = new System.Drawing.Point(103, 12);
             this.TitleLabel.Name = "TitleLabel";
             this.TitleLabel.Size = new System.Drawing.Size(377, 19);
-            this.TitleLabel.TabIndex = 7;
+            this.TitleLabel.TabIndex = 1;
             this.TitleLabel.Text = "Client-Server Messaging App [by Kyle Robinson]";
             // 
             // FriendsLabelUnderline
@@ -310,7 +310,7 @@
             this.CommandWindow.Name = "CommandWindow";
             this.CommandWindow.ReadOnly = true;
             this.CommandWindow.Size = new System.Drawing.Size(317, 109);
-            this.CommandWindow.TabIndex = 15;
+            this.CommandWindow.TabIndex = 5;
             this.CommandWindow.Text = "";
             // 
             // ClientForm
