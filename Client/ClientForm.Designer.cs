@@ -304,6 +304,7 @@
             // 
             // CommandWindow
             // 
+            this.CommandWindow.BackColor = System.Drawing.Color.White;
             this.CommandWindow.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CommandWindow.Location = new System.Drawing.Point(13, 136);
             this.CommandWindow.Name = "CommandWindow";
