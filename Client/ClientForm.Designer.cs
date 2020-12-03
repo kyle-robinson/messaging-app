@@ -38,14 +38,15 @@
             this.ClientListBox = new System.Windows.Forms.ListBox();
             this.ClientListBoxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddFriend = new System.Windows.Forms.ToolStripMenuItem();
+            this.LocalMute = new System.Windows.Forms.ToolStripMenuItem();
             this.FriendsListBox = new System.Windows.Forms.ListBox();
             this.FriendsListBoxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.GlobalMessage = new System.Windows.Forms.ToolStripMenuItem();
+            this.PrivateMessageMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.RemoveFriend = new System.Windows.Forms.ToolStripMenuItem();
             this.friendsLabel = new System.Windows.Forms.Label();
             this.clientListLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.PrivateMessageMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.GlobalMessage = new System.Windows.Forms.ToolStripMenuItem();
             this.ClientListBoxMenu.SuspendLayout();
             this.FriendsListBoxMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -96,7 +97,7 @@
             // 
             // MessageWindowRich
             // 
-            this.MessageWindowRich.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.MessageWindowRich.BackColor = System.Drawing.Color.White;
             this.MessageWindowRich.Location = new System.Drawing.Point(12, 50);
             this.MessageWindowRich.Name = "MessageWindowRich";
             this.MessageWindowRich.Size = new System.Drawing.Size(321, 354);
@@ -129,16 +130,24 @@
             // ClientListBoxMenu
             // 
             this.ClientListBoxMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddFriend});
+            this.AddFriend,
+            this.LocalMute});
             this.ClientListBoxMenu.Name = "contextMenuStrip1";
-            this.ClientListBoxMenu.Size = new System.Drawing.Size(133, 26);
+            this.ClientListBoxMenu.Size = new System.Drawing.Size(181, 70);
             // 
             // AddFriend
             // 
             this.AddFriend.Name = "AddFriend";
-            this.AddFriend.Size = new System.Drawing.Size(132, 22);
+            this.AddFriend.Size = new System.Drawing.Size(180, 22);
             this.AddFriend.Text = "Add Friend";
             this.AddFriend.Click += new System.EventHandler(this.AddFriend_Click);
+            // 
+            // LocalMute
+            // 
+            this.LocalMute.Name = "LocalMute";
+            this.LocalMute.Size = new System.Drawing.Size(180, 22);
+            this.LocalMute.Text = "Local Mute";
+            this.LocalMute.Click += new System.EventHandler(this.LocalMute_Click);
             // 
             // FriendsListBox
             // 
@@ -159,10 +168,24 @@
             this.FriendsListBoxMenu.Name = "FriendsListBoxMenu";
             this.FriendsListBoxMenu.Size = new System.Drawing.Size(160, 70);
             // 
+            // GlobalMessage
+            // 
+            this.GlobalMessage.Name = "GlobalMessage";
+            this.GlobalMessage.Size = new System.Drawing.Size(159, 22);
+            this.GlobalMessage.Text = "Global Message";
+            this.GlobalMessage.Click += new System.EventHandler(this.GlobalMessage_Click);
+            // 
+            // PrivateMessageMenu
+            // 
+            this.PrivateMessageMenu.Name = "PrivateMessageMenu";
+            this.PrivateMessageMenu.Size = new System.Drawing.Size(159, 22);
+            this.PrivateMessageMenu.Text = "Private Message";
+            this.PrivateMessageMenu.Click += new System.EventHandler(this.PrivateMessageMenu_Click);
+            // 
             // RemoveFriend
             // 
             this.RemoveFriend.Name = "RemoveFriend";
-            this.RemoveFriend.Size = new System.Drawing.Size(180, 22);
+            this.RemoveFriend.Size = new System.Drawing.Size(159, 22);
             this.RemoveFriend.Text = "Remove Friend";
             this.RemoveFriend.Click += new System.EventHandler(this.RemoveFriend_Click);
             // 
@@ -199,20 +222,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(489, 41);
             this.panel1.TabIndex = 0;
-            // 
-            // PrivateMessageMenu
-            // 
-            this.PrivateMessageMenu.Name = "PrivateMessageMenu";
-            this.PrivateMessageMenu.Size = new System.Drawing.Size(180, 22);
-            this.PrivateMessageMenu.Text = "Private Message";
-            this.PrivateMessageMenu.Click += new System.EventHandler(this.PrivateMessageMenu_Click);
-            // 
-            // GlobalMessage
-            // 
-            this.GlobalMessage.Name = "GlobalMessage";
-            this.GlobalMessage.Size = new System.Drawing.Size(180, 22);
-            this.GlobalMessage.Text = "Global Message";
-            this.GlobalMessage.Click += new System.EventHandler(this.GlobalMessage_Click);
             // 
             // ClientForm
             // 
@@ -258,5 +267,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem PrivateMessageMenu;
         private System.Windows.Forms.ToolStripMenuItem GlobalMessage;
+        private System.Windows.Forms.ToolStripMenuItem LocalMute;
     }
 }

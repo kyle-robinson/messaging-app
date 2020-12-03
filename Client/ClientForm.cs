@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Client
 {
@@ -9,6 +10,7 @@ namespace Client
         private Client client;
         private bool connected = false;
         private bool disconnected = true;
+        public List<string> mutedClients;
         private bool privateMessage = false;
         private bool nicknameEntered = false;
 
@@ -19,6 +21,7 @@ namespace Client
             InputField.ReadOnly = true;
             SubmitButton.Enabled = false;
             ConnectButton.Enabled = false;
+            mutedClients = new List<string>();
             MessageWindowRich.Enabled = false;
             MessageWindowRich.SelectionProtected = true;
         }
@@ -31,20 +34,28 @@ namespace Client
             }
             else
             {
-                MessageWindowRich.SelectionStart = MessageWindowRich.TextLength;
-                MessageWindowRich.SelectionLength = 0;
+                bool clientIsMuted = false;
+                foreach ( string s in mutedClients )
+                    if ( message.Contains( s.ToString() ) )
+                        clientIsMuted = true;
 
-                MessageWindowRich.SelectionColor = foreColor;
-                if ( alignment == "left".ToLower() )
-                    MessageWindowRich.SelectionAlignment = HorizontalAlignment.Left;
-                if ( alignment == "right".ToLower() )
-                    MessageWindowRich.SelectionAlignment = HorizontalAlignment.Right;
-                MessageWindowRich.SelectionBackColor = backColor;
-                MessageWindowRich.AppendText( message + "\n" );
-                MessageWindowRich.SelectionColor = MessageWindowRich.ForeColor;
+                if ( !clientIsMuted )
+                {
+                    MessageWindowRich.SelectionStart = MessageWindowRich.TextLength;
+                    MessageWindowRich.SelectionLength = 0;
 
-                MessageWindowRich.SelectionStart = MessageWindowRich.Text.Length;
-                MessageWindowRich.ScrollToCaret();
+                    MessageWindowRich.SelectionColor = foreColor;
+                    if ( alignment == "left".ToLower() )
+                        MessageWindowRich.SelectionAlignment = HorizontalAlignment.Left;
+                    if ( alignment == "right".ToLower() )
+                        MessageWindowRich.SelectionAlignment = HorizontalAlignment.Right;
+                    MessageWindowRich.SelectionBackColor = backColor;
+                    MessageWindowRich.AppendText( message + "\n" );
+                    MessageWindowRich.SelectionColor = MessageWindowRich.ForeColor;
+
+                    MessageWindowRich.SelectionStart = MessageWindowRich.Text.Length;
+                    MessageWindowRich.ScrollToCaret();
+                }
             }
         }
 
@@ -79,7 +90,7 @@ namespace Client
 
         private void UpdateFriendList( string message, bool removeFriend )
         {
-            if ( ClientListBox.InvokeRequired )
+            if ( FriendsListBox.InvokeRequired )
             {
                 Invoke( new Action( () => { UpdateFriendList( message, removeFriend ); } ) );
             }
@@ -217,6 +228,19 @@ namespace Client
         {
             privateMessage = false;
             UpdateChatWindow( "You are now messaging everyone on the server...", "left", Color.Orange, Color.White );
+        }
+
+        private void LocalMute_Click( object sender, EventArgs e )
+        {
+            bool alreadyMuted = false;
+            foreach ( string s in mutedClients )
+                if( s.ToString() == ClientListBox.SelectedItem.ToString() )
+                    alreadyMuted = true;
+
+            if ( alreadyMuted )
+                mutedClients.Remove( ClientListBox.SelectedItem.ToString() );
+            else
+                mutedClients.Add( ClientListBox.SelectedItem.ToString() );
         }
     }
 }
