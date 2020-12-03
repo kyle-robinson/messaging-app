@@ -22,7 +22,6 @@ namespace Client
             SubmitButton.Enabled = false;
             ConnectButton.Enabled = false;
             mutedClients = new List<string>();
-            MessageWindowRich.Enabled = false;
             MessageWindowRich.SelectionProtected = true;
         }
 

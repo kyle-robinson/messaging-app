@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientForm));
             this.SubmitButton = new System.Windows.Forms.Button();
             this.InputField = new System.Windows.Forms.TextBox();
             this.ClientNameField = new System.Windows.Forms.TextBox();
@@ -47,16 +48,24 @@
             this.friendsLabel = new System.Windows.Forms.Label();
             this.clientListLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.UsernameUnderline = new System.Windows.Forms.Panel();
+            this.StaffsLogo = new System.Windows.Forms.PictureBox();
+            this.TitleLabel = new System.Windows.Forms.Label();
+            this.FriendsLabelUnderline = new System.Windows.Forms.Panel();
+            this.ClientLabelUnderline = new System.Windows.Forms.Panel();
             this.ClientListBoxMenu.SuspendLayout();
             this.FriendsListBoxMenu.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.StaffsLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // SubmitButton
             // 
-            this.SubmitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(157)))), ((int)(((byte)(51)))));
+            this.SubmitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
             this.SubmitButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.SubmitButton.Location = new System.Drawing.Point(234, 410);
+            this.SubmitButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SubmitButton.ForeColor = System.Drawing.Color.White;
+            this.SubmitButton.Location = new System.Drawing.Point(234, 495);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(99, 40);
             this.SubmitButton.TabIndex = 12;
@@ -66,8 +75,9 @@
             // 
             // InputField
             // 
-            this.InputField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.InputField.Location = new System.Drawing.Point(12, 410);
+            this.InputField.BackColor = System.Drawing.Color.White;
+            this.InputField.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.InputField.Location = new System.Drawing.Point(12, 495);
             this.InputField.Multiline = true;
             this.InputField.Name = "InputField";
             this.InputField.Size = new System.Drawing.Size(216, 40);
@@ -75,19 +85,24 @@
             // 
             // ClientNameField
             // 
-            this.ClientNameField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.ClientNameField.Location = new System.Drawing.Point(12, 12);
+            this.ClientNameField.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ClientNameField.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ClientNameField.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ClientNameField.Location = new System.Drawing.Point(107, 43);
             this.ClientNameField.Name = "ClientNameField";
-            this.ClientNameField.Size = new System.Drawing.Size(216, 20);
+            this.ClientNameField.Size = new System.Drawing.Size(226, 14);
             this.ClientNameField.TabIndex = 3;
+            this.ClientNameField.Text = "Enter username...";
             // 
             // ConnectButton
             // 
-            this.ConnectButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(157)))), ((int)(((byte)(51)))));
+            this.ConnectButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
             this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ConnectButton.Location = new System.Drawing.Point(339, 12);
+            this.ConnectButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ConnectButton.ForeColor = System.Drawing.Color.White;
+            this.ConnectButton.Location = new System.Drawing.Point(107, 74);
             this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(142, 20);
+            this.ConnectButton.Size = new System.Drawing.Size(374, 30);
             this.ConnectButton.TabIndex = 4;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = false;
@@ -96,7 +111,10 @@
             // MessageWindowRich
             // 
             this.MessageWindowRich.BackColor = System.Drawing.Color.White;
-            this.MessageWindowRich.Location = new System.Drawing.Point(12, 50);
+            this.MessageWindowRich.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MessageWindowRich.Enabled = false;
+            this.MessageWindowRich.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MessageWindowRich.Location = new System.Drawing.Point(12, 135);
             this.MessageWindowRich.Name = "MessageWindowRich";
             this.MessageWindowRich.Size = new System.Drawing.Size(321, 354);
             this.MessageWindowRich.TabIndex = 5;
@@ -104,12 +122,14 @@
             // 
             // NicknameButton
             // 
-            this.NicknameButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(157)))), ((int)(((byte)(51)))));
+            this.NicknameButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
             this.NicknameButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.NicknameButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.NicknameButton.Location = new System.Drawing.Point(234, 12);
+            this.NicknameButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NicknameButton.ForeColor = System.Drawing.Color.White;
+            this.NicknameButton.Location = new System.Drawing.Point(344, 39);
             this.NicknameButton.Name = "NicknameButton";
-            this.NicknameButton.Size = new System.Drawing.Size(99, 20);
+            this.NicknameButton.Size = new System.Drawing.Size(137, 27);
             this.NicknameButton.TabIndex = 6;
             this.NicknameButton.Text = "Set Username";
             this.NicknameButton.UseVisualStyleBackColor = false;
@@ -117,12 +137,14 @@
             // 
             // ClientListBox
             // 
-            this.ClientListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.ClientListBox.BackColor = System.Drawing.Color.White;
             this.ClientListBox.ContextMenuStrip = this.ClientListBoxMenu;
+            this.ClientListBox.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClientListBox.FormattingEnabled = true;
-            this.ClientListBox.Location = new System.Drawing.Point(339, 277);
+            this.ClientListBox.ItemHeight = 15;
+            this.ClientListBox.Location = new System.Drawing.Point(339, 362);
             this.ClientListBox.Name = "ClientListBox";
-            this.ClientListBox.Size = new System.Drawing.Size(141, 173);
+            this.ClientListBox.Size = new System.Drawing.Size(141, 169);
             this.ClientListBox.TabIndex = 8;
             // 
             // ClientListBoxMenu
@@ -149,12 +171,14 @@
             // 
             // FriendsListBox
             // 
-            this.FriendsListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.FriendsListBox.BackColor = System.Drawing.Color.White;
             this.FriendsListBox.ContextMenuStrip = this.FriendsListBoxMenu;
+            this.FriendsListBox.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FriendsListBox.FormattingEnabled = true;
-            this.FriendsListBox.Location = new System.Drawing.Point(339, 72);
+            this.FriendsListBox.ItemHeight = 15;
+            this.FriendsListBox.Location = new System.Drawing.Point(339, 157);
             this.FriendsListBox.Name = "FriendsListBox";
-            this.FriendsListBox.Size = new System.Drawing.Size(142, 173);
+            this.FriendsListBox.Size = new System.Drawing.Size(142, 169);
             this.FriendsListBox.TabIndex = 9;
             // 
             // FriendsListBoxMenu
@@ -190,43 +214,97 @@
             // friendsLabel
             // 
             this.friendsLabel.AutoSize = true;
-            this.friendsLabel.BackColor = System.Drawing.Color.Black;
-            this.friendsLabel.ForeColor = System.Drawing.Color.White;
-            this.friendsLabel.Location = new System.Drawing.Point(340, 50);
+            this.friendsLabel.BackColor = System.Drawing.Color.Transparent;
+            this.friendsLabel.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.friendsLabel.ForeColor = System.Drawing.Color.Black;
+            this.friendsLabel.Location = new System.Drawing.Point(336, 135);
             this.friendsLabel.Name = "friendsLabel";
-            this.friendsLabel.Size = new System.Drawing.Size(60, 13);
+            this.friendsLabel.Size = new System.Drawing.Size(65, 15);
             this.friendsLabel.TabIndex = 10;
             this.friendsLabel.Text = "Friends List";
             // 
             // clientListLabel
             // 
             this.clientListLabel.AutoSize = true;
-            this.clientListLabel.BackColor = System.Drawing.Color.Black;
-            this.clientListLabel.ForeColor = System.Drawing.Color.White;
-            this.clientListLabel.Location = new System.Drawing.Point(340, 255);
+            this.clientListLabel.BackColor = System.Drawing.Color.Transparent;
+            this.clientListLabel.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clientListLabel.ForeColor = System.Drawing.Color.Black;
+            this.clientListLabel.Location = new System.Drawing.Point(336, 340);
             this.clientListLabel.Name = "clientListLabel";
-            this.clientListLabel.Size = new System.Drawing.Size(52, 13);
+            this.clientListLabel.Size = new System.Drawing.Size(57, 15);
             this.clientListLabel.TabIndex = 11;
             this.clientListLabel.Text = "Client List";
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel1.Controls.Add(this.UsernameUnderline);
+            this.panel1.Controls.Add(this.StaffsLogo);
+            this.panel1.Controls.Add(this.TitleLabel);
             this.panel1.Controls.Add(this.ClientNameField);
             this.panel1.Controls.Add(this.NicknameButton);
             this.panel1.Controls.Add(this.ConnectButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(490, 41);
+            this.panel1.Size = new System.Drawing.Size(492, 129);
             this.panel1.TabIndex = 0;
+            // 
+            // UsernameUnderline
+            // 
+            this.UsernameUnderline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
+            this.UsernameUnderline.Location = new System.Drawing.Point(107, 63);
+            this.UsernameUnderline.Name = "UsernameUnderline";
+            this.UsernameUnderline.Size = new System.Drawing.Size(225, 3);
+            this.UsernameUnderline.TabIndex = 14;
+            // 
+            // StaffsLogo
+            // 
+            this.StaffsLogo.BackColor = System.Drawing.Color.Transparent;
+            this.StaffsLogo.Image = ((System.Drawing.Image)(resources.GetObject("StaffsLogo.Image")));
+            this.StaffsLogo.Location = new System.Drawing.Point(12, 12);
+            this.StaffsLogo.Name = "StaffsLogo";
+            this.StaffsLogo.Size = new System.Drawing.Size(89, 92);
+            this.StaffsLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.StaffsLogo.TabIndex = 13;
+            this.StaffsLogo.TabStop = false;
+            // 
+            // TitleLabel
+            // 
+            this.TitleLabel.AutoSize = true;
+            this.TitleLabel.BackColor = System.Drawing.Color.Transparent;
+            this.TitleLabel.Font = new System.Drawing.Font("Century Gothic", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TitleLabel.ForeColor = System.Drawing.Color.Black;
+            this.TitleLabel.Location = new System.Drawing.Point(103, 12);
+            this.TitleLabel.Name = "TitleLabel";
+            this.TitleLabel.Size = new System.Drawing.Size(377, 19);
+            this.TitleLabel.TabIndex = 7;
+            this.TitleLabel.Text = "Client-Server Messaging App [by Kyle Robinson]";
+            // 
+            // FriendsLabelUnderline
+            // 
+            this.FriendsLabelUnderline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
+            this.FriendsLabelUnderline.Location = new System.Drawing.Point(339, 149);
+            this.FriendsLabelUnderline.Name = "FriendsLabelUnderline";
+            this.FriendsLabelUnderline.Size = new System.Drawing.Size(61, 3);
+            this.FriendsLabelUnderline.TabIndex = 13;
+            // 
+            // ClientLabelUnderline
+            // 
+            this.ClientLabelUnderline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
+            this.ClientLabelUnderline.Location = new System.Drawing.Point(339, 354);
+            this.ClientLabelUnderline.Name = "ClientLabelUnderline";
+            this.ClientLabelUnderline.Size = new System.Drawing.Size(53, 3);
+            this.ClientLabelUnderline.TabIndex = 14;
             // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(490, 460);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.ClientSize = new System.Drawing.Size(492, 549);
+            this.Controls.Add(this.ClientLabelUnderline);
+            this.Controls.Add(this.FriendsLabelUnderline);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.clientListLabel);
             this.Controls.Add(this.friendsLabel);
@@ -235,12 +313,14 @@
             this.Controls.Add(this.MessageWindowRich);
             this.Controls.Add(this.InputField);
             this.Controls.Add(this.SubmitButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ClientForm";
             this.Text = "Client-Server Messaging App";
             this.ClientListBoxMenu.ResumeLayout(false);
             this.FriendsListBoxMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.StaffsLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -266,5 +346,10 @@
         private System.Windows.Forms.ToolStripMenuItem PrivateMessageMenu;
         private System.Windows.Forms.ToolStripMenuItem GlobalMessage;
         private System.Windows.Forms.ToolStripMenuItem LocalMute;
+        private System.Windows.Forms.Label TitleLabel;
+        private System.Windows.Forms.Panel UsernameUnderline;
+        private System.Windows.Forms.PictureBox StaffsLogo;
+        private System.Windows.Forms.Panel FriendsLabelUnderline;
+        private System.Windows.Forms.Panel ClientLabelUnderline;
     }
 }
