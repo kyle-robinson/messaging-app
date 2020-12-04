@@ -5,25 +5,36 @@ using System.Text;
 using System.Drawing;
 using System.Threading;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Client
 {
     public class Client
     {
-        public ClientForm clientForm;
+        public string clientName = "";
         private TcpClient tcpClient;
         private UdpClient udpClient;
-        private NetworkStream stream;
         private BinaryReader reader;
         private BinaryWriter writer;
+        public ClientForm clientForm;
+        private NetworkStream stream;
         private BinaryFormatter formatter;
-        public string clientName = "";
+        private RSACryptoServiceProvider RSAProvider;
+        private RSAParameters PublicKey;
+        private RSAParameters PrivateKey;
+        EncryptedMessagePacket encryptedMessagePacket;
 
         public Client()
         {
             tcpClient = new TcpClient();
             udpClient = new UdpClient();
+            RSAProvider = new RSACryptoServiceProvider( 1024 );
+            PublicKey = new RSAParameters();
+            PrivateKey = new RSAParameters();
+            PublicKey = RSAProvider.ExportParameters( false );
+            PrivateKey = RSAProvider.ExportParameters( true );
+            encryptedMessagePacket = new EncryptedMessagePacket( null );
         }
 
         public bool Connect( string ipAddress, int port )
@@ -56,7 +67,6 @@ namespace Client
 
                 Thread udpThread = new Thread( () => { UdpProcessServerResponse(); } );
                 udpThread.Start();
-                Login();
 
                 clientForm.ShowDialog();
             }
@@ -74,14 +84,16 @@ namespace Client
         public void Login()
         {
             TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint ) );
+            //TcpSendMessage( new EncryptedMessagePacket( EncryptString( "Encrypted message." ) ) );
         }
 
         private void TcpProcessServerResponse()
         {
             try
             {
+                Login();
                 int numberOfBytes = 0;
-                while( ( numberOfBytes = reader.ReadInt32() ) != -1 )
+                while ( ( numberOfBytes = reader.ReadInt32() ) != -1 )
                 {
                     byte[] buffer = reader.ReadBytes( numberOfBytes );
                     MemoryStream memoryStream = new MemoryStream( buffer );
@@ -92,7 +104,7 @@ namespace Client
                             break;
                         case PacketType.SERVER_MESSAGE:
                             ServerMessagePacket serverPacket = (ServerMessagePacket)packet;
-                            clientForm.UpdateChatWindow( serverPacket.message, "left", Color.Purple, Color.White );
+                            clientForm.UpdateChatWindow( serverPacket.message, "left", Color.Black, Color.PeachPuff );
                             break;
                         case PacketType.CHAT_MESSAGE:
                             ChatMessagePacket chatPacket = (ChatMessagePacket)packet;
@@ -102,6 +114,10 @@ namespace Client
                             PrivateMessagePacket privatePacket = (PrivateMessagePacket)packet;
                             clientForm.UpdateChatWindow( privatePacket.message, "left", Color.Black, Color.LightYellow );
                             break;
+                        case PacketType.ENCRYPTED_MESSAGE:
+                            EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
+                            clientForm.UpdateChatWindow( DecryptString( encryptedPacket.message ), "left", Color.Black, Color.MediumPurple );
+                            break;
                         case PacketType.NICKNAME:
                             NicknamePacket namePacket = (NicknamePacket)packet;
                             clientName = namePacket.name;
@@ -109,6 +125,9 @@ namespace Client
                         case PacketType.CLIENT_LIST:
                             ClientListPacket clientListPacket = (ClientListPacket)packet;
                             clientForm.UpdateClientList( clientListPacket.name, clientListPacket.removeText );
+                            break;
+                        case PacketType.LOGIN:
+                            clientForm.UpdateCommandWindow( "Secure connection established with server!", Color.Black, Color.MediumPurple );
                             break;
                     }
                 }
@@ -123,8 +142,9 @@ namespace Client
         {
             try
             {
+                Login();
                 IPEndPoint endPoint = new IPEndPoint( IPAddress.Any, 0 );
-                while( true )
+                while ( true )
                 {
                     byte[] bytes = udpClient.Receive( ref endPoint );
                     MemoryStream memoryStream = new MemoryStream( bytes );
@@ -161,6 +181,35 @@ namespace Client
             byte[] buffer = memoryStream.GetBuffer();
             udpClient.Send( buffer, buffer.Length );
             memoryStream.Close();
+        }
+
+        private byte[] Encrypt( byte[] data )
+        {
+            lock( RSAProvider )
+            {
+                RSAProvider.ImportParameters( PublicKey );
+                return RSAProvider.Encrypt( data, true );
+            }
+        }
+
+        private byte[] Decrypt( byte[] data )
+        {
+            lock( RSAProvider )
+            {
+                RSAProvider.ImportParameters( PrivateKey );
+                return RSAProvider.Decrypt( data, true );
+            }
+        }
+
+        private byte[] EncryptString( string message )
+        {
+            encryptedMessagePacket = new EncryptedMessagePacket( Encoding.UTF8.GetBytes( message ) );
+            return Encrypt( encryptedMessagePacket.message );
+        }
+
+        private string DecryptString( byte[] message )
+        {
+            return Encoding.UTF8.GetString( Decrypt( message ) );
         }
     }
 }

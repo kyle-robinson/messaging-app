@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Net.Sockets;
 using System.Collections.Generic;
@@ -21,7 +22,6 @@ namespace Server
             IPAddress localAddress = IPAddress.Parse( ipAddress );
             tcpListerer = new TcpListener( localAddress, port );
             udpListener = new UdpClient( port );
-
         }
 
         public void Start()
@@ -88,6 +88,10 @@ namespace Server
                                     if ( c.Value.name == outPrivatePacket.name )
                                         c.Value.TcpSend( outPrivatePacket );
                                 break;
+                            case PacketType.ENCRYPTED_MESSAGE:
+                                EncryptedMessagePacket encryptedMessage = (EncryptedMessagePacket)packet;
+                                client.TcpSend( encryptedMessage );
+                                break;
                             case PacketType.NICKNAME:
                                 NicknamePacket namePacket = (NicknamePacket)packet;
                                 client.name = namePacket.name;
@@ -110,6 +114,7 @@ namespace Server
                             case PacketType.LOGIN:
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
+                                client.TcpSend( new LoginPacket( null ) );
                                 break;
                         }
                     }

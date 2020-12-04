@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Security.Cryptography;
 
 public enum PacketType
 {
@@ -7,6 +8,7 @@ public enum PacketType
     SERVER_MESSAGE,
     CHAT_MESSAGE,
     PRIVATE_MESSAGE,
+    ENCRYPTED_MESSAGE,
     NICKNAME,
     CLIENT_LIST,
     LOGIN
@@ -63,6 +65,17 @@ public class PrivateMessagePacket : Packet
 }
 
 [Serializable]
+public class EncryptedMessagePacket : Packet
+{
+    public byte[] message;
+    public EncryptedMessagePacket( byte[] message )
+    {
+        this.message = message;
+        packetType = PacketType.ENCRYPTED_MESSAGE;
+    }
+}
+
+[Serializable]
 public class NicknamePacket : Packet
 {
     public string name;
@@ -90,9 +103,11 @@ public class ClientListPacket : Packet
 public class LoginPacket : Packet
 {
     public IPEndPoint EndPoint;
+    //public RSAParameters PublicKey;
     public LoginPacket( IPEndPoint EndPoint )
     {
         this.EndPoint = EndPoint;
+        //this.PublicKey = PublicKey;
         packetType = PacketType.LOGIN;
     }
 }
