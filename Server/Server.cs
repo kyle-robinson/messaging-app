@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Net.Sockets;
 using System.Collections.Generic;
@@ -90,7 +89,9 @@ namespace Server
                                 break;
                             case PacketType.ENCRYPTED_MESSAGE:
                                 EncryptedMessagePacket encryptedMessage = (EncryptedMessagePacket)packet;
-                                client.TcpSend( encryptedMessage );
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    if ( c.Value != client )
+                                        c.Value.TcpSend( encryptedMessage );
                                 break;
                             case PacketType.NICKNAME:
                                 NicknamePacket namePacket = (NicknamePacket)packet;
@@ -114,7 +115,9 @@ namespace Server
                             case PacketType.LOGIN:
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
-                                client.TcpSend( new LoginPacket( null ) );
+                                clients[index - 1].PublicKey = loginPacket.PublicKey;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    c.Value.TcpSend( new LoginPacket( null, client.PublicKey ) );
                                 break;
                         }
                     }

@@ -103,11 +103,11 @@ public class ClientListPacket : Packet
 public class LoginPacket : Packet
 {
     public IPEndPoint EndPoint;
-    //public RSAParameters PublicKey;
-    public LoginPacket( IPEndPoint EndPoint )
+    public RSAParameters PublicKey;
+    public LoginPacket( IPEndPoint EndPoint, RSAParameters PublicKey )
     {
         this.EndPoint = EndPoint;
-        //this.PublicKey = PublicKey;
+        this.PublicKey = PublicKey;
         packetType = PacketType.LOGIN;
     }
 }

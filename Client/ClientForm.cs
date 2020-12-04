@@ -13,6 +13,8 @@ namespace Client
         public List<string> mutedClients;
         private bool privateMessage = false;
         private bool nicknameEntered = false;
+        private bool encryptMessages = false;
+        private bool tcpMessages = true;
 
         public ClientForm( Client client )
         {
@@ -149,7 +151,15 @@ namespace Client
             {
                 if ( !privateMessage )
                 {
-                    client.TcpSendMessage( new ChatMessagePacket( message ) );
+                    if ( encryptMessages )
+                        client.TcpSendMessage( new EncryptedMessagePacket( client.EncryptString( message ) ) );
+                    else
+                    {
+                        if ( tcpMessages )
+                            client.TcpSendMessage( new ChatMessagePacket( message ) );
+                        else
+                            client.UdpSendMessage( new ChatMessagePacket( message ) );
+                    }
                     UpdateChatWindow( InputField.Text, "right", Color.Black, Color.PowderBlue );
                 }
                 else
@@ -157,7 +167,6 @@ namespace Client
                     client.TcpSendMessage( new PrivateMessagePacket( "[Whisper] " + ClientNameField.Text + ": " + message, ClientListBox.SelectedItem.ToString() ) );
                     UpdateChatWindow( "[Whisper] " + ClientListBox.SelectedItem.ToString() + ": " + InputField.Text, "right", Color.Black, Color.LightYellow );
                 }
-                //client.UdpSendMessage( new ChatMessagePacket( message ) );
                 InputField.Clear();
             }
         }

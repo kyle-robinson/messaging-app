@@ -23,18 +23,14 @@ namespace Client
         private RSACryptoServiceProvider RSAProvider;
         private RSAParameters PublicKey;
         private RSAParameters PrivateKey;
-        EncryptedMessagePacket encryptedMessagePacket;
 
         public Client()
         {
             tcpClient = new TcpClient();
             udpClient = new UdpClient();
             RSAProvider = new RSACryptoServiceProvider( 1024 );
-            PublicKey = new RSAParameters();
-            PrivateKey = new RSAParameters();
             PublicKey = RSAProvider.ExportParameters( false );
             PrivateKey = RSAProvider.ExportParameters( true );
-            encryptedMessagePacket = new EncryptedMessagePacket( null );
         }
 
         public bool Connect( string ipAddress, int port )
@@ -83,8 +79,7 @@ namespace Client
 
         public void Login()
         {
-            TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint ) );
-            //TcpSendMessage( new EncryptedMessagePacket( EncryptString( "Encrypted message." ) ) );
+            TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint, PublicKey ) );
         }
 
         private void TcpProcessServerResponse()
@@ -127,7 +122,9 @@ namespace Client
                             clientForm.UpdateClientList( clientListPacket.name, clientListPacket.removeText );
                             break;
                         case PacketType.LOGIN:
-                            clientForm.UpdateCommandWindow( "Secure connection established with server!", Color.Black, Color.MediumPurple );
+                            LoginPacket loginPacket = (LoginPacket)packet;
+                            PublicKey = loginPacket.PublicKey;
+                            //clientForm.UpdateCommandWindow( "Secure connection established with server!", Color.Black, Color.MediumPurple );
                             break;
                     }
                 }
@@ -142,7 +139,6 @@ namespace Client
         {
             try
             {
-                Login();
                 IPEndPoint endPoint = new IPEndPoint( IPAddress.Any, 0 );
                 while ( true )
                 {
@@ -201,13 +197,12 @@ namespace Client
             }
         }
 
-        private byte[] EncryptString( string message )
+        public byte[] EncryptString( string message )
         {
-            encryptedMessagePacket = new EncryptedMessagePacket( Encoding.UTF8.GetBytes( message ) );
-            return Encrypt( encryptedMessagePacket.message );
+            return Encrypt( Encoding.UTF8.GetBytes( message ) );
         }
 
-        private string DecryptString( byte[] message )
+        public string DecryptString( byte[] message )
         {
             return Encoding.UTF8.GetString( Decrypt( message ) );
         }
