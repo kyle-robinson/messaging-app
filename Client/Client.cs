@@ -79,6 +79,7 @@ namespace Client
 
         public void Login()
         {
+            // REMINDER : CHANGE CLIENT TYPE
             TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint, PublicKey ) );
         }
 
