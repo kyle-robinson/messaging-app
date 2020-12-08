@@ -14,6 +14,7 @@ namespace Server
         private int index;
         private UdpClient udpListener;
         private TcpListener tcpListerer;
+        private List<string> clientNames;
         private ConcurrentDictionary<int, Client> clients;
 
         public Server( string ipAddress, int port )
@@ -21,6 +22,8 @@ namespace Server
             IPAddress localAddress = IPAddress.Parse( ipAddress );
             tcpListerer = new TcpListener( localAddress, port );
             udpListener = new UdpClient( port );
+            clientNames = new List<string>();
+            clientNames.Add( "Initial" );
         }
 
         public void Start()
@@ -93,7 +96,7 @@ namespace Server
                                     client.TcpSend( new NicknamePacket( null ) );
                                 break;
                             case PacketType.CLIENT_LIST:
-                                ClientListPacket clientListPacket = (ClientListPacket)packet;
+                                /*ClientListPacket clientListPacket = (ClientListPacket)packet;
                                 client.name = clientListPacket.name;
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                 {
@@ -101,6 +104,21 @@ namespace Server
                                         c.Value.TcpSend( new ClientListPacket( client.name, false ) );
                                     else if ( clientListPacket.removeText )
                                         c.Value.TcpSend( new ClientListPacket( client.name, true ) );
+                                }*/
+                                ClientListPacket clientListPacket = (ClientListPacket)packet;
+                                if ( !clientListPacket.removeText )
+                                    clientNames.Add( clientListPacket.name );
+                                else if ( clientListPacket.removeText )
+                                    clientNames.Remove( clientListPacket.name );
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                {
+                                    for ( int i = 0; i < clientNames.Count; i++ )
+                                    {
+                                        if ( i == 0 )
+                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], true ) );
+                                        else
+                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
+                                    }
                                 }
                                 break;
                             case PacketType.LOGIN:
@@ -108,7 +126,16 @@ namespace Server
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
                                 clients[index - 1].PublicKey = loginPacket.PublicKey;
                                 foreach ( KeyValuePair<int, Client> c in clients )
+                                {
                                     c.Value.TcpSend( new LoginPacket( null, client.PublicKey ) );
+                                    for ( int i = 0; i < clientNames.Count; i++ )
+                                    {
+                                        if ( i == 0 )
+                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], true ) );
+                                        else
+                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
+                                    }
+                                }
                                 break;
                         }
                     }

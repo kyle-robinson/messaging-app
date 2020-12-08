@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -7,10 +8,11 @@ namespace Client
 {
     public partial class ClientForm : Form
     {
+        public List<string> mutedClients;
+        private List<string> userNames;
         private Client client;
         private bool connected = false;
         private bool disconnected = true;
-        public List<string> mutedClients;
         private bool privateMessage = false;
         private bool nicknameEntered = false;
         private bool encryptMessages = false;
@@ -21,6 +23,7 @@ namespace Client
             InitializeComponent();
             this.client = client;
             mutedClients = new List<string>();
+            userNames = new List<string>();
 
             ContextMenu blankContextMenu = new ContextMenu();
             MessageWindowRich.ContextMenu = blankContextMenu;
@@ -90,7 +93,28 @@ namespace Client
             }
             else
             {
-                if ( removeText )
+                // add or remove players from the list as they connect/disconnect
+                if ( message != null )
+                {
+                    if ( removeText )
+                    {
+                        userNames.Clear();
+                        ClientListBox.Items.Clear();
+                    }
+                    else
+                    {
+                        userNames.Add( message );
+                        ClientListBox.Items.Add( message );
+                    }
+                }
+
+                if ( userNames.Count != userNames.Distinct().Count() )
+                {
+                    userNames.Remove( message );
+                    ClientListBox.Items.Remove( message );
+                }
+                
+                /*if ( removeText )
                 {
                     try
                     {
@@ -107,7 +131,7 @@ namespace Client
                 else
                 {
                     ClientListBox.Items.Add( message );
-                }
+                }*/
             }
         }
 
