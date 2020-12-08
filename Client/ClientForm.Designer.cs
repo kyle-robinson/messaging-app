@@ -347,6 +347,7 @@
             this.Controls.Add(this.InputField);
             this.Controls.Add(this.SubmitButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "ClientForm";
             this.Text = "Client-Server Messaging App";
             this.ClientListBoxMenu.ResumeLayout(false);

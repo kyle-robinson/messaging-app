@@ -19,8 +19,9 @@ namespace Server
         private object writeLock;
         public string name = "";
         private RSACryptoServiceProvider RSAProvider;
+        public RSAParameters ClientKey;
         public RSAParameters PublicKey;
-        private RSAParameters PrivateKey;
+        public RSAParameters PrivateKey;
 
         public Client( Socket socket )
         {
@@ -35,6 +36,7 @@ namespace Server
             formatter = new BinaryFormatter();
 
             RSAProvider = new RSACryptoServiceProvider( 1024 );
+            ClientKey = RSAProvider.ExportParameters( false );
             PublicKey = RSAProvider.ExportParameters( false );
             PrivateKey = RSAProvider.ExportParameters( true );
         }
@@ -72,7 +74,7 @@ namespace Server
         {
             lock( RSAProvider )
             {
-                RSAProvider.ImportParameters( PublicKey );
+                RSAProvider.ImportParameters( ClientKey );
                 return RSAProvider.Encrypt( data, true );
             }
         }

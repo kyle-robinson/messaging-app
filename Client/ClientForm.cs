@@ -16,7 +16,7 @@ namespace Client
         private bool privateMessage = false;
         private bool nicknameEntered = false;
         private bool encryptMessages = false;
-        private bool tcpMessages = true;
+        private bool tcpMessages = false;
 
         public ClientForm( Client client )
         {
@@ -149,7 +149,7 @@ namespace Client
             client.TcpSendMessage( new NicknamePacket( ClientNameField.Text ) );
             client.clientName = ClientNameField.Text;
 
-            if ( ClientNameField.Text != "" && ClientNameField.Text != "Enter username..." )
+            if ( ClientNameField.Text != "" && ClientNameField.Text != "Enter username..." && disconnected )
             { 
                 UpdateCommandWindow( "You updated your nickname. Hello " + client.clientName + "!", Color.Black, Color.SkyBlue );
                 ConnectButton.Enabled = true;
@@ -184,6 +184,10 @@ namespace Client
             {
                 connected = true;
                 disconnected = false;
+
+                NicknameButton.Enabled = false;
+                ClientNameField.Enabled = false;
+
                 InputField.Enabled = true;
                 SubmitButton.Enabled = true;
 
@@ -192,20 +196,28 @@ namespace Client
 
                 ConnectButton.Text = "Disconnect";
                 UpdateCommandWindow( "You have connected to the server!", Color.Black, Color.LightGreen );
-                client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
+                if ( tcpMessages )
+                    client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
+                else
+                    client.UdpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
             }
             else if ( connected )
             {
                 connected = false;
                 disconnected = true;
 
-                InputField.ReadOnly = true;
+                NicknameButton.Enabled = true;
+                ClientNameField.Enabled = true;
+
                 InputField.Enabled = false;
                 SubmitButton.Enabled = false;
 
                 ConnectButton.Text = "Connect";
                 UpdateCommandWindow( "You have disconnected from the server!", Color.Black, Color.LightCoral );
-                client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
+                if ( tcpMessages )
+                    client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
+                else
+                    client.UdpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
             }
 
             if ( disconnected && !nicknameEntered )
@@ -294,7 +306,10 @@ namespace Client
                 }
                 else
                 {
-                    client.TcpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, ClientListBox.SelectedItem.ToString() ) );
+                    if ( tcpMessages )
+                        client.TcpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, ClientListBox.SelectedItem.ToString() ) );
+                    else
+                        client.UdpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, ClientListBox.SelectedItem.ToString() ) );
                     UpdateChatWindow( "To [" + ClientListBox.SelectedItem.ToString() + "]: " + InputField.Text, "right", Color.Black, Color.LightPink );
                 }
                 InputField.Clear();

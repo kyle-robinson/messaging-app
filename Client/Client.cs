@@ -21,14 +21,16 @@ namespace Client
         private NetworkStream stream;
         private BinaryFormatter formatter;
         private RSACryptoServiceProvider RSAProvider;
-        private RSAParameters PublicKey;
-        private RSAParameters PrivateKey;
+        private RSAParameters ServerKey;
+        public RSAParameters PublicKey;
+        public RSAParameters PrivateKey;
 
         public Client()
         {
             tcpClient = new TcpClient();
             udpClient = new UdpClient();
             RSAProvider = new RSACryptoServiceProvider( 1024 );
+            ServerKey = RSAProvider.ExportParameters( false );
             PublicKey = RSAProvider.ExportParameters( false );
             PrivateKey = RSAProvider.ExportParameters( true );
         }
@@ -64,6 +66,8 @@ namespace Client
                 Thread udpThread = new Thread( () => { UdpProcessServerResponse(); } );
                 udpThread.Start();
 
+                Login();
+
                 clientForm.ShowDialog();
             }
             catch( Exception exception )
@@ -79,7 +83,6 @@ namespace Client
 
         public void Login()
         {
-            // REMINDER : CHANGE CLIENT TYPE
             TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint, PublicKey ) );
         }
 
@@ -87,7 +90,6 @@ namespace Client
         {
             try
             {
-                Login();
                 int numberOfBytes = 0;
                 while ( ( numberOfBytes = reader.ReadInt32() ) != -1 )
                 {
@@ -118,15 +120,14 @@ namespace Client
                             break;
                         case PacketType.LOGIN:
                             LoginPacket loginPacket = (LoginPacket)packet;
-                            PublicKey = loginPacket.PublicKey;
-                            //clientForm.UpdateCommandWindow( "Secure connection established with server!", Color.Black, Color.MediumPurple );
+                            ServerKey = loginPacket.PublicKey;
                             break;
                     }
                 }
             }
             catch( Exception exception )
             {
-                Console.WriteLine( exception.Message );
+                Console.WriteLine( "Client TCP Read Method Exception: " + exception.Message );
             }
         }
 
@@ -142,8 +143,17 @@ namespace Client
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch( packet.packetType )
                     {
-                        case PacketType.LOGIN:
-                            clientForm.UpdateChatWindow( "This is a LOGIN packet.", "left", Color.Black, Color.White );
+                        case PacketType.CHAT_MESSAGE:
+                            ChatMessagePacket chatPacket = (ChatMessagePacket)packet;
+                            clientForm.UpdateChatWindow( chatPacket.message, "left", Color.Black, Color.Gold );
+                            break;
+                        case PacketType.PRIVATE_MESSAGE:
+                            PrivateMessagePacket privatePacket = (PrivateMessagePacket)packet;
+                            clientForm.UpdateChatWindow( privatePacket.message, "left", Color.Black, Color.LightPink );
+                            break;
+                        case PacketType.ENCRYPTED_MESSAGE:
+                            EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
+                            clientForm.UpdateChatWindow( DecryptString( encryptedPacket.message ), "left", Color.Black, Color.MediumPurple );
                             break;
                     }
                 }
@@ -178,7 +188,7 @@ namespace Client
         {
             lock( RSAProvider )
             {
-                RSAProvider.ImportParameters( PublicKey );
+                RSAProvider.ImportParameters( ServerKey );
                 return RSAProvider.Encrypt( data, true );
             }
         }

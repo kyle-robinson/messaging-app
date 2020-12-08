@@ -10,7 +10,8 @@ public enum PacketType
     ENCRYPTED_MESSAGE,
     NICKNAME,
     CLIENT_LIST,
-    LOGIN
+    LOGIN,
+    PUBLIC_KEY
 }
 
 [Serializable]

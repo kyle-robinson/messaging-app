@@ -15,6 +15,7 @@ namespace Server
         private UdpClient udpListener;
         private TcpListener tcpListerer;
         private List<string> clientNames;
+        private bool keyReceived = false;
         private ConcurrentDictionary<int, Client> clients;
 
         public Server( string ipAddress, int port )
@@ -115,7 +116,11 @@ namespace Server
                             case PacketType.LOGIN:
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
-                                clients[index - 1].PublicKey = loginPacket.PublicKey;
+                                if ( !keyReceived )
+                                {
+                                    keyReceived = true;
+                                    client.PublicKey = loginPacket.PublicKey;
+                                }
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                 {
                                     c.Value.TcpSend( new LoginPacket( null, client.PublicKey ) );
@@ -134,7 +139,7 @@ namespace Server
             }
             catch ( Exception exception )
             {
-                Console.WriteLine( "EXCEPTION: " + exception.Message );
+                Console.WriteLine( "Server TCP Read Method Exception: " + exception.Message );
             }
             finally
             {
@@ -153,17 +158,45 @@ namespace Server
                     byte[] bytes = udpListener.Receive( ref endPoint );
                     MemoryStream memoryStream = new MemoryStream( bytes );
                     Packet packet = new BinaryFormatter().Deserialize( memoryStream ) as Packet;
-                    Console.WriteLine( "UPD Receive" );
                     foreach( KeyValuePair<int, Client> c in clients )
-                        if ( endPoint.ToString() == c.Value.endPoint.ToString() )
-                            Console.WriteLine( "Matching EndPoints!" );
-                    udpListener.Send( bytes, bytes.Length, endPoint );
+                    {
+                        if ( endPoint.ToString() != c.Value.endPoint.ToString() )
+                        {
+                            switch ( packet.packetType )
+                            {
+                                case PacketType.CHAT_MESSAGE:
+                                    ChatMessagePacket inChatPacket = (ChatMessagePacket)packet;
+                                    ChatMessagePacket outChatPacket = new ChatMessagePacket( "[" + c.Value.name + "]: " + inChatPacket.message );
+                                    UdpSend( c.Value, outChatPacket );
+                                    break;
+                                case PacketType.PRIVATE_MESSAGE:
+                                    PrivateMessagePacket inPrivatePacket = (PrivateMessagePacket)packet;
+                                    PrivateMessagePacket outPrivatePacket = new PrivateMessagePacket( inPrivatePacket.message, inPrivatePacket.name );
+                                    if ( c.Value.name == outPrivatePacket.name )
+                                        UdpSend( c.Value, outPrivatePacket );
+                                    break;
+                                case PacketType.ENCRYPTED_MESSAGE:
+                                    EncryptedMessagePacket encryptedMessage = (EncryptedMessagePacket)packet;
+                                    UdpSend( c.Value, encryptedMessage );
+                                    break;
+                            }
+                        }
+                    }
                 }
             }
             catch( SocketException e )
             {
-                Console.WriteLine( "Client UDP Read Method Exception: " + e.Message );
+                Console.WriteLine( "Server UDP Read Method Exception: " + e.Message );
             }
+        }
+
+        private void UdpSend( Client client, Packet packet )
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            new BinaryFormatter().Serialize( memoryStream, packet );
+            byte[] buffer = memoryStream.GetBuffer();
+            udpListener.Send( buffer, buffer.Length, client.endPoint );
+            memoryStream.Close();
         }
     }
 }
