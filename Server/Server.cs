@@ -69,7 +69,7 @@ namespace Server
                         {
                             case PacketType.CHAT_MESSAGE:
                                 ChatMessagePacket inChatPacket = (ChatMessagePacket)packet;
-                                ChatMessagePacket outChatPacket = new ChatMessagePacket( client.name + ": " + inChatPacket.message );
+                                ChatMessagePacket outChatPacket = new ChatMessagePacket( "[" + client.name + "]: " + inChatPacket.message );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     if ( c.Value != client )
                                         c.Value.TcpSend( outChatPacket );
@@ -96,15 +96,6 @@ namespace Server
                                     client.TcpSend( new NicknamePacket( null ) );
                                 break;
                             case PacketType.CLIENT_LIST:
-                                /*ClientListPacket clientListPacket = (ClientListPacket)packet;
-                                client.name = clientListPacket.name;
-                                foreach ( KeyValuePair<int, Client> c in clients )
-                                {
-                                    if ( !clientListPacket.removeText )
-                                        c.Value.TcpSend( new ClientListPacket( client.name, false ) );
-                                    else if ( clientListPacket.removeText )
-                                        c.Value.TcpSend( new ClientListPacket( client.name, true ) );
-                                }*/
                                 ClientListPacket clientListPacket = (ClientListPacket)packet;
                                 if ( !clientListPacket.removeText )
                                     clientNames.Add( clientListPacket.name );

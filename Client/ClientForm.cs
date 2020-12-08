@@ -113,25 +113,6 @@ namespace Client
                     userNames.Remove( message );
                     ClientListBox.Items.Remove( message );
                 }
-                
-                /*if ( removeText )
-                {
-                    try
-                    {
-                        for ( int i = ClientListBox.Items.Count - 1; i >= 0; --i )
-                            if ( ClientListBox.Items[i].ToString().Contains( message ) )
-                                ClientListBox.Items.RemoveAt( i );
-                    }
-                    catch ( Exception e )
-                    {
-                        Console.WriteLine( "ERROR:: " + e.Message );
-                        ClientListBox.Items.RemoveAt( ClientListBox.Items.Count - 1 );
-                    }
-                }
-                else
-                {
-                    ClientListBox.Items.Add( message );
-                }*/
             }
         }
 
@@ -183,7 +164,7 @@ namespace Client
             }
             else
             {
-                UpdateCommandWindow( "Please enter an appropriate nickname!", Color.Black, Color.IndianRed );
+                UpdateCommandWindow( "Please enter an appropriate nickname!", Color.Black, Color.LightCoral );
                 nicknameEntered = false;
             }
         }
@@ -230,41 +211,27 @@ namespace Client
                 SubmitButton.Enabled = false;
 
                 ConnectButton.Text = "Connect";
-                UpdateCommandWindow( "You have disconnected from the server!", Color.Black, Color.IndianRed );
+                UpdateCommandWindow( "You have disconnected from the server!", Color.Black, Color.LightCoral );
                 client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
             }
 
             if ( disconnected && !nicknameEntered )
-                UpdateCommandWindow( "Please enter a nickname to connect before trying to connect to the server!", Color.Black, Color.IndianRed );
+                UpdateCommandWindow( "Please enter a nickname to connect before trying to connect to the server!", Color.Black, Color.LightCoral );
         }
 
         /*   CONTEXT MENU OPTIONS   */
         private void AddFriend_Click( object sender, EventArgs e )
         {
-            try
-            {
-                if ( ClientListBox.Items.Count > 0 )
-                    if ( ClientListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
-                        UpdateFriendList( ClientListBox.SelectedItem.ToString(), false );
-            }
-            catch ( NullReferenceException exception )
-            {
-                Console.WriteLine( "ERROR:: ", exception.Message );
-            }
+            if ( ClientListBox.Items.Count > 0 )
+                if ( ClientListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
+                    UpdateFriendList( ClientListBox.SelectedItem.ToString(), false );
         }
 
         private void RemoveFriend_Click( object sender, EventArgs e )
         {
-            try
-            {
-                if ( FriendsListBox.Items.Count > 0 )
-                    if ( FriendsListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
-                        UpdateFriendList( FriendsListBox.SelectedItem.ToString(), true );
-            }
-            catch ( NullReferenceException exception )
-            {
-                Console.WriteLine( "ERROR:: ", exception.Message );
-            }
+            if ( FriendsListBox.Items.Count > 0 )
+                if ( FriendsListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
+                    UpdateFriendList( FriendsListBox.SelectedItem.ToString(), true );
         }
 
         private void PrivateMessageMenu_Click( object sender, EventArgs e )
@@ -272,14 +239,14 @@ namespace Client
             if ( ClientListBox.Items.Count > 0 )
             {
                 privateMessage = true;
-                UpdateCommandWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + "...", Color.Black, Color.Gold );
+                UpdateCommandWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + "...", Color.Black, Color.LightPink );
             }
         }
 
         private void GlobalMessage_Click( object sender, EventArgs e )
         {
             privateMessage = false;
-            UpdateCommandWindow( "You are now messaging everyone on the server...", Color.Black, Color.Gold );
+            UpdateCommandWindow( "You are now messaging everyone on the server...", Color.Black, Color.LightPink );
         }
 
         private void LocalMute_Click( object sender, EventArgs e )
@@ -298,7 +265,7 @@ namespace Client
             }
             else if ( !alreadyMuted && clientToMute != ClientNameField.Text )
             {
-                UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute, Color.Black, Color.IndianRed );
+                UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute, Color.Black, Color.LightCoral );
                 mutedClients.Add( clientToMute );
             }    
         }
@@ -320,12 +287,12 @@ namespace Client
                         else
                             client.UdpSendMessage( new ChatMessagePacket( message ) );
                     }
-                    UpdateChatWindow( InputField.Text, "right", Color.Black, Color.LightSteelBlue );
+                    UpdateChatWindow( "To [Local]: " + InputField.Text, "right", Color.Black, Color.LightSteelBlue );
                 }
                 else
                 {
-                    client.TcpSendMessage( new PrivateMessagePacket( "[Whisper] " + ClientNameField.Text + ": " + message, ClientListBox.SelectedItem.ToString() ) );
-                    UpdateChatWindow( "[Whisper] " + ClientListBox.SelectedItem.ToString() + ": " + InputField.Text, "right", Color.Black, Color.Gold );
+                    client.TcpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, ClientListBox.SelectedItem.ToString() ) );
+                    UpdateChatWindow( "To [" + ClientListBox.SelectedItem.ToString() + "]: " + InputField.Text, "right", Color.Black, Color.LightPink );
                 }
                 InputField.Clear();
             }

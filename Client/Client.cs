@@ -98,11 +98,11 @@ namespace Client
                     {
                         case PacketType.CHAT_MESSAGE:
                             ChatMessagePacket chatPacket = (ChatMessagePacket)packet;
-                            clientForm.UpdateChatWindow( chatPacket.message, "left", Color.Black, Color.PaleVioletRed );
+                            clientForm.UpdateChatWindow( chatPacket.message, "left", Color.Black, Color.Gold );
                             break;
                         case PacketType.PRIVATE_MESSAGE:
                             PrivateMessagePacket privatePacket = (PrivateMessagePacket)packet;
-                            clientForm.UpdateChatWindow( privatePacket.message, "left", Color.Black, Color.Gold );
+                            clientForm.UpdateChatWindow( privatePacket.message, "left", Color.Black, Color.LightPink );
                             break;
                         case PacketType.ENCRYPTED_MESSAGE:
                             EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
