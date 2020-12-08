@@ -54,6 +54,7 @@
             this.FriendsLabelUnderline = new System.Windows.Forms.Panel();
             this.ClientLabelUnderline = new System.Windows.Forms.Panel();
             this.CommandWindow = new System.Windows.Forms.RichTextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.ClientListBoxMenu.SuspendLayout();
             this.FriendsListBoxMenu.SuspendLayout();
             this.TopPanel.SuspendLayout();
@@ -245,6 +246,7 @@
             // TopPanel
             // 
             this.TopPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.TopPanel.Controls.Add(this.label1);
             this.TopPanel.Controls.Add(this.UsernameUnderline);
             this.TopPanel.Controls.Add(this.StaffsLogo);
             this.TopPanel.Controls.Add(this.TitleLabel);
@@ -269,24 +271,24 @@
             // 
             this.StaffsLogo.BackColor = System.Drawing.Color.Transparent;
             this.StaffsLogo.Image = ((System.Drawing.Image)(resources.GetObject("StaffsLogo.Image")));
-            this.StaffsLogo.Location = new System.Drawing.Point(12, 12);
+            this.StaffsLogo.Location = new System.Drawing.Point(12, 11);
             this.StaffsLogo.Name = "StaffsLogo";
-            this.StaffsLogo.Size = new System.Drawing.Size(89, 92);
+            this.StaffsLogo.Size = new System.Drawing.Size(89, 95);
             this.StaffsLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.StaffsLogo.TabIndex = 13;
             this.StaffsLogo.TabStop = false;
             // 
             // TitleLabel
             // 
-            this.TitleLabel.AutoSize = true;
             this.TitleLabel.BackColor = System.Drawing.Color.Transparent;
-            this.TitleLabel.Font = new System.Drawing.Font("Century Gothic", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TitleLabel.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TitleLabel.ForeColor = System.Drawing.Color.Black;
-            this.TitleLabel.Location = new System.Drawing.Point(103, 12);
+            this.TitleLabel.Location = new System.Drawing.Point(106, 12);
             this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(377, 19);
+            this.TitleLabel.Size = new System.Drawing.Size(188, 24);
             this.TitleLabel.TabIndex = 1;
-            this.TitleLabel.Text = "Client-Server Messaging App [by Kyle Robinson]";
+            this.TitleLabel.Text = "Messaging App";
+            this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // FriendsLabelUnderline
             // 
@@ -314,6 +316,17 @@
             this.CommandWindow.Size = new System.Drawing.Size(317, 109);
             this.CommandWindow.TabIndex = 3;
             this.CommandWindow.Text = "";
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(294, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(184, 23);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "[by Kyle Robinson]";
             // 
             // ClientForm
             // 
@@ -371,5 +384,6 @@
         private System.Windows.Forms.Panel FriendsLabelUnderline;
         private System.Windows.Forms.Panel ClientLabelUnderline;
         private System.Windows.Forms.RichTextBox CommandWindow;
+        private System.Windows.Forms.Label label1;
     }
 }

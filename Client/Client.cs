@@ -102,7 +102,7 @@ namespace Client
                             break;
                         case PacketType.PRIVATE_MESSAGE:
                             PrivateMessagePacket privatePacket = (PrivateMessagePacket)packet;
-                            clientForm.UpdateChatWindow( privatePacket.message, "left", Color.Black, Color.LightYellow );
+                            clientForm.UpdateChatWindow( privatePacket.message, "left", Color.Black, Color.Gold );
                             break;
                         case PacketType.ENCRYPTED_MESSAGE:
                             EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;

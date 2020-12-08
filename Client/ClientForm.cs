@@ -248,14 +248,14 @@ namespace Client
             if ( ClientListBox.Items.Count > 0 )
             {
                 privateMessage = true;
-                UpdateCommandWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + "...", Color.Black, Color.Orange );
+                UpdateCommandWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + "...", Color.Black, Color.Gold );
             }
         }
 
         private void GlobalMessage_Click( object sender, EventArgs e )
         {
             privateMessage = false;
-            UpdateCommandWindow( "You are now messaging everyone on the server...", Color.Black, Color.Orange );
+            UpdateCommandWindow( "You are now messaging everyone on the server...", Color.Black, Color.Gold );
         }
 
         private void LocalMute_Click( object sender, EventArgs e )
@@ -301,7 +301,7 @@ namespace Client
                 else
                 {
                     client.TcpSendMessage( new PrivateMessagePacket( "[Whisper] " + ClientNameField.Text + ": " + message, ClientListBox.SelectedItem.ToString() ) );
-                    UpdateChatWindow( "[Whisper] " + ClientListBox.SelectedItem.ToString() + ": " + InputField.Text, "right", Color.Black, Color.LightYellow );
+                    UpdateChatWindow( "[Whisper] " + ClientListBox.SelectedItem.ToString() + ": " + InputField.Text, "right", Color.Black, Color.Gold );
                 }
                 InputField.Clear();
             }
