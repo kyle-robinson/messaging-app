@@ -27,6 +27,7 @@ namespace Client
             CommandWindow.ContextMenu = blankContextMenu;
         }
 
+        /*   UPDATE MESSAGE WINDOWS   */
         public void UpdateCommandWindow( string message, Color foreColor, Color backColor )
         {
             if ( CommandWindow.InvokeRequired )
@@ -144,34 +145,8 @@ namespace Client
             }
         }
 
-        private void SubmitButton_Click( object sender, EventArgs e )
-        {
-            string message = InputField.Text;
-            if ( message != "" )
-            {
-                if ( !privateMessage )
-                {
-                    if ( encryptMessages )
-                        client.TcpSendMessage( new EncryptedMessagePacket( client.EncryptString( message ) ) );
-                    else
-                    {
-                        if ( tcpMessages )
-                            client.TcpSendMessage( new ChatMessagePacket( message ) );
-                        else
-                            client.UdpSendMessage( new ChatMessagePacket( message ) );
-                    }
-                    UpdateChatWindow( InputField.Text, "right", Color.Black, Color.PowderBlue );
-                }
-                else
-                {
-                    client.TcpSendMessage( new PrivateMessagePacket( "[Whisper] " + ClientNameField.Text + ": " + message, ClientListBox.SelectedItem.ToString() ) );
-                    UpdateChatWindow( "[Whisper] " + ClientListBox.SelectedItem.ToString() + ": " + InputField.Text, "right", Color.Black, Color.LightYellow );
-                }
-                InputField.Clear();
-            }
-        }
-
-        private void NicknameButton_Click( object sender, EventArgs e )
+        /*   SET USERNANME   */
+        private void SetUsername()
         {
             client.TcpSendMessage( new NicknamePacket( ClientNameField.Text ) );
             client.clientName = ClientNameField.Text;
@@ -189,6 +164,21 @@ namespace Client
             }
         }
 
+        private void NicknameButton_Click( object sender, EventArgs e )
+        {
+            SetUsername();
+        }
+
+        private void ClientNameField_KeyDown( object sender, KeyEventArgs e )
+        {
+            if ( e.KeyCode == Keys.Enter )
+            {
+                e.SuppressKeyPress = true;
+                SetUsername();
+            }
+        }
+
+        /*   CONNECT/DISCONNECT FROM THE SERVER   */
         private void ConnectButton_Click( object sender, EventArgs e )
         {
             if ( disconnected && nicknameEntered )
@@ -218,6 +208,7 @@ namespace Client
                 UpdateCommandWindow( "Please enter a nickname to connect before trying to connect to the server!", Color.Black, Color.Red );
         }
 
+        /*   CONTEXT MENU OPTIONS   */
         private void AddFriend_Click( object sender, EventArgs e )
         {
             try
@@ -280,6 +271,48 @@ namespace Client
                 UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute, Color.Black, Color.Red );
                 mutedClients.Add( clientToMute );
             }    
+        }
+
+        /*   SEND MESSAGES   */
+        private void SendMessage()
+        {
+            string message = InputField.Text;
+            if ( message != "" )
+            {
+                if ( !privateMessage )
+                {
+                    if ( encryptMessages )
+                        client.TcpSendMessage( new EncryptedMessagePacket( client.EncryptString( message ) ) );
+                    else
+                    {
+                        if ( tcpMessages )
+                            client.TcpSendMessage( new ChatMessagePacket( message ) );
+                        else
+                            client.UdpSendMessage( new ChatMessagePacket( message ) );
+                    }
+                    UpdateChatWindow( InputField.Text, "right", Color.Black, Color.PowderBlue );
+                }
+                else
+                {
+                    client.TcpSendMessage( new PrivateMessagePacket( "[Whisper] " + ClientNameField.Text + ": " + message, ClientListBox.SelectedItem.ToString() ) );
+                    UpdateChatWindow( "[Whisper] " + ClientListBox.SelectedItem.ToString() + ": " + InputField.Text, "right", Color.Black, Color.LightYellow );
+                }
+                InputField.Clear();
+            }
+        }
+
+        private void SubmitButton_Click( object sender, EventArgs e )
+        {
+            SendMessage();
+        }
+
+        private void InputField_KeyDown( object sender, KeyEventArgs e )
+        {
+            if ( e.KeyCode == Keys.Enter )
+            {
+                e.SuppressKeyPress = true;
+                SendMessage();
+            }
         }
     }
 }

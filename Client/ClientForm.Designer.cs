@@ -47,7 +47,7 @@
             this.RemoveFriend = new System.Windows.Forms.ToolStripMenuItem();
             this.friendsLabel = new System.Windows.Forms.Label();
             this.clientListLabel = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.TopPanel = new System.Windows.Forms.Panel();
             this.UsernameUnderline = new System.Windows.Forms.Panel();
             this.StaffsLogo = new System.Windows.Forms.PictureBox();
             this.TitleLabel = new System.Windows.Forms.Label();
@@ -56,7 +56,7 @@
             this.CommandWindow = new System.Windows.Forms.RichTextBox();
             this.ClientListBoxMenu.SuspendLayout();
             this.FriendsListBoxMenu.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.TopPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.StaffsLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,7 +70,7 @@
             this.SubmitButton.Location = new System.Drawing.Point(234, 495);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(99, 40);
-            this.SubmitButton.TabIndex = 8;
+            this.SubmitButton.TabIndex = 6;
             this.SubmitButton.Text = "Send Message";
             this.SubmitButton.UseVisualStyleBackColor = false;
             this.SubmitButton.Click += new System.EventHandler(this.SubmitButton_Click);
@@ -85,7 +85,8 @@
             this.InputField.Name = "InputField";
             this.InputField.ReadOnly = true;
             this.InputField.Size = new System.Drawing.Size(216, 40);
-            this.InputField.TabIndex = 7;
+            this.InputField.TabIndex = 5;
+            this.InputField.KeyDown += new System.Windows.Forms.KeyEventHandler(this.InputField_KeyDown);
             // 
             // ClientNameField
             // 
@@ -95,8 +96,9 @@
             this.ClientNameField.Location = new System.Drawing.Point(107, 43);
             this.ClientNameField.Name = "ClientNameField";
             this.ClientNameField.Size = new System.Drawing.Size(226, 14);
-            this.ClientNameField.TabIndex = 2;
+            this.ClientNameField.TabIndex = 0;
             this.ClientNameField.Text = "Enter username...";
+            this.ClientNameField.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ClientNameField_KeyDown);
             // 
             // ConnectButton
             // 
@@ -108,7 +110,7 @@
             this.ConnectButton.Location = new System.Drawing.Point(107, 74);
             this.ConnectButton.Name = "ConnectButton";
             this.ConnectButton.Size = new System.Drawing.Size(374, 30);
-            this.ConnectButton.TabIndex = 4;
+            this.ConnectButton.TabIndex = 2;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = false;
             this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
@@ -122,7 +124,7 @@
             this.MessageWindowRich.Name = "MessageWindowRich";
             this.MessageWindowRich.ReadOnly = true;
             this.MessageWindowRich.Size = new System.Drawing.Size(321, 238);
-            this.MessageWindowRich.TabIndex = 6;
+            this.MessageWindowRich.TabIndex = 4;
             this.MessageWindowRich.Text = "";
             // 
             // NicknameButton
@@ -135,7 +137,7 @@
             this.NicknameButton.Location = new System.Drawing.Point(344, 39);
             this.NicknameButton.Name = "NicknameButton";
             this.NicknameButton.Size = new System.Drawing.Size(137, 27);
-            this.NicknameButton.TabIndex = 3;
+            this.NicknameButton.TabIndex = 1;
             this.NicknameButton.Text = "Set Username";
             this.NicknameButton.UseVisualStyleBackColor = false;
             this.NicknameButton.Click += new System.EventHandler(this.NicknameButton_Click);
@@ -150,7 +152,7 @@
             this.ClientListBox.Location = new System.Drawing.Point(339, 362);
             this.ClientListBox.Name = "ClientListBox";
             this.ClientListBox.Size = new System.Drawing.Size(141, 169);
-            this.ClientListBox.TabIndex = 12;
+            this.ClientListBox.TabIndex = 8;
             // 
             // ClientListBoxMenu
             // 
@@ -184,7 +186,7 @@
             this.FriendsListBox.Location = new System.Drawing.Point(339, 157);
             this.FriendsListBox.Name = "FriendsListBox";
             this.FriendsListBox.Size = new System.Drawing.Size(142, 169);
-            this.FriendsListBox.TabIndex = 10;
+            this.FriendsListBox.TabIndex = 7;
             // 
             // FriendsListBoxMenu
             // 
@@ -240,20 +242,20 @@
             this.clientListLabel.TabIndex = 11;
             this.clientListLabel.Text = "Client List";
             // 
-            // panel1
+            // TopPanel
             // 
-            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel1.Controls.Add(this.UsernameUnderline);
-            this.panel1.Controls.Add(this.StaffsLogo);
-            this.panel1.Controls.Add(this.TitleLabel);
-            this.panel1.Controls.Add(this.ClientNameField);
-            this.panel1.Controls.Add(this.NicknameButton);
-            this.panel1.Controls.Add(this.ConnectButton);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(492, 121);
-            this.panel1.TabIndex = 16;
+            this.TopPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.TopPanel.Controls.Add(this.UsernameUnderline);
+            this.TopPanel.Controls.Add(this.StaffsLogo);
+            this.TopPanel.Controls.Add(this.TitleLabel);
+            this.TopPanel.Controls.Add(this.ClientNameField);
+            this.TopPanel.Controls.Add(this.NicknameButton);
+            this.TopPanel.Controls.Add(this.ConnectButton);
+            this.TopPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TopPanel.Location = new System.Drawing.Point(0, 0);
+            this.TopPanel.Name = "TopPanel";
+            this.TopPanel.Size = new System.Drawing.Size(492, 121);
+            this.TopPanel.TabIndex = 0;
             // 
             // UsernameUnderline
             // 
@@ -310,7 +312,7 @@
             this.CommandWindow.Name = "CommandWindow";
             this.CommandWindow.ReadOnly = true;
             this.CommandWindow.Size = new System.Drawing.Size(317, 109);
-            this.CommandWindow.TabIndex = 5;
+            this.CommandWindow.TabIndex = 3;
             this.CommandWindow.Text = "";
             // 
             // ClientForm
@@ -322,7 +324,7 @@
             this.Controls.Add(this.CommandWindow);
             this.Controls.Add(this.ClientLabelUnderline);
             this.Controls.Add(this.FriendsLabelUnderline);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.TopPanel);
             this.Controls.Add(this.clientListLabel);
             this.Controls.Add(this.friendsLabel);
             this.Controls.Add(this.FriendsListBox);
@@ -335,8 +337,8 @@
             this.Text = "Client-Server Messaging App";
             this.ClientListBoxMenu.ResumeLayout(false);
             this.FriendsListBoxMenu.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.TopPanel.ResumeLayout(false);
+            this.TopPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.StaffsLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -359,7 +361,7 @@
         private System.Windows.Forms.ToolStripMenuItem AddFriend;
         private System.Windows.Forms.ContextMenuStrip FriendsListBoxMenu;
         private System.Windows.Forms.ToolStripMenuItem RemoveFriend;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel TopPanel;
         private System.Windows.Forms.ToolStripMenuItem PrivateMessageMenu;
         private System.Windows.Forms.ToolStripMenuItem GlobalMessage;
         private System.Windows.Forms.ToolStripMenuItem LocalMute;
