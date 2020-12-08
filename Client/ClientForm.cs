@@ -151,15 +151,15 @@ namespace Client
             client.TcpSendMessage( new NicknamePacket( ClientNameField.Text ) );
             client.clientName = ClientNameField.Text;
 
-            if ( ClientNameField.Text != "" )
+            if ( ClientNameField.Text != "" && ClientNameField.Text != "Enter username..." )
             { 
-                UpdateCommandWindow( "You updated your nickname. Hello " + client.clientName + "!", Color.Black, Color.Green );
+                UpdateCommandWindow( "You updated your nickname. Hello " + client.clientName + "!", Color.Black, Color.LightGreen );
                 ConnectButton.Enabled = true;
                 nicknameEntered = true;
             }
             else
             {
-                UpdateCommandWindow( "Please enter an appropriate nickname!", Color.Black, Color.Red );
+                UpdateCommandWindow( "Please enter an appropriate nickname!", Color.Black, Color.IndianRed );
                 nicknameEntered = false;
             }
         }
@@ -193,7 +193,7 @@ namespace Client
                 InputField.Focus();
 
                 ConnectButton.Text = "Disconnect";
-                UpdateCommandWindow( "You have connected to the server!", Color.Black, Color.Blue );
+                UpdateCommandWindow( "You have connected to the server!", Color.Black, Color.SkyBlue );
                 client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
             }
             else if ( connected )
@@ -206,12 +206,12 @@ namespace Client
                 SubmitButton.Enabled = false;
 
                 ConnectButton.Text = "Connect";
-                UpdateCommandWindow( "You have disconnected from the server!", Color.Black, Color.Red );
+                UpdateCommandWindow( "You have disconnected from the server!", Color.Black, Color.IndianRed );
                 client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
             }
 
             if ( disconnected && !nicknameEntered )
-                UpdateCommandWindow( "Please enter a nickname to connect before trying to connect to the server!", Color.Black, Color.Red );
+                UpdateCommandWindow( "Please enter a nickname to connect before trying to connect to the server!", Color.Black, Color.IndianRed );
         }
 
         /*   CONTEXT MENU OPTIONS   */
@@ -270,11 +270,11 @@ namespace Client
             if ( alreadyMuted  )
             {
                 mutedClients.Remove( clientToMute );
-                UpdateCommandWindow( "You have unmuted " + clientToMute, Color.Black, Color.Blue );
+                UpdateCommandWindow( "You have unmuted " + clientToMute, Color.Black, Color.SkyBlue );
             }
             else if ( !alreadyMuted && clientToMute != ClientNameField.Text )
             {
-                UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute, Color.Black, Color.Red );
+                UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute, Color.Black, Color.IndianRed );
                 mutedClients.Add( clientToMute );
             }    
         }
@@ -296,7 +296,7 @@ namespace Client
                         else
                             client.UdpSendMessage( new ChatMessagePacket( message ) );
                     }
-                    UpdateChatWindow( InputField.Text, "right", Color.Black, Color.PowderBlue );
+                    UpdateChatWindow( InputField.Text, "right", Color.Black, Color.LightSteelBlue );
                 }
                 else
                 {

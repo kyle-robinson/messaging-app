@@ -96,12 +96,6 @@ namespace Client
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch ( packet.packetType )
                     {
-                        case PacketType.EMPTY:
-                            break;
-                        case PacketType.SERVER_MESSAGE:
-                            ServerMessagePacket serverPacket = (ServerMessagePacket)packet;
-                            clientForm.UpdateChatWindow( serverPacket.message, "left", Color.Black, Color.PeachPuff );
-                            break;
                         case PacketType.CHAT_MESSAGE:
                             ChatMessagePacket chatPacket = (ChatMessagePacket)packet;
                             clientForm.UpdateChatWindow( chatPacket.message, "left", Color.Black, Color.PaleVioletRed );

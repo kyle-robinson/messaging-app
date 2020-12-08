@@ -5,7 +5,6 @@ using System.Security.Cryptography;
 public enum PacketType
 {
     EMPTY,
-    SERVER_MESSAGE,
     CHAT_MESSAGE,
     PRIVATE_MESSAGE,
     ENCRYPTED_MESSAGE,
@@ -18,26 +17,6 @@ public enum PacketType
 public class Packet
 {
     public PacketType packetType { get; set; }
-}
-
-[Serializable]
-public class EmptyPacket : Packet
-{
-    public EmptyPacket()
-    {
-        packetType = PacketType.EMPTY;
-    }
-}
-
-[Serializable]
-public class ServerMessagePacket : Packet
-{
-    public string message;
-    public ServerMessagePacket( string message )
-    {
-        this.message = message;
-        packetType = PacketType.SERVER_MESSAGE;
-    }
 }
 
 [Serializable]

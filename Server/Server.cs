@@ -64,15 +64,6 @@ namespace Server
                         Console.WriteLine( "Received" );
                         switch ( packet.packetType )
                         {
-                            case PacketType.EMPTY:
-                                break;
-                            case PacketType.SERVER_MESSAGE:
-                                ServerMessagePacket inServerPacket = (ServerMessagePacket)packet;
-                                ServerMessagePacket outServerPacket = new ServerMessagePacket( inServerPacket.message );
-                                foreach ( KeyValuePair<int, Client> c in clients )
-                                    if ( c.Value != client )
-                                        c.Value.TcpSend( outServerPacket );
-                                break;
                             case PacketType.CHAT_MESSAGE:
                                 ChatMessagePacket inChatPacket = (ChatMessagePacket)packet;
                                 ChatMessagePacket outChatPacket = new ChatMessagePacket( client.name + ": " + inChatPacket.message );
