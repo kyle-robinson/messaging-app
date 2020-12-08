@@ -95,6 +95,7 @@
             this.ClientNameField.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ClientNameField.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClientNameField.Location = new System.Drawing.Point(107, 43);
+            this.ClientNameField.MaxLength = 20;
             this.ClientNameField.Name = "ClientNameField";
             this.ClientNameField.Size = new System.Drawing.Size(226, 14);
             this.ClientNameField.TabIndex = 0;

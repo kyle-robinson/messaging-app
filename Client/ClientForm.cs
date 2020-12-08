@@ -124,28 +124,21 @@ namespace Client
             }
             else
             {
-                try
+                if ( !removeFriend )
                 {
-                    if ( !removeFriend )
-                    {
-                        bool friendExists = false;
-                        for ( int i = FriendsListBox.Items.Count - 1; i >= 0; --i )
-                            if ( FriendsListBox.Items[i].ToString() == message )
-                                friendExists = true;
+                    bool friendExists = false;
+                    for ( int i = FriendsListBox.Items.Count - 1; i >= 0; --i )
+                        if ( FriendsListBox.Items[i].ToString() == message )
+                            friendExists = true;
 
-                        if ( !friendExists )
-                            FriendsListBox.Items.Add( message );
-                    }
-                    else
-                    {
-                        for ( int i = FriendsListBox.Items.Count - 1; i >= 0; --i )
-                            if ( FriendsListBox.Items[i].ToString().Contains( message ) )
-                                FriendsListBox.Items.RemoveAt( i );
-                    }
+                    if ( !friendExists )
+                        FriendsListBox.Items.Add( message );
                 }
-                catch ( Exception e )
+                else
                 {
-                    Console.WriteLine( "ERROR:: " + e.Message );
+                    for ( int i = FriendsListBox.Items.Count - 1; i >= 0; --i )
+                        if ( FriendsListBox.Items[i].ToString().Contains( message ) )
+                            FriendsListBox.Items.RemoveAt( i );
                 }
             }
         }
@@ -158,7 +151,7 @@ namespace Client
 
             if ( ClientNameField.Text != "" && ClientNameField.Text != "Enter username..." )
             { 
-                UpdateCommandWindow( "You updated your nickname. Hello " + client.clientName + "!", Color.Black, Color.LightGreen );
+                UpdateCommandWindow( "You updated your nickname. Hello " + client.clientName + "!", Color.Black, Color.SkyBlue );
                 ConnectButton.Enabled = true;
                 nicknameEntered = true;
             }
@@ -198,7 +191,7 @@ namespace Client
                 InputField.Focus();
 
                 ConnectButton.Text = "Disconnect";
-                UpdateCommandWindow( "You have connected to the server!", Color.Black, Color.SkyBlue );
+                UpdateCommandWindow( "You have connected to the server!", Color.Black, Color.LightGreen );
                 client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
             }
             else if ( connected )
@@ -222,31 +215,41 @@ namespace Client
         /*   CONTEXT MENU OPTIONS   */
         private void AddFriend_Click( object sender, EventArgs e )
         {
-            if ( ClientListBox.Items.Count > 0 )
+            if ( ClientListBox.Items.Count > 0 && ClientListBox.SelectedItem != null )
+            {
                 if ( ClientListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
+                {
                     UpdateFriendList( ClientListBox.SelectedItem.ToString(), false );
+                    UpdateCommandWindow( "You have added " + ClientListBox.SelectedItem + " to your friends list.", Color.Black, Color.SkyBlue );
+                }
+            }
         }
 
         private void RemoveFriend_Click( object sender, EventArgs e )
         {
-            if ( FriendsListBox.Items.Count > 0 )
+            if ( FriendsListBox.Items.Count > 0 && FriendsListBox.SelectedItem != null )
+            {
                 if ( FriendsListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
+                {
                     UpdateFriendList( FriendsListBox.SelectedItem.ToString(), true );
+                    UpdateCommandWindow( "You have removed " + FriendsListBox.SelectedItem + " from your friends list.", Color.Black, Color.LightCoral );
+                }
+            }
         }
 
         private void PrivateMessageMenu_Click( object sender, EventArgs e )
         {
-            if ( ClientListBox.Items.Count > 0 )
+            if ( ClientListBox.Items.Count > 0 && ClientListBox.SelectedItem != null )
             {
                 privateMessage = true;
-                UpdateCommandWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + "...", Color.Black, Color.LightPink );
+                UpdateCommandWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + ".", Color.Black, Color.LightPink );
             }
         }
 
         private void GlobalMessage_Click( object sender, EventArgs e )
         {
             privateMessage = false;
-            UpdateCommandWindow( "You are now messaging everyone on the server...", Color.Black, Color.LightPink );
+            UpdateCommandWindow( "You are now messaging everyone on the server.", Color.Black, Color.LightPink );
         }
 
         private void LocalMute_Click( object sender, EventArgs e )
@@ -261,11 +264,11 @@ namespace Client
             if ( alreadyMuted  )
             {
                 mutedClients.Remove( clientToMute );
-                UpdateCommandWindow( "You have unmuted " + clientToMute, Color.Black, Color.SkyBlue );
+                UpdateCommandWindow( "You have unmuted " + clientToMute + ".", Color.Black, Color.SkyBlue );
             }
             else if ( !alreadyMuted && clientToMute != ClientNameField.Text )
             {
-                UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute, Color.Black, Color.LightCoral );
+                UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute + ".", Color.Black, Color.LightCoral );
                 mutedClients.Add( clientToMute );
             }    
         }
