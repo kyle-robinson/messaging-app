@@ -175,6 +175,7 @@ namespace Client
             {
                 e.SuppressKeyPress = true;
                 SetUsername();
+                ConnectButton.Focus();
             }
         }
 
@@ -185,9 +186,12 @@ namespace Client
             {
                 connected = true;
                 disconnected = false;
-                InputField.ReadOnly = false;
                 InputField.Enabled = true;
                 SubmitButton.Enabled = true;
+
+                InputField.ReadOnly = false;
+                InputField.Focus();
+
                 ConnectButton.Text = "Disconnect";
                 UpdateCommandWindow( "You have connected to the server!", Color.Black, Color.Blue );
                 client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
@@ -196,9 +200,11 @@ namespace Client
             {
                 connected = false;
                 disconnected = true;
+
                 InputField.ReadOnly = true;
                 InputField.Enabled = false;
                 SubmitButton.Enabled = false;
+
                 ConnectButton.Text = "Connect";
                 UpdateCommandWindow( "You have disconnected from the server!", Color.Black, Color.Red );
                 client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
