@@ -48,13 +48,14 @@
             this.friendsLabel = new System.Windows.Forms.Label();
             this.clientListLabel = new System.Windows.Forms.Label();
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.UsernameUnderline = new System.Windows.Forms.Panel();
             this.StaffsLogo = new System.Windows.Forms.PictureBox();
             this.TitleLabel = new System.Windows.Forms.Label();
             this.FriendsLabelUnderline = new System.Windows.Forms.Panel();
             this.ClientLabelUnderline = new System.Windows.Forms.Panel();
             this.CommandWindow = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.ConnectionTypeButton = new System.Windows.Forms.Button();
             this.ClientListBoxMenu.SuspendLayout();
             this.FriendsListBoxMenu.SuspendLayout();
             this.TopPanel.SuspendLayout();
@@ -71,7 +72,7 @@
             this.SubmitButton.Location = new System.Drawing.Point(234, 495);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(99, 40);
-            this.SubmitButton.TabIndex = 6;
+            this.SubmitButton.TabIndex = 7;
             this.SubmitButton.Text = "Send Message";
             this.SubmitButton.UseVisualStyleBackColor = false;
             this.SubmitButton.Click += new System.EventHandler(this.SubmitButton_Click);
@@ -86,7 +87,7 @@
             this.InputField.Name = "InputField";
             this.InputField.ReadOnly = true;
             this.InputField.Size = new System.Drawing.Size(216, 40);
-            this.InputField.TabIndex = 5;
+            this.InputField.TabIndex = 6;
             this.InputField.KeyDown += new System.Windows.Forms.KeyEventHandler(this.InputField_KeyDown);
             // 
             // ClientNameField
@@ -111,7 +112,7 @@
             this.ConnectButton.ForeColor = System.Drawing.Color.White;
             this.ConnectButton.Location = new System.Drawing.Point(107, 74);
             this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(374, 30);
+            this.ConnectButton.Size = new System.Drawing.Size(226, 30);
             this.ConnectButton.TabIndex = 2;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = false;
@@ -126,7 +127,7 @@
             this.MessageWindowRich.Name = "MessageWindowRich";
             this.MessageWindowRich.ReadOnly = true;
             this.MessageWindowRich.Size = new System.Drawing.Size(321, 238);
-            this.MessageWindowRich.TabIndex = 4;
+            this.MessageWindowRich.TabIndex = 5;
             this.MessageWindowRich.Text = "";
             // 
             // NicknameButton
@@ -154,7 +155,7 @@
             this.ClientListBox.Location = new System.Drawing.Point(339, 362);
             this.ClientListBox.Name = "ClientListBox";
             this.ClientListBox.Size = new System.Drawing.Size(141, 169);
-            this.ClientListBox.TabIndex = 8;
+            this.ClientListBox.TabIndex = 9;
             // 
             // ClientListBoxMenu
             // 
@@ -188,7 +189,7 @@
             this.FriendsListBox.Location = new System.Drawing.Point(339, 157);
             this.FriendsListBox.Name = "FriendsListBox";
             this.FriendsListBox.Size = new System.Drawing.Size(142, 169);
-            this.FriendsListBox.TabIndex = 7;
+            this.FriendsListBox.TabIndex = 8;
             // 
             // FriendsListBoxMenu
             // 
@@ -247,6 +248,7 @@
             // TopPanel
             // 
             this.TopPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.TopPanel.Controls.Add(this.ConnectionTypeButton);
             this.TopPanel.Controls.Add(this.label1);
             this.TopPanel.Controls.Add(this.UsernameUnderline);
             this.TopPanel.Controls.Add(this.StaffsLogo);
@@ -259,6 +261,17 @@
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Size = new System.Drawing.Size(492, 121);
             this.TopPanel.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(294, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(184, 23);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "[by Kyle Robinson]";
             // 
             // UsernameUnderline
             // 
@@ -315,19 +328,23 @@
             this.CommandWindow.Name = "CommandWindow";
             this.CommandWindow.ReadOnly = true;
             this.CommandWindow.Size = new System.Drawing.Size(317, 109);
-            this.CommandWindow.TabIndex = 3;
+            this.CommandWindow.TabIndex = 4;
             this.CommandWindow.Text = "";
             // 
-            // label1
+            // ConnectionTypeButton
             // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(294, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(184, 23);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "[by Kyle Robinson]";
+            this.ConnectionTypeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
+            this.ConnectionTypeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ConnectionTypeButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ConnectionTypeButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ConnectionTypeButton.ForeColor = System.Drawing.Color.White;
+            this.ConnectionTypeButton.Location = new System.Drawing.Point(343, 74);
+            this.ConnectionTypeButton.Name = "ConnectionTypeButton";
+            this.ConnectionTypeButton.Size = new System.Drawing.Size(137, 29);
+            this.ConnectionTypeButton.TabIndex = 3;
+            this.ConnectionTypeButton.Text = "Change To UDP";
+            this.ConnectionTypeButton.UseVisualStyleBackColor = false;
+            this.ConnectionTypeButton.Click += new System.EventHandler(this.ConnectionTypeButton_Click);
             // 
             // ClientForm
             // 
@@ -387,5 +404,6 @@
         private System.Windows.Forms.Panel ClientLabelUnderline;
         private System.Windows.Forms.RichTextBox CommandWindow;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button ConnectionTypeButton;
     }
 }

@@ -329,5 +329,21 @@ namespace Client
                 SendMessage();
             }
         }
+
+        private void ConnectionTypeButton_Click( object sender, EventArgs e )
+        {
+            if ( tcpMessages )
+            {
+                tcpMessages = false;
+                ConnectionTypeButton.Text = "Change To TCP";
+                UpdateCommandWindow( "Switched to TCP client connection.", Color.Black, Color.MediumPurple );
+            }
+            else
+            {
+                tcpMessages = true;
+                ConnectionTypeButton.Text = "Change To UDP";
+                UpdateCommandWindow( "Switched to UDP client connection.", Color.Black, Color.MediumPurple );
+            }
+        }
     }
 }
