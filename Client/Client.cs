@@ -98,6 +98,10 @@ namespace Client
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch ( packet.packetType )
                     {
+                        case PacketType.LOGIN:
+                            LoginPacket loginPacket = (LoginPacket)packet;
+                            ServerKey = loginPacket.PublicKey;
+                            break;
                         case PacketType.CHAT_MESSAGE:
                             ChatMessagePacket chatPacket = (ChatMessagePacket)packet;
                             clientForm.UpdateChatWindow( chatPacket.message, "left", Color.Black, Color.Gold );
@@ -118,9 +122,9 @@ namespace Client
                             ClientListPacket clientListPacket = (ClientListPacket)packet;
                             clientForm.UpdateClientList( clientListPacket.name, clientListPacket.removeText );
                             break;
-                        case PacketType.LOGIN:
-                            LoginPacket loginPacket = (LoginPacket)packet;
-                            ServerKey = loginPacket.PublicKey;
+                        case PacketType.ADMIN:
+                            AdminPacket adminPacket = (AdminPacket)packet;
+                            clientForm.adminConnected = adminPacket.adminConnected;
                             break;
                     }
                 }

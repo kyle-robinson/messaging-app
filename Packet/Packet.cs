@@ -11,7 +11,7 @@ public enum PacketType
     NICKNAME,
     CLIENT_LIST,
     LOGIN,
-    PUBLIC_KEY
+    ADMIN
 }
 
 [Serializable]
@@ -89,5 +89,16 @@ public class LoginPacket : Packet
         this.EndPoint = EndPoint;
         this.PublicKey = PublicKey;
         packetType = PacketType.LOGIN;
+    }
+}
+
+[Serializable]
+public class AdminPacket : Packet
+{
+    public bool adminConnected;
+    public AdminPacket( bool adminConnected )
+    {
+        this.adminConnected = adminConnected;
+        packetType = PacketType.ADMIN;
     }
 }

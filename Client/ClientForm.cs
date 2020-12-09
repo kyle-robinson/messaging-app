@@ -11,6 +11,8 @@ namespace Client
         public List<string> mutedClients;
         private List<string> userNames;
         private Client client;
+        private bool isAdmin = false;
+        public bool adminConnected = false;
         private bool connected = false;
         private bool disconnected = true;
         private bool privateMessage = false;
@@ -178,28 +180,47 @@ namespace Client
         }
 
         /*   CONNECT/DISCONNECT FROM THE SERVER   */
+        private void Connect()
+        {
+            connected = true;
+            disconnected = false;
+
+            NicknameButton.Enabled = false;
+            ClientNameField.Enabled = false;
+
+            InputField.Enabled = true;
+            SubmitButton.Enabled = true;
+
+            InputField.ReadOnly = false;
+            InputField.Focus();
+
+            ConnectButton.Text = "Disconnect";
+
+            if ( tcpMessages )
+                client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
+            else
+                client.UdpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
+        }
+
         private void ConnectButton_Click( object sender, EventArgs e )
         {
             if ( disconnected && nicknameEntered )
             {
-                connected = true;
-                disconnected = false;
-
-                NicknameButton.Enabled = false;
-                ClientNameField.Enabled = false;
-
-                InputField.Enabled = true;
-                SubmitButton.Enabled = true;
-
-                InputField.ReadOnly = false;
-                InputField.Focus();
-
-                ConnectButton.Text = "Disconnect";
-                UpdateCommandWindow( "You have connected to the server!", Color.Black, Color.LightGreen );
-                if ( tcpMessages )
-                    client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
+                if ( ClientNameField.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && adminConnected )
+                {
+                    UpdateCommandWindow( "Admin already connected!", Color.Black, Color.IndianRed );
+                }
+                else if ( ClientNameField.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && !adminConnected )
+                {
+                    Connect();
+                    client.TcpSendMessage( new AdminPacket( true ) );
+                    UpdateCommandWindow( "You have connected as an Admin!", Color.Black, Color.MediumPurple );
+                }
                 else
-                    client.UdpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
+                {
+                    Connect();
+                    UpdateCommandWindow( "You have connected to the server!", Color.Black, Color.LightGreen );
+                }
             }
             else if ( connected )
             {
@@ -214,10 +235,14 @@ namespace Client
 
                 ConnectButton.Text = "Connect";
                 UpdateCommandWindow( "You have disconnected from the server!", Color.Black, Color.LightCoral );
+
                 if ( tcpMessages )
                     client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
                 else
                     client.UdpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
+
+                if ( ClientNameField.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && adminConnected )
+                    client.TcpSendMessage( new AdminPacket( false ) );
             }
 
             if ( disconnected && !nicknameEntered )

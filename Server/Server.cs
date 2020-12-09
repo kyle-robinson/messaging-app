@@ -16,6 +16,7 @@ namespace Server
         private TcpListener tcpListerer;
         private List<string> clientNames;
         private bool keyReceived = false;
+        private bool adminIsConnected = false;
         private ConcurrentDictionary<int, Client> clients;
 
         public Server( string ipAddress, int port )
@@ -68,6 +69,27 @@ namespace Server
                         Console.WriteLine( "Received" );
                         switch ( packet.packetType )
                         {
+                            case PacketType.LOGIN:
+                                LoginPacket loginPacket = (LoginPacket)packet;
+                                clients[index - 1].endPoint = loginPacket.EndPoint;
+                                if ( !keyReceived )
+                                {
+                                    keyReceived = true;
+                                    client.PublicKey = loginPacket.PublicKey;
+                                }
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                {
+                                    c.Value.TcpSend( new LoginPacket( null, client.PublicKey ) );
+                                    for ( int i = 0; i < clientNames.Count; i++ )
+                                    {
+                                        if ( i == 0 )
+                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], true ) );
+                                        else
+                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
+                                    }
+                                    c.Value.TcpSend( new AdminPacket( adminIsConnected ) );
+                                }
+                                break;
                             case PacketType.CHAT_MESSAGE:
                                 ChatMessagePacket inChatPacket = (ChatMessagePacket)packet;
                                 ChatMessagePacket outChatPacket = new ChatMessagePacket( "[" + client.name + "]: " + inChatPacket.message );
@@ -113,25 +135,11 @@ namespace Server
                                     }
                                 }
                                 break;
-                            case PacketType.LOGIN:
-                                LoginPacket loginPacket = (LoginPacket)packet;
-                                clients[index - 1].endPoint = loginPacket.EndPoint;
-                                if ( !keyReceived )
-                                {
-                                    keyReceived = true;
-                                    client.PublicKey = loginPacket.PublicKey;
-                                }
+                            case PacketType.ADMIN:
+                                AdminPacket adminPacket = (AdminPacket)packet;
+                                adminIsConnected = adminPacket.adminConnected;
                                 foreach ( KeyValuePair<int, Client> c in clients )
-                                {
-                                    c.Value.TcpSend( new LoginPacket( null, client.PublicKey ) );
-                                    for ( int i = 0; i < clientNames.Count; i++ )
-                                    {
-                                        if ( i == 0 )
-                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], true ) );
-                                        else
-                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
-                                    }
-                                }
+                                    c.Value.TcpSend( adminPacket );
                                 break;
                         }
                     }
