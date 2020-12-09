@@ -141,6 +141,11 @@ namespace Server
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( adminPacket );
                                 break;
+                            case PacketType.GLOBAL_MUTE:
+                                GlobalMutePacket mutePacket = (GlobalMutePacket)packet;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    c.Value.TcpSend( mutePacket );
+                                break;
                         }
                     }
                 }

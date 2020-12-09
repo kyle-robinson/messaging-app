@@ -48,6 +48,7 @@
             this.friendsLabel = new System.Windows.Forms.Label();
             this.clientListLabel = new System.Windows.Forms.Label();
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.ConnectionTypeButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.UsernameUnderline = new System.Windows.Forms.Panel();
             this.StaffsLogo = new System.Windows.Forms.PictureBox();
@@ -55,7 +56,7 @@
             this.FriendsLabelUnderline = new System.Windows.Forms.Panel();
             this.ClientLabelUnderline = new System.Windows.Forms.Panel();
             this.CommandWindow = new System.Windows.Forms.RichTextBox();
-            this.ConnectionTypeButton = new System.Windows.Forms.Button();
+            this.GlobalMute = new System.Windows.Forms.ToolStripMenuItem();
             this.ClientListBoxMenu.SuspendLayout();
             this.FriendsListBoxMenu.SuspendLayout();
             this.TopPanel.SuspendLayout();
@@ -161,23 +162,26 @@
             // 
             this.ClientListBoxMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AddFriend,
-            this.LocalMute});
+            this.LocalMute,
+            this.GlobalMute});
             this.ClientListBoxMenu.Name = "contextMenuStrip1";
-            this.ClientListBoxMenu.Size = new System.Drawing.Size(134, 48);
+            this.ClientListBoxMenu.Size = new System.Drawing.Size(181, 92);
             this.ClientListBoxMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ClientListBoxMenu_Opening);
             // 
             // AddFriend
             // 
             this.AddFriend.Name = "AddFriend";
-            this.AddFriend.Size = new System.Drawing.Size(133, 22);
+            this.AddFriend.Size = new System.Drawing.Size(180, 22);
             this.AddFriend.Text = "Add Friend";
+            this.AddFriend.Visible = false;
             this.AddFriend.Click += new System.EventHandler(this.AddFriend_Click);
             // 
             // LocalMute
             // 
             this.LocalMute.Name = "LocalMute";
-            this.LocalMute.Size = new System.Drawing.Size(133, 22);
+            this.LocalMute.Size = new System.Drawing.Size(180, 22);
             this.LocalMute.Text = "Local Mute";
+            this.LocalMute.Visible = false;
             this.LocalMute.Click += new System.EventHandler(this.LocalMute_Click);
             // 
             // FriendsListBox
@@ -199,7 +203,7 @@
             this.PrivateMessageMenu,
             this.RemoveFriend});
             this.FriendsListBoxMenu.Name = "FriendsListBoxMenu";
-            this.FriendsListBoxMenu.Size = new System.Drawing.Size(181, 92);
+            this.FriendsListBoxMenu.Size = new System.Drawing.Size(160, 70);
             this.FriendsListBoxMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FriendsListBoxMenu_Opening);
             // 
             // GlobalMessage
@@ -207,6 +211,7 @@
             this.GlobalMessage.Name = "GlobalMessage";
             this.GlobalMessage.Size = new System.Drawing.Size(159, 22);
             this.GlobalMessage.Text = "Global Message";
+            this.GlobalMessage.Visible = false;
             this.GlobalMessage.Click += new System.EventHandler(this.GlobalMessage_Click);
             // 
             // PrivateMessageMenu
@@ -214,6 +219,7 @@
             this.PrivateMessageMenu.Name = "PrivateMessageMenu";
             this.PrivateMessageMenu.Size = new System.Drawing.Size(159, 22);
             this.PrivateMessageMenu.Text = "Private Message";
+            this.PrivateMessageMenu.Visible = false;
             this.PrivateMessageMenu.Click += new System.EventHandler(this.PrivateMessageMenu_Click);
             // 
             // RemoveFriend
@@ -221,6 +227,7 @@
             this.RemoveFriend.Name = "RemoveFriend";
             this.RemoveFriend.Size = new System.Drawing.Size(159, 22);
             this.RemoveFriend.Text = "Remove Friend";
+            this.RemoveFriend.Visible = false;
             this.RemoveFriend.Click += new System.EventHandler(this.RemoveFriend_Click);
             // 
             // friendsLabel
@@ -263,6 +270,21 @@
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Size = new System.Drawing.Size(492, 121);
             this.TopPanel.TabIndex = 0;
+            // 
+            // ConnectionTypeButton
+            // 
+            this.ConnectionTypeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
+            this.ConnectionTypeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ConnectionTypeButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ConnectionTypeButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ConnectionTypeButton.ForeColor = System.Drawing.Color.White;
+            this.ConnectionTypeButton.Location = new System.Drawing.Point(343, 74);
+            this.ConnectionTypeButton.Name = "ConnectionTypeButton";
+            this.ConnectionTypeButton.Size = new System.Drawing.Size(137, 29);
+            this.ConnectionTypeButton.TabIndex = 3;
+            this.ConnectionTypeButton.Text = "Change To UDP";
+            this.ConnectionTypeButton.UseVisualStyleBackColor = false;
+            this.ConnectionTypeButton.Click += new System.EventHandler(this.ConnectionTypeButton_Click);
             // 
             // label1
             // 
@@ -333,20 +355,13 @@
             this.CommandWindow.TabIndex = 4;
             this.CommandWindow.Text = "";
             // 
-            // ConnectionTypeButton
+            // GlobalMute
             // 
-            this.ConnectionTypeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
-            this.ConnectionTypeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ConnectionTypeButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ConnectionTypeButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ConnectionTypeButton.ForeColor = System.Drawing.Color.White;
-            this.ConnectionTypeButton.Location = new System.Drawing.Point(343, 74);
-            this.ConnectionTypeButton.Name = "ConnectionTypeButton";
-            this.ConnectionTypeButton.Size = new System.Drawing.Size(137, 29);
-            this.ConnectionTypeButton.TabIndex = 3;
-            this.ConnectionTypeButton.Text = "Change To UDP";
-            this.ConnectionTypeButton.UseVisualStyleBackColor = false;
-            this.ConnectionTypeButton.Click += new System.EventHandler(this.ConnectionTypeButton_Click);
+            this.GlobalMute.Name = "GlobalMute";
+            this.GlobalMute.Size = new System.Drawing.Size(180, 22);
+            this.GlobalMute.Text = "Global Mute";
+            this.GlobalMute.Visible = false;
+            this.GlobalMute.Click += new System.EventHandler(this.GlobalMute_Click);
             // 
             // ClientForm
             // 
@@ -407,5 +422,6 @@
         private System.Windows.Forms.RichTextBox CommandWindow;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ConnectionTypeButton;
+        private System.Windows.Forms.ToolStripMenuItem GlobalMute;
     }
 }

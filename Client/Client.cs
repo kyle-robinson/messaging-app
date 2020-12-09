@@ -126,6 +126,21 @@ namespace Client
                             AdminPacket adminPacket = (AdminPacket)packet;
                             clientForm.adminConnected = adminPacket.adminConnected;
                             break;
+                        case PacketType.GLOBAL_MUTE:
+                            GlobalMutePacket mutePacket = (GlobalMutePacket)packet;
+                            if ( clientForm.mutedClientsGlobal.Contains( mutePacket.clientToMute ) )
+                            {
+                                clientForm.mutedClientsGlobal.Remove( mutePacket.clientToMute );
+                                if ( mutePacket.clientToMute == clientName )
+                                    clientForm.UpdateCommandWindow( "You have been unmuted by the Admin.", Color.Black, Color.SkyBlue );
+                            }
+                            else
+                            {
+                                clientForm.mutedClientsGlobal.Add( mutePacket.clientToMute );
+                                if ( mutePacket.clientToMute == clientName )
+                                    clientForm.UpdateCommandWindow( "You have been muted globally by the Admin.", Color.Black, Color.IndianRed );
+                            }
+                            break;
                     }
                 }
             }

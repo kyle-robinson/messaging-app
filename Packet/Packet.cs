@@ -11,7 +11,8 @@ public enum PacketType
     NICKNAME,
     CLIENT_LIST,
     LOGIN,
-    ADMIN
+    ADMIN,
+    GLOBAL_MUTE
 }
 
 [Serializable]
@@ -100,5 +101,16 @@ public class AdminPacket : Packet
     {
         this.adminConnected = adminConnected;
         packetType = PacketType.ADMIN;
+    }
+}
+
+[Serializable]
+public class GlobalMutePacket : Packet
+{
+    public string clientToMute;
+    public GlobalMutePacket( string clientToMute )
+    {
+        this.clientToMute = clientToMute;
+        packetType = PacketType.GLOBAL_MUTE;
     }
 }

@@ -8,7 +8,8 @@ namespace Client
 {
     public partial class ClientForm : Form
     {
-        public List<string> mutedClients;
+        public List<string> mutedClientsGlobal;
+        private List<string> mutedClientsLocal;
         private List<string> userNames;
         private Client client;
         private bool isAdmin = false;
@@ -24,7 +25,8 @@ namespace Client
         {
             InitializeComponent();
             this.client = client;
-            mutedClients = new List<string>();
+            mutedClientsGlobal = new List<string>();
+            mutedClientsLocal = new List<string>();
             userNames = new List<string>();
 
             ContextMenu blankContextMenu = new ContextMenu();
@@ -63,7 +65,7 @@ namespace Client
             else
             {
                 bool clientIsMuted = false;
-                foreach ( string s in mutedClients )
+                foreach ( string s in mutedClientsLocal )
                     if ( message.Contains( s.ToString() ) )
                         clientIsMuted = true;
 
@@ -289,39 +291,56 @@ namespace Client
             bool alreadyMuted = false;
             string clientToMute = ClientListBox.SelectedItem.ToString();
 
-            foreach ( string s in mutedClients )
+            foreach ( string s in mutedClientsLocal )
                 if( s.ToString() == clientToMute && s.ToString() != ClientNameField.Text )
                     alreadyMuted = true;
 
             if ( alreadyMuted  )
             {
-                mutedClients.Remove( clientToMute );
+                mutedClientsLocal.Remove( clientToMute );
                 UpdateCommandWindow( "You have unmuted " + clientToMute + ".", Color.Black, Color.SkyBlue );
             }
             else if ( !alreadyMuted && clientToMute != ClientNameField.Text )
             {
                 UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute + ".", Color.Black, Color.LightCoral );
-                mutedClients.Add( clientToMute );
+                mutedClientsLocal.Add( clientToMute );
             }    
+        }
+
+        private void GlobalMute_Click( object sender, EventArgs e )
+        {
+            client.TcpSendMessage( new GlobalMutePacket( ClientListBox.SelectedItem.ToString() ) );
         }
 
         private void ClientListBoxMenu_Opening( object sender, System.ComponentModel.CancelEventArgs e )
         {
-            /*if ( ClientListBox.SelectedItem != null )
+            if ( ClientListBox.SelectedItem != null && ClientListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
             {
-                for ( int i = 0; i < ClientListBoxMenu.Items.Count; i++ )
+                if ( isAdmin )
+                    ClientListBoxMenu.Items[ClientListBoxMenu.Items.Count - 1].Visible = true;
+
+                for ( int i = 0; i < ClientListBoxMenu.Items.Count - 1; i++ )
                     ClientListBoxMenu.Items[i].Visible = true;
             }
             else
             {
                 for ( int i = 0; i < ClientListBoxMenu.Items.Count; i++ )
                     ClientListBoxMenu.Items[i].Visible = false;
-            }*/
+            }
         }
 
         private void FriendsListBoxMenu_Opening( object sender, System.ComponentModel.CancelEventArgs e )
         {
-
+            if ( FriendsListBox.SelectedItem != null )
+            {
+                for ( int i = 0; i < FriendsListBoxMenu.Items.Count; i++ )
+                    FriendsListBoxMenu.Items[i].Visible = true;
+            }
+            else
+            {
+                for ( int i = 0; i < FriendsListBoxMenu.Items.Count; i++ )
+                    FriendsListBoxMenu.Items[i].Visible = false;
+            }
         }
 
         /*   SEND MESSAGES   */
@@ -332,23 +351,29 @@ namespace Client
             {
                 if ( !privateMessage )
                 {
-                    if ( encryptMessages )
-                        client.TcpSendMessage( new EncryptedMessagePacket( client.EncryptString( message ) ) );
-                    else
+                    if ( !mutedClientsGlobal.Contains( ClientNameField.Text ) )
                     {
-                        if ( tcpMessages )
-                            client.TcpSendMessage( new ChatMessagePacket( message ) );
+                        if ( encryptMessages )
+                            client.TcpSendMessage( new EncryptedMessagePacket( client.EncryptString( message ) ) );
                         else
-                            client.UdpSendMessage( new ChatMessagePacket( message ) );
+                        {
+                            if ( tcpMessages )
+                                client.TcpSendMessage( new ChatMessagePacket( message ) );
+                            else
+                                client.UdpSendMessage( new ChatMessagePacket( message ) );
+                        }
                     }
                     UpdateChatWindow( "To [Local]: " + InputField.Text, "right", Color.Black, Color.LightSteelBlue );
                 }
                 else
                 {
-                    if ( tcpMessages )
-                        client.TcpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, ClientListBox.SelectedItem.ToString() ) );
-                    else
-                        client.UdpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, ClientListBox.SelectedItem.ToString() ) );
+                    if ( !mutedClientsGlobal.Contains( ClientNameField.Text ) )
+                    {
+                        if ( tcpMessages )
+                            client.TcpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, ClientListBox.SelectedItem.ToString() ) );
+                        else
+                            client.UdpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, ClientListBox.SelectedItem.ToString() ) );
+                    }
                     UpdateChatWindow( "To [" + ClientListBox.SelectedItem.ToString() + "]: " + InputField.Text, "right", Color.Black, Color.LightPink );
                 }
                 InputField.Clear();
