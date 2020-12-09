@@ -40,6 +40,7 @@
             this.ClientListBoxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddFriend = new System.Windows.Forms.ToolStripMenuItem();
             this.LocalMute = new System.Windows.Forms.ToolStripMenuItem();
+            this.GlobalMute = new System.Windows.Forms.ToolStripMenuItem();
             this.FriendsListBox = new System.Windows.Forms.ListBox();
             this.FriendsListBoxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.GlobalMessage = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +49,7 @@
             this.friendsLabel = new System.Windows.Forms.Label();
             this.clientListLabel = new System.Windows.Forms.Label();
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.SpawnClientButton = new System.Windows.Forms.Button();
             this.ConnectionTypeButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.UsernameUnderline = new System.Windows.Forms.Panel();
@@ -56,7 +58,6 @@
             this.FriendsLabelUnderline = new System.Windows.Forms.Panel();
             this.ClientLabelUnderline = new System.Windows.Forms.Panel();
             this.CommandWindow = new System.Windows.Forms.RichTextBox();
-            this.GlobalMute = new System.Windows.Forms.ToolStripMenuItem();
             this.ClientListBoxMenu.SuspendLayout();
             this.FriendsListBoxMenu.SuspendLayout();
             this.TopPanel.SuspendLayout();
@@ -113,7 +114,7 @@
             this.ConnectButton.ForeColor = System.Drawing.Color.White;
             this.ConnectButton.Location = new System.Drawing.Point(107, 74);
             this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(226, 30);
+            this.ConnectButton.Size = new System.Drawing.Size(110, 30);
             this.ConnectButton.TabIndex = 2;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = false;
@@ -164,14 +165,14 @@
             this.AddFriend,
             this.LocalMute,
             this.GlobalMute});
-            this.ClientListBoxMenu.Name = "contextMenuStrip1";
-            this.ClientListBoxMenu.Size = new System.Drawing.Size(181, 92);
+            this.ClientListBoxMenu.Name = "ClientListBoxMenu";
+            this.ClientListBoxMenu.Size = new System.Drawing.Size(140, 70);
             this.ClientListBoxMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ClientListBoxMenu_Opening);
             // 
             // AddFriend
             // 
             this.AddFriend.Name = "AddFriend";
-            this.AddFriend.Size = new System.Drawing.Size(180, 22);
+            this.AddFriend.Size = new System.Drawing.Size(139, 22);
             this.AddFriend.Text = "Add Friend";
             this.AddFriend.Visible = false;
             this.AddFriend.Click += new System.EventHandler(this.AddFriend_Click);
@@ -179,10 +180,18 @@
             // LocalMute
             // 
             this.LocalMute.Name = "LocalMute";
-            this.LocalMute.Size = new System.Drawing.Size(180, 22);
+            this.LocalMute.Size = new System.Drawing.Size(139, 22);
             this.LocalMute.Text = "Local Mute";
             this.LocalMute.Visible = false;
             this.LocalMute.Click += new System.EventHandler(this.LocalMute_Click);
+            // 
+            // GlobalMute
+            // 
+            this.GlobalMute.Name = "GlobalMute";
+            this.GlobalMute.Size = new System.Drawing.Size(139, 22);
+            this.GlobalMute.Text = "Global Mute";
+            this.GlobalMute.Visible = false;
+            this.GlobalMute.Click += new System.EventHandler(this.GlobalMute_Click);
             // 
             // FriendsListBox
             // 
@@ -257,6 +266,7 @@
             // TopPanel
             // 
             this.TopPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.TopPanel.Controls.Add(this.SpawnClientButton);
             this.TopPanel.Controls.Add(this.ConnectionTypeButton);
             this.TopPanel.Controls.Add(this.label1);
             this.TopPanel.Controls.Add(this.UsernameUnderline);
@@ -270,6 +280,20 @@
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Size = new System.Drawing.Size(492, 121);
             this.TopPanel.TabIndex = 0;
+            // 
+            // SpawnClientButton
+            // 
+            this.SpawnClientButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(9)))), ((int)(((byte)(38)))));
+            this.SpawnClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.SpawnClientButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SpawnClientButton.ForeColor = System.Drawing.Color.White;
+            this.SpawnClientButton.Location = new System.Drawing.Point(223, 74);
+            this.SpawnClientButton.Name = "SpawnClientButton";
+            this.SpawnClientButton.Size = new System.Drawing.Size(110, 30);
+            this.SpawnClientButton.TabIndex = 17;
+            this.SpawnClientButton.Text = "Spawn Client";
+            this.SpawnClientButton.UseVisualStyleBackColor = false;
+            this.SpawnClientButton.Click += new System.EventHandler(this.SpawnClientButton_Click);
             // 
             // ConnectionTypeButton
             // 
@@ -355,14 +379,6 @@
             this.CommandWindow.TabIndex = 4;
             this.CommandWindow.Text = "";
             // 
-            // GlobalMute
-            // 
-            this.GlobalMute.Name = "GlobalMute";
-            this.GlobalMute.Size = new System.Drawing.Size(180, 22);
-            this.GlobalMute.Text = "Global Mute";
-            this.GlobalMute.Visible = false;
-            this.GlobalMute.Click += new System.EventHandler(this.GlobalMute_Click);
-            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -423,5 +439,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ConnectionTypeButton;
         private System.Windows.Forms.ToolStripMenuItem GlobalMute;
+        private System.Windows.Forms.Button SpawnClientButton;
     }
 }

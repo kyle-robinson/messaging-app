@@ -32,6 +32,9 @@ namespace Client
             ContextMenu blankContextMenu = new ContextMenu();
             MessageWindowRich.ContextMenu = blankContextMenu;
             CommandWindow.ContextMenu = blankContextMenu;
+
+            SpawnClientButton.Visible = false;
+            ConnectButton.Size = new Size( 226, 30 );
         }
 
         /*   UPDATE MESSAGE WINDOWS   */
@@ -212,6 +215,8 @@ namespace Client
                 {
                     Connect();
                     isAdmin = true;
+                    SpawnClientButton.Visible = true;
+                    ConnectButton.Size = new Size( 110, 30 );
                     client.TcpSendMessage( new AdminPacket( true ) );
                     UpdateCommandWindow( "You have connected as an Admin!", Color.Black, Color.MediumPurple );
                 }
@@ -219,6 +224,8 @@ namespace Client
                 {
                     Connect();
                     isAdmin = false;
+                    SpawnClientButton.Visible = false;
+                    ConnectButton.Size = new Size( 226, 30 );
                     UpdateCommandWindow( "You have connected to the server!", Color.Black, Color.LightGreen );
                 }
             }
@@ -334,7 +341,7 @@ namespace Client
                     ClientListBoxMenu.Items[i].Visible = false;
             }
 
-            if ( FriendsListBox.Items.Contains( ClientListBox.SelectedItem ) )
+            if ( FriendsListBox.Items.Contains( ClientListBox.SelectedItem ) || ClientListBox.SelectedItem.ToString() == ClientNameField.Text.ToString() )
                 ClientListBoxMenu.Items[0].Visible = false;
             else
                 ClientListBoxMenu.Items[0].Visible = true;
@@ -430,6 +437,12 @@ namespace Client
                 ConnectionTypeButton.Text = "Change To UDP";
                 UpdateCommandWindow( "Switched to UDP client connection.", Color.Black, Color.MediumPurple );
             }
+        }
+
+        /*   SPAWN NEW CLIENTS   */
+        private void SpawnClientButton_Click( object sender, EventArgs e )
+        {
+            System.Diagnostics.Process.Start( Application.ExecutablePath );
         }
     }
 }
