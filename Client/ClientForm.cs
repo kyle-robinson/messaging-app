@@ -265,8 +265,8 @@ namespace Client
             {
                 if ( FriendsListBox.SelectedItem.ToString() != ClientNameField.Text.ToString() )
                 {
-                    UpdateFriendList( FriendsListBox.SelectedItem.ToString(), true );
                     UpdateCommandWindow( "You have removed " + FriendsListBox.SelectedItem + " from your friends list.", Color.Black, Color.LightCoral );
+                    UpdateFriendList( FriendsListBox.SelectedItem.ToString(), true );
                 }
             }
         }
@@ -298,17 +298,23 @@ namespace Client
             if ( alreadyMuted  )
             {
                 mutedClientsLocal.Remove( clientToMute );
+                ClientListBoxMenu.Items[1].Text = "Local Mute";
                 UpdateCommandWindow( "You have unmuted " + clientToMute + ".", Color.Black, Color.SkyBlue );
             }
             else if ( !alreadyMuted && clientToMute != ClientNameField.Text )
             {
-                UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute + ".", Color.Black, Color.LightCoral );
                 mutedClientsLocal.Add( clientToMute );
+                ClientListBoxMenu.Items[1].Text = "Local Unmute";
+                UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute + ".", Color.Black, Color.LightCoral );
             }    
         }
 
         private void GlobalMute_Click( object sender, EventArgs e )
         {
+            if ( mutedClientsGlobal.Contains( ClientListBox.SelectedItem.ToString() ) )
+                ClientListBoxMenu.Items[2].Text = "Global Mute";
+            else
+                ClientListBoxMenu.Items[2].Text = "Global Unmute";
             client.TcpSendMessage( new GlobalMutePacket( ClientListBox.SelectedItem.ToString() ) );
         }
 
@@ -327,6 +333,11 @@ namespace Client
                 for ( int i = 0; i < ClientListBoxMenu.Items.Count; i++ )
                     ClientListBoxMenu.Items[i].Visible = false;
             }
+
+            if ( FriendsListBox.Items.Contains( ClientListBox.SelectedItem ) )
+                ClientListBoxMenu.Items[0].Visible = false;
+            else
+                ClientListBoxMenu.Items[0].Visible = true;
         }
 
         private void FriendsListBoxMenu_Opening( object sender, System.ComponentModel.CancelEventArgs e )
