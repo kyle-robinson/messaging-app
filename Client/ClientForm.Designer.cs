@@ -164,6 +164,7 @@
             this.LocalMute});
             this.ClientListBoxMenu.Name = "contextMenuStrip1";
             this.ClientListBoxMenu.Size = new System.Drawing.Size(134, 48);
+            this.ClientListBoxMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ClientListBoxMenu_Opening);
             // 
             // AddFriend
             // 
@@ -198,7 +199,8 @@
             this.PrivateMessageMenu,
             this.RemoveFriend});
             this.FriendsListBoxMenu.Name = "FriendsListBoxMenu";
-            this.FriendsListBoxMenu.Size = new System.Drawing.Size(160, 70);
+            this.FriendsListBoxMenu.Size = new System.Drawing.Size(181, 92);
+            this.FriendsListBoxMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FriendsListBoxMenu_Opening);
             // 
             // GlobalMessage
             // 

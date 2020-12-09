@@ -83,7 +83,7 @@ namespace Client
 
         public void Login()
         {
-            TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint, PublicKey ) );
+            TcpSendMessage( new LoginPacket( (IPEndPoint)tcpClient.Client.LocalEndPoint, PublicKey ) );
         }
 
         private void TcpProcessServerResponse()

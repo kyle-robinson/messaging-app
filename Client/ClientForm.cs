@@ -18,7 +18,7 @@ namespace Client
         private bool privateMessage = false;
         private bool nicknameEntered = false;
         private bool encryptMessages = false;
-        private bool tcpMessages = false;
+        private bool tcpMessages = true;
 
         public ClientForm( Client client )
         {
@@ -195,11 +195,7 @@ namespace Client
             InputField.Focus();
 
             ConnectButton.Text = "Disconnect";
-
-            if ( tcpMessages )
-                client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
-            else
-                client.UdpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
+            client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
         }
 
         private void ConnectButton_Click( object sender, EventArgs e )
@@ -213,12 +209,14 @@ namespace Client
                 else if ( ClientNameField.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && !adminConnected )
                 {
                     Connect();
+                    isAdmin = true;
                     client.TcpSendMessage( new AdminPacket( true ) );
                     UpdateCommandWindow( "You have connected as an Admin!", Color.Black, Color.MediumPurple );
                 }
                 else
                 {
                     Connect();
+                    isAdmin = false;
                     UpdateCommandWindow( "You have connected to the server!", Color.Black, Color.LightGreen );
                 }
             }
@@ -236,10 +234,7 @@ namespace Client
                 ConnectButton.Text = "Connect";
                 UpdateCommandWindow( "You have disconnected from the server!", Color.Black, Color.LightCoral );
 
-                if ( tcpMessages )
-                    client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
-                else
-                    client.UdpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
+                client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
 
                 if ( ClientNameField.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && adminConnected )
                     client.TcpSendMessage( new AdminPacket( false ) );
@@ -308,6 +303,25 @@ namespace Client
                 UpdateCommandWindow( "You have muted all incoming messages from " + clientToMute + ".", Color.Black, Color.LightCoral );
                 mutedClients.Add( clientToMute );
             }    
+        }
+
+        private void ClientListBoxMenu_Opening( object sender, System.ComponentModel.CancelEventArgs e )
+        {
+            /*if ( ClientListBox.SelectedItem != null )
+            {
+                for ( int i = 0; i < ClientListBoxMenu.Items.Count; i++ )
+                    ClientListBoxMenu.Items[i].Visible = true;
+            }
+            else
+            {
+                for ( int i = 0; i < ClientListBoxMenu.Items.Count; i++ )
+                    ClientListBoxMenu.Items[i].Visible = false;
+            }*/
+        }
+
+        private void FriendsListBoxMenu_Opening( object sender, System.ComponentModel.CancelEventArgs e )
+        {
+
         }
 
         /*   SEND MESSAGES   */
