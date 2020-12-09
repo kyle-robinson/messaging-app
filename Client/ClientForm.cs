@@ -386,10 +386,22 @@ namespace Client
                             client.TcpSendMessage( new EncryptedMessagePacket( client.EncryptString( message ) ) );
                         else
                         {
-                            if ( tcpMessages )
-                                client.TcpSendMessage( new ChatMessagePacket( message ) );
+                            string gameString = "/game ";
+                            if ( message.StartsWith( gameString ) )
+                            {
+                                int index = message.IndexOf( gameString );
+                                string cleanPath = ( index < 0 )
+                                    ? message
+                                    : message.Remove( index, gameString.Length );
+                                client.TcpSendMessage( new GamePacket( cleanPath, client.clientName ) );
+                            }
                             else
-                                client.UdpSendMessage( new ChatMessagePacket( message ) );
+                            {
+                                if ( tcpMessages )
+                                    client.TcpSendMessage( new ChatMessagePacket( message ) );
+                                else
+                                    client.UdpSendMessage( new ChatMessagePacket( message ) );
+                            }
                         }
                     }
                     UpdateChatWindow( "To [Local]: " + InputField.Text, "right", Color.Black, Color.LightSteelBlue );

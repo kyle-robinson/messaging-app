@@ -11,16 +11,21 @@ namespace Server
 {
     class Server
     {
+        private bool gameStarted = false;
+        private string winner;
+        private string choiceToWin;
+        private List<string> gameOptions;
+        private List<string> clientNames;
         private int index;
         private UdpClient udpListener;
         private TcpListener tcpListerer;
-        private List<string> clientNames;
         private bool keyReceived = false;
         private bool adminIsConnected = false;
         private ConcurrentDictionary<int, Client> clients;
 
         public Server( string ipAddress, int port )
         {
+            gameOptions = new List<string> { "rock", "paper", "scissors" };
             IPAddress localAddress = IPAddress.Parse( ipAddress );
             tcpListerer = new TcpListener( localAddress, port );
             udpListener = new UdpClient( port );
@@ -55,6 +60,13 @@ namespace Server
         public void Stop()
         {
             tcpListerer.Stop();
+        }
+
+        private void StartNewGame()
+        {
+            Random random = new Random();
+            int gameIndex = random.Next( gameOptions.Count );
+            choiceToWin = gameOptions[gameIndex];
         }
 
         private void TcpClientMethod( Client client )
@@ -145,6 +157,47 @@ namespace Server
                                 GlobalMutePacket mutePacket = (GlobalMutePacket)packet;
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( mutePacket );
+                                break;
+                            case PacketType.GAME:
+                                GamePacket gamePacket = (GamePacket)packet;
+                                if ( gameStarted )
+                                {
+                                    if ( gamePacket.userGuess == choiceToWin )
+                                    {
+                                        foreach ( KeyValuePair<int, Client> c in clients )
+                                        {
+                                            if ( c.Value == client )
+                                            {
+                                                winner = gamePacket.playerName;
+                                                c.Value.TcpSend( new ServerPacket( "Correct! You have won the game!\nEnter '/game start' to start new game." ) );
+                                            }
+
+                                        }
+                                        foreach ( KeyValuePair<int, Client> c in clients )
+                                            if ( c.Value != client )
+                                                c.Value.TcpSend( new ServerPacket( winner + " has won the game!" ) );
+                                        gameStarted = false;
+                                    }
+                                    else
+                                    {
+                                        client.TcpSend( new ServerPacket( "Incorrect! Keep guessing." ) );
+                                    }
+                                }
+                                else if ( gamePacket.userGuess == "start" )
+                                {
+                                    foreach ( KeyValuePair<int, Client> c in clients )
+                                    {
+                                        if ( c.Value.name == gamePacket.playerName )
+                                        {
+                                            client.TcpSend( new ServerPacket( "You have started a new game.\nChoose from [rock], [paper] [scissors]." ) );
+                                            gameStarted = true;
+                                            StartNewGame();
+                                        }
+                                    }
+                                    foreach ( KeyValuePair<int, Client> c in clients )
+                                        if ( c.Value != client )
+                                            c.Value.TcpSend( new ServerPacket( gamePacket.playerName + " has started a new game.\nChoose from [rock], [paper] [scissors].") );
+                                }
                                 break;
                         }
                     }

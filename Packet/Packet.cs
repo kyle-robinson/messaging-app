@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 public enum PacketType
 {
     EMPTY,
+    SERVER,
     CHAT_MESSAGE,
     PRIVATE_MESSAGE,
     ENCRYPTED_MESSAGE,
@@ -12,13 +13,25 @@ public enum PacketType
     CLIENT_LIST,
     LOGIN,
     ADMIN,
-    GLOBAL_MUTE
+    GLOBAL_MUTE,
+    GAME
 }
 
 [Serializable]
 public class Packet
 {
     public PacketType packetType { get; set; }
+}
+
+[Serializable]
+public class ServerPacket : Packet
+{
+    public string message;
+    public ServerPacket( string message )
+    {
+        this.message = message;
+        packetType = PacketType.SERVER;
+    }
 }
 
 [Serializable]
@@ -112,5 +125,18 @@ public class GlobalMutePacket : Packet
     {
         this.clientToMute = clientToMute;
         packetType = PacketType.GLOBAL_MUTE;
+    }
+}
+
+[Serializable]
+public class GamePacket : Packet
+{
+    public string userGuess;
+    public string playerName;
+    public GamePacket( string userGuess, string playerName )
+    {
+        this.userGuess = userGuess;
+        this.playerName = playerName;
+        packetType = PacketType.GAME;
     }
 }

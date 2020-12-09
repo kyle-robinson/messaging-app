@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Threading;
 using System.Net.Sockets;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -98,6 +99,10 @@ namespace Client
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch ( packet.packetType )
                     {
+                        case PacketType.SERVER:
+                            ServerPacket serverPacket = (ServerPacket)packet;
+                            clientForm.UpdateCommandWindow( serverPacket.message, Color.Black, Color.MediumPurple );
+                            break;
                         case PacketType.LOGIN:
                             LoginPacket loginPacket = (LoginPacket)packet;
                             ServerKey = loginPacket.PublicKey;
