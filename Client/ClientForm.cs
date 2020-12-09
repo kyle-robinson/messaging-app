@@ -273,10 +273,10 @@ namespace Client
 
         private void PrivateMessageMenu_Click( object sender, EventArgs e )
         {
-            if ( ClientListBox.Items.Count > 0 && ClientListBox.SelectedItem != null )
+            if ( FriendsListBox.Items.Count > 0 && FriendsListBox.SelectedItem != null )
             {
                 privateMessage = true;
-                UpdateCommandWindow( "You are now whispering to " + ClientListBox.SelectedItem.ToString() + ".", Color.Black, Color.LightPink );
+                UpdateCommandWindow( "You are now whispering to " + FriendsListBox.SelectedItem.ToString() + ".", Color.Black, Color.LightPink );
             }
         }
 
@@ -346,6 +346,17 @@ namespace Client
             {
                 for ( int i = 0; i < FriendsListBoxMenu.Items.Count; i++ )
                     FriendsListBoxMenu.Items[i].Visible = true;
+
+                if ( privateMessage )
+                {
+                    FriendsListBoxMenu.Items[0].Visible = true;
+                    FriendsListBoxMenu.Items[1].Visible = false;
+                }
+                else
+                {
+                    FriendsListBoxMenu.Items[0].Visible = false;
+                    FriendsListBoxMenu.Items[1].Visible = true;
+                }
             }
             else
             {
@@ -381,11 +392,11 @@ namespace Client
                     if ( !mutedClientsGlobal.Contains( ClientNameField.Text ) )
                     {
                         if ( tcpMessages )
-                            client.TcpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, ClientListBox.SelectedItem.ToString() ) );
+                            client.TcpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, FriendsListBox.SelectedItem.ToString() ) );
                         else
-                            client.UdpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, ClientListBox.SelectedItem.ToString() ) );
+                            client.UdpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, FriendsListBox.SelectedItem.ToString() ) );
                     }
-                    UpdateChatWindow( "To [" + ClientListBox.SelectedItem.ToString() + "]: " + InputField.Text, "right", Color.Black, Color.LightPink );
+                    UpdateChatWindow( "To [" + FriendsListBox.SelectedItem.ToString() + "]: " + InputField.Text, "right", Color.Black, Color.LightPink );
                 }
                 InputField.Clear();
             }
