@@ -60,6 +60,7 @@ namespace Server
         public void Stop()
         {
             tcpListerer.Stop();
+            udpListener.Close();
         }
 
         private void StartNewGame()
@@ -210,6 +211,7 @@ namespace Server
             finally
             {
                 client.Close();
+                clients[index - 1].Close();
                 clients.TryRemove( index, out client );
             }
         }

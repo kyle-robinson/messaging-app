@@ -5,7 +5,6 @@ using System.Text;
 using System.Drawing;
 using System.Threading;
 using System.Net.Sockets;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -67,7 +66,8 @@ namespace Client
                 Thread udpThread = new Thread( () => { UdpProcessServerResponse(); } );
                 udpThread.Start();
 
-                Login();
+                // login to the server
+                TcpSendMessage( new LoginPacket( (IPEndPoint)tcpClient.Client.LocalEndPoint, PublicKey ) );
 
                 clientForm.ShowDialog();
             }
@@ -80,11 +80,6 @@ namespace Client
                 tcpClient.Close();
                 udpClient.Close();
             }
-        }
-
-        public void Login()
-        {
-            TcpSendMessage( new LoginPacket( (IPEndPoint)tcpClient.Client.LocalEndPoint, PublicKey ) );
         }
 
         private void TcpProcessServerResponse()
