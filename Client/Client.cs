@@ -13,23 +13,23 @@ namespace Client
     public class Client
     {
         public string clientName = "";
+        private ClientForm clientForm;
         private TcpClient tcpClient;
         private UdpClient udpClient;
         private BinaryReader reader;
         private BinaryWriter writer;
-        public ClientForm clientForm;
         private NetworkStream stream;
         private BinaryFormatter formatter;
         private RSACryptoServiceProvider RSAProvider;
         private RSAParameters ServerKey;
-        public RSAParameters PublicKey;
-        public RSAParameters PrivateKey;
+        private RSAParameters PublicKey;
+        private RSAParameters PrivateKey;
 
         public Client()
         {
             tcpClient = new TcpClient();
             udpClient = new UdpClient();
-            RSAProvider = new RSACryptoServiceProvider( 1024 );
+            RSAProvider = new RSACryptoServiceProvider( 2048 );
             ServerKey = RSAProvider.ExportParameters( false );
             PublicKey = RSAProvider.ExportParameters( false );
             PrivateKey = RSAProvider.ExportParameters( true );
@@ -223,12 +223,17 @@ namespace Client
 
         public byte[] EncryptString( string message )
         {
-            return Encrypt( Encoding.UTF8.GetBytes( message ) );
+            byte[] buffer = Encoding.UTF8.GetBytes( message );
+            return Encrypt( buffer );
+            //return Encrypt( Encoding.UTF8.GetBytes( message ) );
         }
 
         public string DecryptString( byte[] message )
         {
-            return Encoding.UTF8.GetString( Decrypt( message ) );
+            byte[] buffer = Decrypt( message );
+            string bufferString = Encoding.UTF8.GetString( buffer );
+            return bufferString;
+            //return Encoding.UTF8.GetString( Decrypt( message ) );
         }
     }
 }

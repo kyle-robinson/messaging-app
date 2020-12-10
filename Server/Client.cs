@@ -90,12 +90,17 @@ namespace Server
 
         public byte[] EncryptString( string message )
         {
-            return Encrypt( Encoding.UTF8.GetBytes( message ) );
+            byte[] buffer = Encoding.UTF8.GetBytes( message );
+            return Encrypt( buffer );
+            //return Encrypt( Encoding.UTF8.GetBytes( message ) );
         }
 
         public string DecryptString( byte[] message )
         {
-            return Encoding.UTF8.GetString( Decrypt( message ) );
+            byte[] buffer = Decrypt( message );
+            string bufferString = Encoding.UTF8.GetString( buffer );
+            return bufferString;
+            //return Encoding.UTF8.GetString( Decrypt( message ) );
         }
 
         public void Close()

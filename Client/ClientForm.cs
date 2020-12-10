@@ -18,7 +18,7 @@ namespace Client
         private bool disconnected = true;
         private bool privateMessage = false;
         private bool nicknameEntered = false;
-        private bool encryptMessages = false;
+        private bool encryptMessages = true;
         private bool tcpMessages = true;
 
         public ClientForm( Client client )
@@ -390,9 +390,7 @@ namespace Client
                             if ( message.StartsWith( gameString ) )
                             {
                                 int index = message.IndexOf( gameString );
-                                string cleanPath = ( index < 0 )
-                                    ? message
-                                    : message.Remove( index, gameString.Length );
+                                string cleanPath = ( index < 0 ) ? message : message.Remove( index, gameString.Length );
                                 client.TcpSendMessage( new GamePacket( cleanPath, client.clientName ) );
                             }
                             else
