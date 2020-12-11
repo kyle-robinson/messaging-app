@@ -323,7 +323,7 @@ namespace Client
                 ClientListBoxMenu.Items[2].Text = "Global Mute";
             else
                 ClientListBoxMenu.Items[2].Text = "Global Unmute";
-            client.TcpSendMessage( new GlobalMutePacket( ClientListBox.SelectedItem.ToString() ) );
+            client.TcpSendMessage( new EncryptedGlobalMutePacket( client.EncryptString( ClientListBox.SelectedItem.ToString() ) ) );
         }
 
         private void ClientListBoxMenu_Opening( object sender, System.ComponentModel.CancelEventArgs e )

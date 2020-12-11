@@ -120,18 +120,19 @@ namespace Client
                             EncryptedClientListPacket clientListPacket = (EncryptedClientListPacket)packet;
                             clientForm.UpdateClientList( DecryptString( clientListPacket.name ), BitConverter.ToBoolean( clientListPacket.removeText, 0 ) );
                             break;
-                        case PacketType.GLOBAL_MUTE:
-                            GlobalMutePacket mutePacket = (GlobalMutePacket)packet;
-                            if ( clientForm.mutedClientsGlobal.Contains( mutePacket.clientToMute ) )
+                        case PacketType.ENCRYPTED_GLOBAL_MUTE:
+                            EncryptedGlobalMutePacket mutePacket = (EncryptedGlobalMutePacket)packet;
+                            string mutedClient = DecryptString( mutePacket.clientToMute );
+                            if ( clientForm.mutedClientsGlobal.Contains( mutedClient ) )
                             {
-                                clientForm.mutedClientsGlobal.Remove( mutePacket.clientToMute );
-                                if ( mutePacket.clientToMute == clientName )
+                                clientForm.mutedClientsGlobal.Remove( mutedClient );
+                                if ( mutedClient == clientName )
                                     clientForm.UpdateCommandWindow( "You have been unmuted by the Admin.", Color.Black, Color.SkyBlue );
                             }
                             else
                             {
-                                clientForm.mutedClientsGlobal.Add( mutePacket.clientToMute );
-                                if ( mutePacket.clientToMute == clientName )
+                                clientForm.mutedClientsGlobal.Add( mutedClient );
+                                if ( mutedClient == clientName )
                                     clientForm.UpdateCommandWindow( "You have been muted globally by the Admin.", Color.Black, Color.IndianRed );
                             }
                             break;

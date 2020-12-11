@@ -14,7 +14,7 @@ public enum PacketType
     ENCRYPTED_PRIVATE_MESSAGE,
     ENCRYPTED_NICKNAME,
     ENCRYPTED_CLIENT_LIST,
-    GLOBAL_MUTE,
+    ENCRYPTED_GLOBAL_MUTE,
     ENCRYPTED_GAME
 }
 
@@ -136,13 +136,13 @@ public class EncryptedClientListPacket : Packet
 
 /*   MISCELLANEOUS   */
 [Serializable]
-public class GlobalMutePacket : Packet
+public class EncryptedGlobalMutePacket : Packet
 {
-    public string clientToMute;
-    public GlobalMutePacket( string clientToMute )
+    public byte[] clientToMute;
+    public EncryptedGlobalMutePacket( byte[] clientToMute )
     {
         this.clientToMute = clientToMute;
-        packetType = PacketType.GLOBAL_MUTE;
+        packetType = PacketType.ENCRYPTED_GLOBAL_MUTE;
     }
 }
 

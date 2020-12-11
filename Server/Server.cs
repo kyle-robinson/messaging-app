@@ -154,10 +154,11 @@ namespace Server
                                     }
                                 }
                                 break;
-                            case PacketType.GLOBAL_MUTE:
-                                GlobalMutePacket mutePacket = (GlobalMutePacket)packet;
+                            case PacketType.ENCRYPTED_GLOBAL_MUTE:
+                                EncryptedGlobalMutePacket mutePacket = (EncryptedGlobalMutePacket)packet;
+                                string mutedClient = client.DecryptString( mutePacket.clientToMute );
                                 foreach ( KeyValuePair<int, Client> c in clients )
-                                    c.Value.TcpSend( mutePacket );
+                                    c.Value.TcpSend( new EncryptedGlobalMutePacket( c.Value.EncryptString( mutedClient ) ) );
                                 break;
                             case PacketType.ENCRYPTED_GAME:
                                 EncryptedGamePacket gamePacket = (EncryptedGamePacket)packet;
