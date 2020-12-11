@@ -4,7 +4,6 @@ using System.Security.Cryptography;
 
 public enum PacketType
 {
-    EMPTY,
     LOGIN,
     ENCRYPTED_ADMIN,
     ENCRYPTED_SERVER,
