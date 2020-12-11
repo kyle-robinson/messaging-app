@@ -89,7 +89,7 @@
             this.InputField.Name = "InputField";
             this.InputField.ReadOnly = true;
             this.InputField.Size = new System.Drawing.Size(216, 40);
-            this.InputField.TabIndex = 6;
+            this.InputField.TabIndex = 7;
             this.InputField.KeyDown += new System.Windows.Forms.KeyEventHandler(this.InputField_KeyDown);
             // 
             // ClientNameField
@@ -129,7 +129,7 @@
             this.MessageWindowRich.Name = "MessageWindowRich";
             this.MessageWindowRich.ReadOnly = true;
             this.MessageWindowRich.Size = new System.Drawing.Size(321, 238);
-            this.MessageWindowRich.TabIndex = 5;
+            this.MessageWindowRich.TabIndex = 6;
             this.MessageWindowRich.Text = "";
             // 
             // NicknameButton
@@ -290,7 +290,7 @@
             this.SpawnClientButton.Location = new System.Drawing.Point(223, 74);
             this.SpawnClientButton.Name = "SpawnClientButton";
             this.SpawnClientButton.Size = new System.Drawing.Size(110, 30);
-            this.SpawnClientButton.TabIndex = 17;
+            this.SpawnClientButton.TabIndex = 3;
             this.SpawnClientButton.Text = "Spawn Client";
             this.SpawnClientButton.UseVisualStyleBackColor = false;
             this.SpawnClientButton.Click += new System.EventHandler(this.SpawnClientButton_Click);
@@ -305,7 +305,7 @@
             this.ConnectionTypeButton.Location = new System.Drawing.Point(343, 74);
             this.ConnectionTypeButton.Name = "ConnectionTypeButton";
             this.ConnectionTypeButton.Size = new System.Drawing.Size(137, 29);
-            this.ConnectionTypeButton.TabIndex = 3;
+            this.ConnectionTypeButton.TabIndex = 4;
             this.ConnectionTypeButton.Text = "Change To UDP";
             this.ConnectionTypeButton.UseVisualStyleBackColor = false;
             this.ConnectionTypeButton.Click += new System.EventHandler(this.ConnectionTypeButton_Click);
@@ -376,7 +376,7 @@
             this.CommandWindow.Name = "CommandWindow";
             this.CommandWindow.ReadOnly = true;
             this.CommandWindow.Size = new System.Drawing.Size(317, 109);
-            this.CommandWindow.TabIndex = 4;
+            this.CommandWindow.TabIndex = 5;
             this.CommandWindow.Text = "";
             // 
             // ClientForm

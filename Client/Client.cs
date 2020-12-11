@@ -48,7 +48,7 @@ namespace Client
             }
             catch( Exception exception )
             {
-                Console.WriteLine( "Client Exception: " + exception.Message );
+                Console.WriteLine( "Client Connect Exception: " + exception.Message );
                 return false;
             }
         }
@@ -65,14 +65,13 @@ namespace Client
                 Thread udpThread = new Thread( () => { UdpProcessServerResponse(); } );
                 udpThread.Start();
 
-                // login to the server
-                TcpSendMessage( new LoginPacket( (IPEndPoint)tcpClient.Client.LocalEndPoint, PublicKey ) );
+                TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint, PublicKey ) );
 
                 clientForm.ShowDialog();
             }
             catch( Exception exception )
             {
-                Console.WriteLine( "EXCEPTION: " + exception.Message );
+                Console.WriteLine( "Client Run Exception: " + exception.Message );
             }
             finally
             {
@@ -101,13 +100,9 @@ namespace Client
                             LoginPacket loginPacket = (LoginPacket)packet;
                             ServerKey = loginPacket.PublicKey;
                             break;
-                        case PacketType.CHAT_MESSAGE:
-                            ChatMessagePacket chatPacket = (ChatMessagePacket)packet;
-                            clientForm.UpdateChatWindow( chatPacket.message, "left", Color.Black, Color.Gold );
-                            break;
-                        case PacketType.PRIVATE_MESSAGE:
-                            PrivateMessagePacket privatePacket = (PrivateMessagePacket)packet;
-                            clientForm.UpdateChatWindow( privatePacket.message, "left", Color.Black, Color.LightPink );
+                        case PacketType.ENCRYPTED_PRIVATE_MESSAGE:
+                            EncryptedPrivateMessagePacket privatePacket = (EncryptedPrivateMessagePacket)packet;
+                            clientForm.UpdateChatWindow( DecryptString( privatePacket.message ), "left", Color.Black, Color.LightPink );
                             break;
                         case PacketType.ENCRYPTED_MESSAGE:
                             EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
@@ -168,10 +163,6 @@ namespace Client
                         case PacketType.PRIVATE_MESSAGE:
                             PrivateMessagePacket privatePacket = (PrivateMessagePacket)packet;
                             clientForm.UpdateChatWindow( privatePacket.message, "left", Color.Black, Color.LightPink );
-                            break;
-                        case PacketType.ENCRYPTED_MESSAGE:
-                            EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
-                            clientForm.UpdateChatWindow( DecryptString( encryptedPacket.message ), "left", Color.Black, Color.MediumPurple );
                             break;
                     }
                 }

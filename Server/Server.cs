@@ -11,16 +11,14 @@ namespace Server
 {
     class Server
     {
-        private bool gameStarted = false;
-        private string winner;
-        private string choiceToWin;
         private List<string> gameOptions;
         private List<string> clientNames;
+        private bool adminIsConnected = false;
+        private bool gameStarted = false;
+        private string choiceToWin;
         private int index;
         private UdpClient udpListener;
         private TcpListener tcpListerer;
-        private bool keyReceived = false;
-        private bool adminIsConnected = false;
         private ConcurrentDictionary<int, Client> clients;
 
         public Server( string ipAddress, int port )
@@ -30,7 +28,7 @@ namespace Server
             tcpListerer = new TcpListener( localAddress, port );
             udpListener = new UdpClient( port );
             clientNames = new List<string>();
-            clientNames.Add( "Initial" );
+            clientNames.Add( "Empty" );
         }
 
         public void Start()
@@ -86,16 +84,9 @@ namespace Server
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
                                 clients[index - 1].ClientKey = loginPacket.PublicKey;
-                                //clients[index - 1].TcpSend( new LoginPacket( null, client.ClientKey ) );
-                                if ( !keyReceived )
-                                {
-                                    keyReceived = true;
-                                    //client.ClientKey = loginPacket.PublicKey;
-                                }
+                                client.TcpSend( new LoginPacket( null, client.PublicKey ) );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                 {
-                                    if ( c.Value == client )
-                                        c.Value.TcpSend( new LoginPacket( null, client.PublicKey ) );
                                     for ( int i = 0; i < clientNames.Count; i++ )
                                     {
                                         if ( i == 0 )
@@ -106,19 +97,13 @@ namespace Server
                                     c.Value.TcpSend( new AdminPacket( adminIsConnected ) );
                                 }
                                 break;
-                            case PacketType.CHAT_MESSAGE:
-                                ChatMessagePacket inChatPacket = (ChatMessagePacket)packet;
-                                ChatMessagePacket outChatPacket = new ChatMessagePacket( "[" + client.name + "]: " + inChatPacket.message );
+                            case PacketType.ENCRYPTED_PRIVATE_MESSAGE:
+                                EncryptedPrivateMessagePacket inPrivatePacket = (EncryptedPrivateMessagePacket)packet;
+                                string inPrivateMessage = client.DecryptString( inPrivatePacket.message );
+                                string inPrivateName = client.DecryptString( inPrivatePacket.name );
                                 foreach ( KeyValuePair<int, Client> c in clients )
-                                    if ( c.Value != client )
-                                        c.Value.TcpSend( outChatPacket );
-                                break;
-                            case PacketType.PRIVATE_MESSAGE:
-                                PrivateMessagePacket inPrivatePacket = (PrivateMessagePacket)packet;
-                                PrivateMessagePacket outPrivatePacket = new PrivateMessagePacket( inPrivatePacket.message, inPrivatePacket.name );
-                                foreach ( KeyValuePair<int, Client> c in clients )
-                                    if ( c.Value.name == outPrivatePacket.name )
-                                        c.Value.TcpSend( outPrivatePacket );
+                                    if ( c.Value.name == inPrivateName )
+                                        c.Value.TcpSend( new EncryptedPrivateMessagePacket( c.Value.EncryptString( inPrivateMessage ), null ) );
                                 break;
                             case PacketType.ENCRYPTED_MESSAGE:
                                 EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
@@ -172,41 +157,25 @@ namespace Server
                                 GamePacket gamePacket = (GamePacket)packet;
                                 if ( gameStarted )
                                 {
-                                    if ( gamePacket.userGuess == choiceToWin )
+                                    if ( gamePacket.userGuess.Equals( choiceToWin, StringComparison.InvariantCultureIgnoreCase ) )
                                     {
-                                        foreach ( KeyValuePair<int, Client> c in clients )
-                                        {
-                                            if ( c.Value == client )
-                                            {
-                                                winner = gamePacket.playerName;
-                                                c.Value.TcpSend( new ServerPacket( "Correct! You have won the game!\nEnter '/game start' to start new game." ) );
-                                            }
-
-                                        }
+                                        gameStarted = false;
+                                        client.TcpSend( new ServerPacket( "Correct! You have won the game!\nEnter '/game start' to start new game." ) );
                                         foreach ( KeyValuePair<int, Client> c in clients )
                                             if ( c.Value != client )
-                                                c.Value.TcpSend( new ServerPacket( winner + " has won the game!" ) );
-                                        gameStarted = false;
+                                                c.Value.TcpSend( new ServerPacket( client.name + " has won the game!" ) );
                                     }
                                     else
-                                    {
                                         client.TcpSend( new ServerPacket( "Incorrect! Keep guessing." ) );
-                                    }
                                 }
                                 else if ( gamePacket.userGuess == "start" )
                                 {
-                                    foreach ( KeyValuePair<int, Client> c in clients )
-                                    {
-                                        if ( c.Value.name == gamePacket.playerName )
-                                        {
-                                            client.TcpSend( new ServerPacket( "You have started a new game.\nChoose from [rock], [paper] [scissors]." ) );
-                                            gameStarted = true;
-                                            StartNewGame();
-                                        }
-                                    }
+                                    StartNewGame();
+                                    gameStarted = true;
+                                    client.TcpSend( new ServerPacket( "You have started a new game.\nChoose from [rock], [paper] [scissors]." ) );
                                     foreach ( KeyValuePair<int, Client> c in clients )
                                         if ( c.Value != client )
-                                            c.Value.TcpSend( new ServerPacket( gamePacket.playerName + " has started a new game.\nChoose from [rock], [paper] [scissors].") );
+                                            c.Value.TcpSend( new ServerPacket( client.name + " has started a new game.\nChoose from [rock], [paper] [scissors].") );
                                 }
                                 break;
                         }
@@ -251,10 +220,6 @@ namespace Server
                                     PrivateMessagePacket outPrivatePacket = new PrivateMessagePacket( inPrivatePacket.message, inPrivatePacket.name );
                                     if ( c.Value.name == outPrivatePacket.name )
                                         UdpSend( c.Value, outPrivatePacket );
-                                    break;
-                                case PacketType.ENCRYPTED_MESSAGE:
-                                    EncryptedMessagePacket encryptedMessage = (EncryptedMessagePacket)packet;
-                                    UdpSend( c.Value, encryptedMessage );
                                     break;
                             }
                         }

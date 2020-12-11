@@ -18,7 +18,6 @@ namespace Client
         private bool disconnected = true;
         private bool privateMessage = false;
         private bool nicknameEntered = false;
-        private bool encryptMessages = true;
         private bool tcpMessages = true;
 
         public ClientForm( Client client )
@@ -382,24 +381,19 @@ namespace Client
                 {
                     if ( !mutedClientsGlobal.Contains( ClientNameField.Text ) )
                     {
-                        if ( encryptMessages )
-                            client.TcpSendMessage( new EncryptedMessagePacket( client.EncryptString( message ) ) );
+                        string gameString = "/game ";
+                        if ( message.StartsWith( gameString ) )
+                        {
+                            int index = message.IndexOf( gameString );
+                            string userAnswer = ( index < 0 ) ? message : message.Remove( index, gameString.Length );
+                            client.TcpSendMessage( new GamePacket( userAnswer ) );
+                        }
                         else
                         {
-                            string gameString = "/game ";
-                            if ( message.StartsWith( gameString ) )
-                            {
-                                int index = message.IndexOf( gameString );
-                                string cleanPath = ( index < 0 ) ? message : message.Remove( index, gameString.Length );
-                                client.TcpSendMessage( new GamePacket( cleanPath, client.clientName ) );
-                            }
+                            if ( tcpMessages )
+                                client.TcpSendMessage( new EncryptedMessagePacket( client.EncryptString( message ) ) );
                             else
-                            {
-                                if ( tcpMessages )
-                                    client.TcpSendMessage( new ChatMessagePacket( message ) );
-                                else
-                                    client.UdpSendMessage( new ChatMessagePacket( message ) );
-                            }
+                                client.UdpSendMessage( new ChatMessagePacket( message ) );
                         }
                     }
                     UpdateChatWindow( "To [Local]: " + InputField.Text, "right", Color.Black, Color.LightSteelBlue );
@@ -409,9 +403,11 @@ namespace Client
                     if ( !mutedClientsGlobal.Contains( ClientNameField.Text ) )
                     {
                         if ( tcpMessages )
-                            client.TcpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, FriendsListBox.SelectedItem.ToString() ) );
+                            client.TcpSendMessage( new EncryptedPrivateMessagePacket( client.EncryptString( "[" + ClientNameField.Text + "]: " + message ),
+                                client.EncryptString( FriendsListBox.SelectedItem.ToString() ) ) );
                         else
-                            client.UdpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message, FriendsListBox.SelectedItem.ToString() ) );
+                            client.UdpSendMessage( new PrivateMessagePacket( "[" + ClientNameField.Text + "]: " + message,
+                                FriendsListBox.SelectedItem.ToString() ) );
                     }
                     UpdateChatWindow( "To [" + FriendsListBox.SelectedItem.ToString() + "]: " + InputField.Text, "right", Color.Black, Color.LightPink );
                 }
@@ -438,14 +434,16 @@ namespace Client
             if ( tcpMessages )
             {
                 tcpMessages = false;
+                //client.Login( false );
                 ConnectionTypeButton.Text = "Change To TCP";
-                UpdateCommandWindow( "Switched to TCP client connection.", Color.Black, Color.MediumPurple );
+                UpdateCommandWindow( "Switched to UDP client connection.", Color.Black, Color.MediumPurple );
             }
             else
             {
                 tcpMessages = true;
+                //client.Login( true );
                 ConnectionTypeButton.Text = "Change To UDP";
-                UpdateCommandWindow( "Switched to UDP client connection.", Color.Black, Color.MediumPurple );
+                UpdateCommandWindow( "Switched to TCP client connection.", Color.Black, Color.MediumPurple );
             }
         }
 

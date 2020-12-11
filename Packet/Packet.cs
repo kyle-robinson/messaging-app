@@ -7,8 +7,9 @@ public enum PacketType
     EMPTY,
     SERVER,
     CHAT_MESSAGE,
-    PRIVATE_MESSAGE,
     ENCRYPTED_MESSAGE,
+    PRIVATE_MESSAGE,
+    ENCRYPTED_PRIVATE_MESSAGE,
     NICKNAME,
     CLIENT_LIST,
     LOGIN,
@@ -46,6 +47,17 @@ public class ChatMessagePacket : Packet
 }
 
 [Serializable]
+public class EncryptedMessagePacket : Packet
+{
+    public byte[] message;
+    public EncryptedMessagePacket( byte[] message )
+    {
+        this.message = message;
+        packetType = PacketType.ENCRYPTED_MESSAGE;
+    }
+}
+
+[Serializable]
 public class PrivateMessagePacket : Packet
 {
     public string message;
@@ -59,13 +71,15 @@ public class PrivateMessagePacket : Packet
 }
 
 [Serializable]
-public class EncryptedMessagePacket : Packet
+public class EncryptedPrivateMessagePacket : Packet
 {
     public byte[] message;
-    public EncryptedMessagePacket( byte[] message )
+    public byte[] name;
+    public EncryptedPrivateMessagePacket( byte[] message, byte[] name )
     {
         this.message = message;
-        packetType = PacketType.ENCRYPTED_MESSAGE;
+        this.name = name;
+        packetType = PacketType.ENCRYPTED_PRIVATE_MESSAGE;
     }
 }
 
@@ -132,11 +146,9 @@ public class GlobalMutePacket : Packet
 public class GamePacket : Packet
 {
     public string userGuess;
-    public string playerName;
-    public GamePacket( string userGuess, string playerName )
+    public GamePacket( string userGuess )
     {
         this.userGuess = userGuess;
-        this.playerName = playerName;
         packetType = PacketType.GAME;
     }
 }
