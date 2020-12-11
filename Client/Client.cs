@@ -93,34 +93,42 @@ namespace Client
                     switch ( packet.packetType )
                     {
                         case PacketType.LOGIN:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Login' Packet Received" );
                             LoginPacket loginPacket = (LoginPacket)packet;
                             ServerKey = loginPacket.PublicKey;
                             break;
                         case PacketType.ENCRYPTED_ADMIN:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Admin' Packet Received" );
                             EncryptedAdminPacket adminPacket = (EncryptedAdminPacket)packet;
                             clientForm.adminConnected = BitConverter.ToBoolean( adminPacket.adminConnected, 0 );
                             break;
                         case PacketType.ENCRYPTED_SERVER:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Server' Packet Received" );
                             EncryptedServerPacket serverPacket = (EncryptedServerPacket)packet;
                             clientForm.UpdateCommandWindow( DecryptString( serverPacket.message ), Color.Black, Color.MediumPurple );
                             break;
                         case PacketType.ENCRYPTED_MESSAGE:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Message' Packet Received" );
                             EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
                             clientForm.UpdateChatWindow( DecryptString( encryptedPacket.message ), "left", Color.Black, Color.MediumPurple );
                             break;
                         case PacketType.ENCRYPTED_PRIVATE_MESSAGE:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Private Message' Packet Received" );
                             EncryptedPrivateMessagePacket privatePacket = (EncryptedPrivateMessagePacket)packet;
                             clientForm.UpdateChatWindow( DecryptString( privatePacket.message ), "left", Color.Black, Color.LightPink );
                             break;
                         case PacketType.ENCRYPTED_NICKNAME:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Nickname' Packet Received" );
                             EncryptedNicknamePacket namePacket = (EncryptedNicknamePacket)packet;
                             clientName = DecryptString( namePacket.name );
                             break;
                         case PacketType.ENCRYPTED_CLIENT_LIST:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Client List' Packet Received" );
                             EncryptedClientListPacket clientListPacket = (EncryptedClientListPacket)packet;
                             clientForm.UpdateClientList( DecryptString( clientListPacket.name ), BitConverter.ToBoolean( clientListPacket.removeText, 0 ) );
                             break;
                         case PacketType.ENCRYPTED_GLOBAL_MUTE:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Global Mute' Packet Received" );
                             EncryptedGlobalMutePacket mutePacket = (EncryptedGlobalMutePacket)packet;
                             string mutedClient = DecryptString( mutePacket.clientToMute );
                             if ( clientForm.mutedClientsGlobal.Contains( mutedClient ) )

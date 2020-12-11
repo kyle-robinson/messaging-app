@@ -77,10 +77,10 @@ namespace Server
                 {
                     if ( packet != null )
                     {
-                        Console.WriteLine( "Received" );
                         switch ( packet.packetType )
                         {
                             case PacketType.LOGIN:
+                                Console.WriteLine( "Server TCP 'Login' Packet Received" );
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
                                 clients[index - 1].ClientKey = loginPacket.PublicKey;
@@ -100,12 +100,14 @@ namespace Server
                                 }
                                 break;
                             case PacketType.ENCRYPTED_ADMIN:
+                                Console.WriteLine( "Server TCP 'Admin' Packet Received" );
                                 EncryptedAdminPacket adminPacket = (EncryptedAdminPacket)packet;
                                 adminIsConnected = BitConverter.ToBoolean( adminPacket.adminConnected, 0 );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( adminPacket );
                                 break;
                             case PacketType.ENCRYPTED_MESSAGE:
+                                Console.WriteLine( "Server TCP 'Message' Packet Received" );
                                 EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
                                 string decryptedMessage = client.DecryptString( encryptedPacket.message );
                                 foreach ( KeyValuePair<int, Client> c in clients )
@@ -118,6 +120,7 @@ namespace Server
                                 }
                                 break;
                             case PacketType.ENCRYPTED_PRIVATE_MESSAGE:
+                                Console.WriteLine( "Server TCP 'Private Message' Packet Received" );
                                 EncryptedPrivateMessagePacket inPrivatePacket = (EncryptedPrivateMessagePacket)packet;
                                 string inPrivateMessage = client.DecryptString( inPrivatePacket.message );
                                 string inPrivateName = client.DecryptString( inPrivatePacket.name );
@@ -126,6 +129,7 @@ namespace Server
                                         c.Value.TcpSend( new EncryptedPrivateMessagePacket( c.Value.EncryptString( inPrivateMessage ), null ) );
                                 break;
                             case PacketType.ENCRYPTED_NICKNAME:
+                                Console.WriteLine( "Server TCP 'Nickname' Packet Received" );
                                 EncryptedNicknamePacket namePacket = (EncryptedNicknamePacket)packet;
                                 client.name = client.DecryptString( namePacket.name );
                                 if ( client.name != "" )
@@ -134,6 +138,7 @@ namespace Server
                                     client.TcpSend( new EncryptedNicknamePacket( null ) );
                                 break;
                             case PacketType.ENCRYPTED_CLIENT_LIST:
+                                Console.WriteLine( "Server TCP 'Client List' Packet Received" );
                                 EncryptedClientListPacket clientListPacket = (EncryptedClientListPacket)packet;
                                 string clientListName = client.DecryptString( clientListPacket.name );
                                 bool clientListBool = BitConverter.ToBoolean( clientListPacket.removeText, 0 );
@@ -155,12 +160,14 @@ namespace Server
                                 }
                                 break;
                             case PacketType.ENCRYPTED_GLOBAL_MUTE:
+                                Console.WriteLine( "Server TCP 'Global Mute' Packet Received" );
                                 EncryptedGlobalMutePacket mutePacket = (EncryptedGlobalMutePacket)packet;
                                 string mutedClient = client.DecryptString( mutePacket.clientToMute );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( new EncryptedGlobalMutePacket( c.Value.EncryptString( mutedClient ) ) );
                                 break;
                             case PacketType.ENCRYPTED_GAME:
+                                Console.WriteLine( "Server TCP 'Game' Packet Received" );
                                 EncryptedGamePacket gamePacket = (EncryptedGamePacket)packet;
                                 string userGuess = client.DecryptString( gamePacket.userGuess );
                                 if ( gameStarted )
