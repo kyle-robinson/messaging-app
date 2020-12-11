@@ -35,8 +35,7 @@ namespace Server
             writer = new BinaryWriter( stream, Encoding.UTF8 );
             formatter = new BinaryFormatter();
 
-            RSAProvider = new RSACryptoServiceProvider( 1024 );
-            ClientKey = RSAProvider.ExportParameters( false );
+            RSAProvider = new RSACryptoServiceProvider( 2048 );
             PublicKey = RSAProvider.ExportParameters( false );
             PrivateKey = RSAProvider.ExportParameters( true );
         }
@@ -90,17 +89,12 @@ namespace Server
 
         public byte[] EncryptString( string message )
         {
-            byte[] buffer = Encoding.UTF8.GetBytes( message );
-            return Encrypt( buffer );
-            //return Encrypt( Encoding.UTF8.GetBytes( message ) );
+            return Encrypt( Encoding.UTF8.GetBytes( message ) );
         }
 
         public string DecryptString( byte[] message )
         {
-            byte[] buffer = Decrypt( message );
-            string bufferString = Encoding.UTF8.GetString( buffer );
-            return bufferString;
-            //return Encoding.UTF8.GetString( Decrypt( message ) );
+            return Encoding.UTF8.GetString( Decrypt( message ) );
         }
 
         public void Close()

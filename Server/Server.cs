@@ -85,7 +85,7 @@ namespace Server
                             case PacketType.LOGIN:
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
-                                client.ClientKey = loginPacket.PublicKey;
+                                clients[index - 1].ClientKey = loginPacket.PublicKey;
                                 //clients[index - 1].TcpSend( new LoginPacket( null, client.ClientKey ) );
                                 if ( !keyReceived )
                                 {
@@ -95,7 +95,7 @@ namespace Server
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                 {
                                     if ( c.Value == client )
-                                        c.Value.TcpSend( new LoginPacket( null, client.ClientKey ) );
+                                        c.Value.TcpSend( new LoginPacket( null, client.PublicKey ) );
                                     for ( int i = 0; i < clientNames.Count; i++ )
                                     {
                                         if ( i == 0 )
@@ -121,13 +121,16 @@ namespace Server
                                         c.Value.TcpSend( outPrivatePacket );
                                 break;
                             case PacketType.ENCRYPTED_MESSAGE:
-                                EncryptedMessagePacket encryptedMessage = (EncryptedMessagePacket)packet;
-                                //string decryptedMessage = client.DecryptString( encryptedMessage.message );
-                                //byte[] encryptedString = client.EncryptString( decryptedMessage );
+                                EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
+                                string decryptedMessage = client.DecryptString( encryptedPacket.message );
                                 foreach ( KeyValuePair<int, Client> c in clients )
+                                {
                                     if ( c.Value != client )
-                                        c.Value.TcpSend( encryptedMessage );
-                                        //c.Value.TcpSend( new EncryptedMessagePacket( encryptedString ) );
+                                    {
+                                        byte[] encryptedMessage = c.Value.EncryptString( "[" + client.name + "]: " + decryptedMessage );
+                                        c.Value.TcpSend( new EncryptedMessagePacket( encryptedMessage ) );
+                                    }
+                                }
                                 break;
                             case PacketType.NICKNAME:
                                 NicknamePacket namePacket = (NicknamePacket)packet;
