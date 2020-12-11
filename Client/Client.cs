@@ -112,9 +112,9 @@ namespace Client
                             EncryptedPrivateMessagePacket privatePacket = (EncryptedPrivateMessagePacket)packet;
                             clientForm.UpdateChatWindow( DecryptString( privatePacket.message ), "left", Color.Black, Color.LightPink );
                             break;
-                        case PacketType.NICKNAME:
-                            NicknamePacket namePacket = (NicknamePacket)packet;
-                            clientName = namePacket.name;
+                        case PacketType.ENCRYPTED_NICKNAME:
+                            EncryptedNicknamePacket namePacket = (EncryptedNicknamePacket)packet;
+                            clientName = DecryptString( namePacket.name );
                             break;
                         case PacketType.CLIENT_LIST:
                             ClientListPacket clientListPacket = (ClientListPacket)packet;

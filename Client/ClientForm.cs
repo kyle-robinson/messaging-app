@@ -152,7 +152,7 @@ namespace Client
         /*   SET USERNANME   */
         private void SetUsername()
         {
-            client.TcpSendMessage( new NicknamePacket( ClientNameField.Text ) );
+            client.TcpSendMessage( new EncryptedNicknamePacket( client.EncryptString( ClientNameField.Text ) ) );
             client.clientName = ClientNameField.Text;
 
             if ( ClientNameField.Text != "" && ClientNameField.Text != "Enter username..." && disconnected )

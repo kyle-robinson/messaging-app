@@ -12,7 +12,7 @@ public enum PacketType
     ENCRYPTED_MESSAGE,
     PRIVATE_MESSAGE,
     ENCRYPTED_PRIVATE_MESSAGE,
-    NICKNAME,
+    ENCRYPTED_NICKNAME,
     CLIENT_LIST,
     GLOBAL_MUTE,
     ENCRYPTED_GAME
@@ -111,13 +111,13 @@ public class EncryptedPrivateMessagePacket : Packet
 
 /*   NAMING/CLIENTS   */
 [Serializable]
-public class NicknamePacket : Packet
+public class EncryptedNicknamePacket : Packet
 {
-    public string name;
-    public NicknamePacket( string name )
+    public byte[] name;
+    public EncryptedNicknamePacket( byte[] name )
     {
         this.name = name;
-        packetType = PacketType.NICKNAME;
+        packetType = PacketType.ENCRYPTED_NICKNAME;
     }
 }
 

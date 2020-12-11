@@ -100,7 +100,6 @@ namespace Server
                             case PacketType.ENCRYPTED_ADMIN:
                                 EncryptedAdminPacket adminPacket = (EncryptedAdminPacket)packet;
                                 adminIsConnected = BitConverter.ToBoolean( adminPacket.adminConnected, 0 );
-                                //adminIsConnected = adminPacket.adminConnected;
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( adminPacket );
                                 break;
@@ -124,13 +123,13 @@ namespace Server
                                     if ( c.Value.name == inPrivateName )
                                         c.Value.TcpSend( new EncryptedPrivateMessagePacket( c.Value.EncryptString( inPrivateMessage ), null ) );
                                 break;
-                            case PacketType.NICKNAME:
-                                NicknamePacket namePacket = (NicknamePacket)packet;
-                                client.name = namePacket.name;
+                            case PacketType.ENCRYPTED_NICKNAME:
+                                EncryptedNicknamePacket namePacket = (EncryptedNicknamePacket)packet;
+                                client.name = client.DecryptString( namePacket.name );
                                 if ( client.name != "" )
-                                    client.TcpSend( new NicknamePacket( client.name ) );
+                                    client.TcpSend( new EncryptedNicknamePacket( client.EncryptString( client.name ) ) );
                                 else
-                                    client.TcpSend( new NicknamePacket( null ) );
+                                    client.TcpSend( new EncryptedNicknamePacket( null ) );
                                 break;
                             case PacketType.CLIENT_LIST:
                                 ClientListPacket clientListPacket = (ClientListPacket)packet;
