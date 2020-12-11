@@ -64,7 +64,7 @@ namespace Client
             {
                 Invoke( new Action( () => { UpdateChatWindow( message, alignment, foreColor, backColor ); } ) );
             }
-            else
+            else if ( connected )
             {
                 bool clientIsMuted = false;
                 foreach ( string s in mutedClientsLocal )
@@ -436,14 +436,12 @@ namespace Client
             if ( tcpMessages )
             {
                 tcpMessages = false;
-                //client.Login( false );
                 ConnectionTypeButton.Text = "Change To TCP";
-                UpdateCommandWindow( "Switched to UDP client connection.", Color.Black, Color.MediumPurple );
+                UpdateCommandWindow( "Switched to UDP client connection.", Color.Black, Color.Gold );
             }
             else
             {
                 tcpMessages = true;
-                //client.Login( true );
                 ConnectionTypeButton.Text = "Change To UDP";
                 UpdateCommandWindow( "Switched to TCP client connection.", Color.Black, Color.MediumPurple );
             }
