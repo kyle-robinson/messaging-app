@@ -5,6 +5,8 @@ using System.Security.Cryptography;
 public enum PacketType
 {
     EMPTY,
+    LOGIN,
+    ENCRYPTED_ADMIN,
     ENCRYPTED_SERVER,
     CHAT_MESSAGE,
     ENCRYPTED_MESSAGE,
@@ -12,8 +14,6 @@ public enum PacketType
     ENCRYPTED_PRIVATE_MESSAGE,
     NICKNAME,
     CLIENT_LIST,
-    LOGIN,
-    ADMIN,
     GLOBAL_MUTE,
     ENCRYPTED_GAME
 }
@@ -22,6 +22,31 @@ public enum PacketType
 public class Packet
 {
     public PacketType packetType { get; set; }
+}
+
+/*   ADMINISTRATION   */
+[Serializable]
+public class LoginPacket : Packet
+{
+    public IPEndPoint EndPoint;
+    public RSAParameters PublicKey;
+    public LoginPacket( IPEndPoint EndPoint, RSAParameters PublicKey )
+    {
+        this.EndPoint = EndPoint;
+        this.PublicKey = PublicKey;
+        packetType = PacketType.LOGIN;
+    }
+}
+
+[Serializable]
+public class EncryptedAdminPacket : Packet
+{
+    public byte[] adminConnected;
+    public EncryptedAdminPacket( byte[] adminConnected )
+    {
+        this.adminConnected = adminConnected;
+        packetType = PacketType.ENCRYPTED_ADMIN;
+    }
 }
 
 [Serializable]
@@ -106,31 +131,6 @@ public class ClientListPacket : Packet
         this.name = name;
         this.removeText = removeText;
         packetType = PacketType.CLIENT_LIST;
-    }
-}
-
-/*   ADMINISTRATION   */
-[Serializable]
-public class LoginPacket : Packet
-{
-    public IPEndPoint EndPoint;
-    public RSAParameters PublicKey;
-    public LoginPacket( IPEndPoint EndPoint, RSAParameters PublicKey )
-    {
-        this.EndPoint = EndPoint;
-        this.PublicKey = PublicKey;
-        packetType = PacketType.LOGIN;
-    }
-}
-
-[Serializable]
-public class AdminPacket : Packet
-{
-    public bool adminConnected;
-    public AdminPacket( bool adminConnected )
-    {
-        this.adminConnected = adminConnected;
-        packetType = PacketType.ADMIN;
     }
 }
 

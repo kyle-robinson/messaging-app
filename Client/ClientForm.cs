@@ -216,7 +216,7 @@ namespace Client
                     isAdmin = true;
                     SpawnClientButton.Visible = true;
                     ConnectButton.Size = new Size( 110, 30 );
-                    client.TcpSendMessage( new AdminPacket( true ) );
+                    client.TcpSendMessage( new EncryptedAdminPacket( BitConverter.GetBytes( true ) ) );
                     UpdateCommandWindow( "You have connected as an Admin!", Color.Black, Color.MediumPurple );
                 }
                 else
@@ -245,7 +245,7 @@ namespace Client
                 client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
 
                 if ( ClientNameField.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && adminConnected )
-                    client.TcpSendMessage( new AdminPacket( false ) );
+                    client.TcpSendMessage( new EncryptedAdminPacket( BitConverter.GetBytes( false ) ) );
             }
 
             if ( disconnected && !nicknameEntered )

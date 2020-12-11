@@ -92,21 +92,25 @@ namespace Client
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch ( packet.packetType )
                     {
-                        case PacketType.ENCRYPTED_SERVER:
-                            EncryptedServerPacket serverPacket = (EncryptedServerPacket)packet;
-                            clientForm.UpdateCommandWindow( DecryptString( serverPacket.message ), Color.Black, Color.MediumPurple );
-                            break;
                         case PacketType.LOGIN:
                             LoginPacket loginPacket = (LoginPacket)packet;
                             ServerKey = loginPacket.PublicKey;
                             break;
-                        case PacketType.ENCRYPTED_PRIVATE_MESSAGE:
-                            EncryptedPrivateMessagePacket privatePacket = (EncryptedPrivateMessagePacket)packet;
-                            clientForm.UpdateChatWindow( DecryptString( privatePacket.message ), "left", Color.Black, Color.LightPink );
+                        case PacketType.ENCRYPTED_ADMIN:
+                            EncryptedAdminPacket adminPacket = (EncryptedAdminPacket)packet;
+                            clientForm.adminConnected = BitConverter.ToBoolean( adminPacket.adminConnected, 0 );
+                            break;
+                        case PacketType.ENCRYPTED_SERVER:
+                            EncryptedServerPacket serverPacket = (EncryptedServerPacket)packet;
+                            clientForm.UpdateCommandWindow( DecryptString( serverPacket.message ), Color.Black, Color.MediumPurple );
                             break;
                         case PacketType.ENCRYPTED_MESSAGE:
                             EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
                             clientForm.UpdateChatWindow( DecryptString( encryptedPacket.message ), "left", Color.Black, Color.MediumPurple );
+                            break;
+                        case PacketType.ENCRYPTED_PRIVATE_MESSAGE:
+                            EncryptedPrivateMessagePacket privatePacket = (EncryptedPrivateMessagePacket)packet;
+                            clientForm.UpdateChatWindow( DecryptString( privatePacket.message ), "left", Color.Black, Color.LightPink );
                             break;
                         case PacketType.NICKNAME:
                             NicknamePacket namePacket = (NicknamePacket)packet;
@@ -115,10 +119,6 @@ namespace Client
                         case PacketType.CLIENT_LIST:
                             ClientListPacket clientListPacket = (ClientListPacket)packet;
                             clientForm.UpdateClientList( clientListPacket.name, clientListPacket.removeText );
-                            break;
-                        case PacketType.ADMIN:
-                            AdminPacket adminPacket = (AdminPacket)packet;
-                            clientForm.adminConnected = adminPacket.adminConnected;
                             break;
                         case PacketType.GLOBAL_MUTE:
                             GlobalMutePacket mutePacket = (GlobalMutePacket)packet;

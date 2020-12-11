@@ -94,16 +94,15 @@ namespace Server
                                         else
                                             c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
                                     }
-                                    c.Value.TcpSend( new AdminPacket( adminIsConnected ) );
+                                    c.Value.TcpSend( new EncryptedAdminPacket( BitConverter.GetBytes( adminIsConnected ) ) );
                                 }
                                 break;
-                            case PacketType.ENCRYPTED_PRIVATE_MESSAGE:
-                                EncryptedPrivateMessagePacket inPrivatePacket = (EncryptedPrivateMessagePacket)packet;
-                                string inPrivateMessage = client.DecryptString( inPrivatePacket.message );
-                                string inPrivateName = client.DecryptString( inPrivatePacket.name );
+                            case PacketType.ENCRYPTED_ADMIN:
+                                EncryptedAdminPacket adminPacket = (EncryptedAdminPacket)packet;
+                                adminIsConnected = BitConverter.ToBoolean( adminPacket.adminConnected, 0 );
+                                //adminIsConnected = adminPacket.adminConnected;
                                 foreach ( KeyValuePair<int, Client> c in clients )
-                                    if ( c.Value.name == inPrivateName )
-                                        c.Value.TcpSend( new EncryptedPrivateMessagePacket( c.Value.EncryptString( inPrivateMessage ), null ) );
+                                    c.Value.TcpSend( adminPacket );
                                 break;
                             case PacketType.ENCRYPTED_MESSAGE:
                                 EncryptedMessagePacket encryptedPacket = (EncryptedMessagePacket)packet;
@@ -116,6 +115,14 @@ namespace Server
                                         c.Value.TcpSend( new EncryptedMessagePacket( encryptedMessage ) );
                                     }
                                 }
+                                break;
+                            case PacketType.ENCRYPTED_PRIVATE_MESSAGE:
+                                EncryptedPrivateMessagePacket inPrivatePacket = (EncryptedPrivateMessagePacket)packet;
+                                string inPrivateMessage = client.DecryptString( inPrivatePacket.message );
+                                string inPrivateName = client.DecryptString( inPrivatePacket.name );
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    if ( c.Value.name == inPrivateName )
+                                        c.Value.TcpSend( new EncryptedPrivateMessagePacket( c.Value.EncryptString( inPrivateMessage ), null ) );
                                 break;
                             case PacketType.NICKNAME:
                                 NicknamePacket namePacket = (NicknamePacket)packet;
@@ -141,12 +148,6 @@ namespace Server
                                             c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
                                     }
                                 }
-                                break;
-                            case PacketType.ADMIN:
-                                AdminPacket adminPacket = (AdminPacket)packet;
-                                adminIsConnected = adminPacket.adminConnected;
-                                foreach ( KeyValuePair<int, Client> c in clients )
-                                    c.Value.TcpSend( adminPacket );
                                 break;
                             case PacketType.GLOBAL_MUTE:
                                 GlobalMutePacket mutePacket = (GlobalMutePacket)packet;
