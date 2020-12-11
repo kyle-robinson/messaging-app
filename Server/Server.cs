@@ -161,22 +161,22 @@ namespace Server
                                     if ( userGuess.Equals( choiceToWin, StringComparison.InvariantCultureIgnoreCase ) )
                                     {
                                         gameStarted = false;
-                                        client.TcpSend( new ServerPacket( "Correct! You have won the game!\nEnter '/game start' to start new game." ) );
+                                        client.TcpSend( new EncryptedServerPacket( client.EncryptString( "Correct! You have won the game!\nEnter '/game start' to start new game." ) ) );
                                         foreach ( KeyValuePair<int, Client> c in clients )
                                             if ( c.Value != client )
-                                                c.Value.TcpSend( new ServerPacket( client.name + " has won the game!" ) );
+                                                c.Value.TcpSend( new EncryptedServerPacket( c.Value.EncryptString( client.name + " has won the game!" ) ) );
                                     }
                                     else
-                                        client.TcpSend( new ServerPacket( "Incorrect! Keep guessing." ) );
+                                        client.TcpSend( new EncryptedServerPacket( client.EncryptString( "Incorrect! Keep guessing." ) ) );
                                 }
                                 else if ( userGuess.Equals( "start", StringComparison.InvariantCultureIgnoreCase ) )
                                 {
                                     StartNewGame();
                                     gameStarted = true;
-                                    client.TcpSend( new ServerPacket( "You have started a new game.\nChoose from [rock], [paper] [scissors]." ) );
+                                    client.TcpSend( new EncryptedServerPacket( client.EncryptString( "You have started a new game.\nChoose from [rock], [paper] [scissors]." ) ) );
                                     foreach ( KeyValuePair<int, Client> c in clients )
                                         if ( c.Value != client )
-                                            c.Value.TcpSend( new ServerPacket( client.name + " has started a new game.\nChoose from [rock], [paper] [scissors].") );
+                                            c.Value.TcpSend( new EncryptedServerPacket( c.Value.EncryptString( client.name + " has started a new game.\nChoose from [rock], [paper] [scissors].") ) );
                                 }
                                 break;
                         }

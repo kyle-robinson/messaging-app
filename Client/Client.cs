@@ -92,9 +92,9 @@ namespace Client
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch ( packet.packetType )
                     {
-                        case PacketType.SERVER:
-                            ServerPacket serverPacket = (ServerPacket)packet;
-                            clientForm.UpdateCommandWindow( serverPacket.message, Color.Black, Color.MediumPurple );
+                        case PacketType.ENCRYPTED_SERVER:
+                            EncryptedServerPacket serverPacket = (EncryptedServerPacket)packet;
+                            clientForm.UpdateCommandWindow( DecryptString( serverPacket.message ), Color.Black, Color.MediumPurple );
                             break;
                         case PacketType.LOGIN:
                             LoginPacket loginPacket = (LoginPacket)packet;
