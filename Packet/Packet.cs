@@ -13,7 +13,7 @@ public enum PacketType
     PRIVATE_MESSAGE,
     ENCRYPTED_PRIVATE_MESSAGE,
     ENCRYPTED_NICKNAME,
-    CLIENT_LIST,
+    ENCRYPTED_CLIENT_LIST,
     GLOBAL_MUTE,
     ENCRYPTED_GAME
 }
@@ -122,15 +122,15 @@ public class EncryptedNicknamePacket : Packet
 }
 
 [Serializable]
-public class ClientListPacket : Packet
+public class EncryptedClientListPacket : Packet
 {
-    public string name;
-    public bool removeText;
-    public ClientListPacket( string name, bool removeText )
+    public byte[] name;
+    public byte[] removeText;
+    public EncryptedClientListPacket( byte[] name, byte[] removeText )
     {
         this.name = name;
         this.removeText = removeText;
-        packetType = PacketType.CLIENT_LIST;
+        packetType = PacketType.ENCRYPTED_CLIENT_LIST;
     }
 }
 

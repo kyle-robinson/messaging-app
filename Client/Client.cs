@@ -116,9 +116,9 @@ namespace Client
                             EncryptedNicknamePacket namePacket = (EncryptedNicknamePacket)packet;
                             clientName = DecryptString( namePacket.name );
                             break;
-                        case PacketType.CLIENT_LIST:
-                            ClientListPacket clientListPacket = (ClientListPacket)packet;
-                            clientForm.UpdateClientList( clientListPacket.name, clientListPacket.removeText );
+                        case PacketType.ENCRYPTED_CLIENT_LIST:
+                            EncryptedClientListPacket clientListPacket = (EncryptedClientListPacket)packet;
+                            clientForm.UpdateClientList( DecryptString( clientListPacket.name ), BitConverter.ToBoolean( clientListPacket.removeText, 0 ) );
                             break;
                         case PacketType.GLOBAL_MUTE:
                             GlobalMutePacket mutePacket = (GlobalMutePacket)packet;

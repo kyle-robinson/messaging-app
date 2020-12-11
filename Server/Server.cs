@@ -90,9 +90,11 @@ namespace Server
                                     for ( int i = 0; i < clientNames.Count; i++ )
                                     {
                                         if ( i == 0 )
-                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], true ) );
+                                            c.Value.TcpSend( new EncryptedClientListPacket( c.Value.EncryptString( clientNames[i] ),
+                                                BitConverter.GetBytes( true ) ) );
                                         else
-                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
+                                            c.Value.TcpSend( new EncryptedClientListPacket( c.Value.EncryptString( clientNames[i] ),
+                                                BitConverter.GetBytes( false ) ) );
                                     }
                                     c.Value.TcpSend( new EncryptedAdminPacket( BitConverter.GetBytes( adminIsConnected ) ) );
                                 }
@@ -131,20 +133,24 @@ namespace Server
                                 else
                                     client.TcpSend( new EncryptedNicknamePacket( null ) );
                                 break;
-                            case PacketType.CLIENT_LIST:
-                                ClientListPacket clientListPacket = (ClientListPacket)packet;
-                                if ( !clientListPacket.removeText )
-                                    clientNames.Add( clientListPacket.name );
-                                else if ( clientListPacket.removeText )
-                                    clientNames.Remove( clientListPacket.name );
+                            case PacketType.ENCRYPTED_CLIENT_LIST:
+                                EncryptedClientListPacket clientListPacket = (EncryptedClientListPacket)packet;
+                                string clientListName = client.DecryptString( clientListPacket.name );
+                                bool clientListBool = BitConverter.ToBoolean( clientListPacket.removeText, 0 );
+                                if ( !clientListBool )
+                                    clientNames.Add( clientListName );
+                                else
+                                    clientNames.Remove( clientListName );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                 {
                                     for ( int i = 0; i < clientNames.Count; i++ )
                                     {
                                         if ( i == 0 )
-                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], true ) );
+                                            c.Value.TcpSend( new EncryptedClientListPacket( c.Value.EncryptString( clientNames[i] ),
+                                                BitConverter.GetBytes( true ) ) );
                                         else
-                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
+                                            c.Value.TcpSend( new EncryptedClientListPacket( c.Value.EncryptString( clientNames[i] ),
+                                                BitConverter.GetBytes( false ) ) );
                                     }
                                 }
                                 break;

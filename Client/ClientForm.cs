@@ -199,7 +199,8 @@ namespace Client
             InputField.Focus();
 
             ConnectButton.Text = "Disconnect";
-            client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, false ) );
+            client.TcpSendMessage( new EncryptedClientListPacket( client.EncryptString( ClientNameField.Text ),
+                BitConverter.GetBytes( false ) ) );
         }
 
         private void ConnectButton_Click( object sender, EventArgs e )
@@ -242,7 +243,8 @@ namespace Client
                 ConnectButton.Text = "Connect";
                 UpdateCommandWindow( "You have disconnected from the server!", Color.Black, Color.LightCoral );
 
-                client.TcpSendMessage( new ClientListPacket( ClientNameField.Text, true ) );
+                client.TcpSendMessage( new EncryptedClientListPacket( client.EncryptString( ClientNameField.Text ),
+                    BitConverter.GetBytes( true ) ) );
 
                 if ( ClientNameField.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && adminConnected )
                     client.TcpSendMessage( new EncryptedAdminPacket( BitConverter.GetBytes( false ) ) );
