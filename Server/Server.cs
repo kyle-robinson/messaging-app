@@ -153,11 +153,12 @@ namespace Server
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( mutePacket );
                                 break;
-                            case PacketType.GAME:
-                                GamePacket gamePacket = (GamePacket)packet;
+                            case PacketType.ENCRYPTED_GAME:
+                                EncryptedGamePacket gamePacket = (EncryptedGamePacket)packet;
+                                string userGuess = client.DecryptString( gamePacket.userGuess );
                                 if ( gameStarted )
                                 {
-                                    if ( gamePacket.userGuess.Equals( choiceToWin, StringComparison.InvariantCultureIgnoreCase ) )
+                                    if ( userGuess.Equals( choiceToWin, StringComparison.InvariantCultureIgnoreCase ) )
                                     {
                                         gameStarted = false;
                                         client.TcpSend( new ServerPacket( "Correct! You have won the game!\nEnter '/game start' to start new game." ) );
@@ -168,7 +169,7 @@ namespace Server
                                     else
                                         client.TcpSend( new ServerPacket( "Incorrect! Keep guessing." ) );
                                 }
-                                else if ( gamePacket.userGuess == "start" )
+                                else if ( userGuess.Equals( "start", StringComparison.InvariantCultureIgnoreCase ) )
                                 {
                                     StartNewGame();
                                     gameStarted = true;

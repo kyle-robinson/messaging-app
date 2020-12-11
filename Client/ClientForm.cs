@@ -386,7 +386,7 @@ namespace Client
                         {
                             int index = message.IndexOf( gameString );
                             string userAnswer = ( index < 0 ) ? message : message.Remove( index, gameString.Length );
-                            client.TcpSendMessage( new GamePacket( userAnswer ) );
+                            client.TcpSendMessage( new EncryptedGamePacket( client.EncryptString( userAnswer ) ) );
                         }
                         else
                         {

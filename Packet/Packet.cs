@@ -15,7 +15,7 @@ public enum PacketType
     LOGIN,
     ADMIN,
     GLOBAL_MUTE,
-    GAME
+    ENCRYPTED_GAME
 }
 
 [Serializable]
@@ -35,6 +35,7 @@ public class ServerPacket : Packet
     }
 }
 
+/*   MESSAGES   */
 [Serializable]
 public class ChatMessagePacket : Packet
 {
@@ -83,6 +84,7 @@ public class EncryptedPrivateMessagePacket : Packet
     }
 }
 
+/*   NAMING/CLIENTS   */
 [Serializable]
 public class NicknamePacket : Packet
 {
@@ -107,6 +109,7 @@ public class ClientListPacket : Packet
     }
 }
 
+/*   ADMINISTRATION   */
 [Serializable]
 public class LoginPacket : Packet
 {
@@ -131,6 +134,7 @@ public class AdminPacket : Packet
     }
 }
 
+/*   MISCELLANEOUS   */
 [Serializable]
 public class GlobalMutePacket : Packet
 {
@@ -143,12 +147,12 @@ public class GlobalMutePacket : Packet
 }
 
 [Serializable]
-public class GamePacket : Packet
+public class EncryptedGamePacket : Packet
 {
-    public string userGuess;
-    public GamePacket( string userGuess )
+    public byte[] userGuess;
+    public EncryptedGamePacket( byte[] userGuess )
     {
         this.userGuess = userGuess;
-        packetType = PacketType.GAME;
+        packetType = PacketType.ENCRYPTED_GAME;
     }
 }
