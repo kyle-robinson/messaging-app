@@ -227,7 +227,7 @@ namespace Server
                             {
                                 case PacketType.CHAT_MESSAGE:
                                     ChatMessagePacket inChatPacket = (ChatMessagePacket)packet;
-                                    ChatMessagePacket outChatPacket = new ChatMessagePacket( "[" + c.Value.name + "]: " + inChatPacket.message );
+                                    ChatMessagePacket outChatPacket = new ChatMessagePacket( inChatPacket.message );
                                     UdpSend( c.Value, outChatPacket );
                                     break;
                                 case PacketType.PRIVATE_MESSAGE:

@@ -395,7 +395,7 @@ namespace Client
                             if ( tcpMessages )
                                 client.TcpSendMessage( new EncryptedMessagePacket( client.EncryptString( message ) ) );
                             else
-                                client.UdpSendMessage( new ChatMessagePacket( message ) );
+                                client.UdpSendMessage( new ChatMessagePacket( "[" + ClientNameField.Text + "]: " + message ) );
                         }
                     }
                     UpdateChatWindow( "To [Local]: " + InputField.Text, "right", Color.Black, Color.LightSteelBlue );
@@ -436,14 +436,14 @@ namespace Client
             if ( tcpMessages )
             {
                 tcpMessages = false;
-                ConnectionTypeButton.Text = "Change To TCP";
+                ConnectionTypeButton.Text = "Change To TCP/IP";
                 UpdateCommandWindow( "Switched to UDP client connection.", Color.Black, Color.Gold );
             }
             else
             {
                 tcpMessages = true;
                 ConnectionTypeButton.Text = "Change To UDP";
-                UpdateCommandWindow( "Switched to TCP client connection.", Color.Black, Color.MediumPurple );
+                UpdateCommandWindow( "Switched to TCP/IP client connection.", Color.Black, Color.MediumPurple );
             }
         }
 
