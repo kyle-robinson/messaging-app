@@ -2,14 +2,9 @@
 
 A multithreaded online messaging application that utilises a client-server architecture to allow for devices to send messages across the local network.
 
-*- Click any image to view project on website -*<br/>
-<a href="https://kyle-robinson.github.io/html/networking" target="_blank">
-  <img src="Assets/Client Demo 1.png" alt="Client Message Application Demo 1" border="10" width="48%" />
-</a>
-&nbsp;
-<a href="https://kyle-robinson.github.io/html/networking" target="_blank">
-  <img src="Assets/Client Demo 2.png" alt="Client Message Application Demo 2" border="10" width="48%" />
-</a>
+*- Click <a href="https://kyle-robinson.github.io/html/networking" target="_blank">here</a> to view project on website -*<br/>
+
+<img src="Assets/Client Demo 1.png" alt="Client Message Application Demo 1" border="10" width="47%" /> <img src="Assets/Client Demo 2.png" alt="Client Message Application Demo 2" border="10" width="47%" />
 
 ## List of Features
 
