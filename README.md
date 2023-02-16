@@ -1,5 +1,11 @@
 # Messaging Application
 
+[![MSBuild-Debug](https://github.com/kyle-robinson/messaging-app/actions/workflows/msbuild-debug.yml/badge.svg)](https://github.com/kyle-robinson/messaging-app/actions/workflows/msbuild-debug.yml)
+&nbsp;
+[![MSBuild-Release](https://github.com/kyle-robinson/messaging-app/actions/workflows/msbuild-release.yml/badge.svg)](https://github.com/kyle-robinson/messaging-app/actions/workflows/msbuild-release.yml)
+&nbsp;
+[![CodeQL](https://github.com/kyle-robinson/messaging-app/actions/workflows/codeql.yml/badge.svg)](https://github.com/kyle-robinson/messaging-app/actions/workflows/codeql.yml)
+
 A multithreaded online messaging application that utilises a client-server architecture to allow for devices to send messages across the local network.
 
 *- Click <a href="https://kyle-robinson.github.io/html/networking" target="_blank">here</a> to view project on website -*<br/>
