@@ -22,10 +22,33 @@ A multithreaded online messaging application that utilises a client-server archi
 - [x] Muting System
 - [x] Client/Friend Lists
 
+## Getting Started
+
+Refer to the following information on how to install and use the application.
+
+### Dependencies
+To use the framework, the following prerequisites must be met.
+* Windows 10+
+* Visual Studio
+* Git Version Control
+
+The application does not rely on the any additional libraries or APIs to function.
+
+### Installing
+
+To download a copy of the framework, select "Download ZIP" from the main code repository page, or create a fork of the project. More information on forking a GitHub respository can be found [here](https://www.youtube.com/watch?v=XTolZqmZq6s).
+
+### Executing program
+
+A runtime configuration has been setup to run an instance of both the server and client project on project load. To create additional instances of the client application, follow these steps while the application in running.
+1. Navigate to the Client project in the Solution Explorer.
+2. Right-click the project and navigate to the Debug option.
+3. Click "Start New Instance" to generate another Client application.
+
 ---
 
 ### Credits
-                    
-        Code Reference:
-                    https://youtu.be/EA5jF_7FteM
-                    https://youtu.be/sYGS80-Joi8
+
+    Code Reference
+        https://youtu.be/EA5jF_7FteM
+        https://youtu.be/sYGS80-Joi8
