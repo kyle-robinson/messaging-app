@@ -27,7 +27,7 @@ A multithreaded online messaging application that utilises a client-server archi
 Refer to the following information on how to install and use the application.
 
 ### Dependencies
-To use the framework, the following prerequisites must be met.
+To use the application, the following prerequisites must be met.
 * Windows 10+
 * Visual Studio
 * Git Version Control
@@ -36,7 +36,7 @@ The application does not rely on the any additional libraries or APIs to functio
 
 ### Installing
 
-To download a copy of the framework, select "Download ZIP" from the main code repository page, or create a fork of the project. More information on forking a GitHub respository can be found [here](https://www.youtube.com/watch?v=XTolZqmZq6s).
+To download a copy of the application, select "Download ZIP" from the main code repository page, or create a fork of the project. More information on forking a GitHub respository can be found [here](https://www.youtube.com/watch?v=XTolZqmZq6s).
 
 ### Executing program
 
